@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ovexa — Dashboard</title>
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="theme-color" content="#070B14">
+
+<style>
+:root{
+  --ov-bg:#070B14;
+  --ov-panel:#0F1524;
+  --ov-panel-2:#141B2E;
+  --ov-line:rgba(255,255,255,0.07);
+  --ov-line-2:rgba(255,255,255,0.12);
+  --ov-text:#EEF3FF;
+  --ov-muted:#7C87A3;
+  --ov-muted-2:#5A6478;
+  --ov-accent:#3EE8A8;
+  --ov-accent-2:#19B98B;
+  --ov-accent-deep:#0E8E68;
+  --ov-gold:#F4C97A;
+  --ov-danger:#FF6B7A;
+  --ov-blue:#5B8DEF;
+  --ov-pink:#FF8FB1;
+  --ov-purple:#B98BFF;
+}
+html,body{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:var(--ov-bg);color:var(--ov-text)}
+*,*::before,*::after{box-sizing:inherit}
+body{display:flex;flex-direction:column;min-height:100vh;position:relative;overflow-x:hidden;padding-bottom:88px}
+
+.ov-bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:
+  radial-gradient(1200px 600px at 50% -10%,rgba(62,232,168,0.08),transparent 60%),
+  radial-gradient(900px 500px at 100% 100%,rgba(91,141,239,0.07),transparent 60%),
+  linear-gradient(180deg,#070B14 0%,#0A0F1C 100%)}
+.ov-grid{position:absolute;inset:0;background-image:
+  linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(ellipse at 50% 15%,#000 30%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 15%,#000 30%,transparent 75%)}
+.ov-orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.42;will-change:transform}
+.ov-orb-a{width:420px;height:420px;background:radial-gradient(circle,rgba(62,232,168,0.9) 0%,transparent 70%);top:-150px;right:-150px;animation:ovFloatA 16s ease-in-out infinite}
+.ov-orb-b{width:400px;height:400px;background:radial-gradient(circle,rgba(91,141,239,0.8) 0%,transparent 70%);bottom:-180px;left:-140px;animation:ovFloatB 20s ease-in-out infinite}
+@keyframes ovFloatA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-24px,32px) scale(1.08)}}
+@keyframes ovFloatB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(28px,-24px) scale(1.1)}}
+.ov-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,0.45) 100%);pointer-events:none}
+
+.ov-shell{width:100%;max-width:520px;margin:0 auto;flex:1;display:flex;flex-direction:column;position:relative;z-index:1;padding:0 18px}
+
+.ov-topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 4px 18px;animation:ovSlideDown .6s cubic-bezier(.2,.9,.3,1.2) both;position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(7,11,20,0.95),rgba(7,11,20,0.7) 70%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:22px;padding-bottom:14px}
+.ov-brand{font-family:'Space Grotesk';font-weight:700;font-size:22px;letter-spacing:-0.8px;background:linear-gradient(120deg,#FFFFFF 0%,#B8F3DA 55%,#3EE8A8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;position:relative}
+.ov-brand::after{content:'';position:absolute;left:0;bottom:-4px;width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,#3EE8A8,transparent)}
+.ov-top-actions{display:flex;align-items:center;gap:8px}
+.ov-icon-btn{position:relative;width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,0.03);border:1px solid var(--ov-line);display:grid;place-items:center;color:var(--ov-muted);font-size:1.15rem;cursor:pointer;transition:all .22s}
+.ov-icon-btn:hover{color:var(--ov-text);border-color:var(--ov-line-2);background:rgba(255,255,255,0.06);transform:translateY(-1px)}
+.ov-icon-btn .badge{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:linear-gradient(135deg,#FF6B7A,#FF4757);color:#fff;font-size:9.5px;font-weight:800;display:grid;place-items:center;border:2px solid var(--ov-bg);font-family:'Inter'}
+.ov-icon-btn .badge.hidden{display:none}
+.ov-avatar{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#3EE8A8,#19B98B);display:grid;place-items:center;font-family:'Space Grotesk';font-weight:800;font-size:15px;color:#04261A;cursor:pointer;border:1px solid rgba(62,232,168,0.4);box-shadow:0 6px 18px rgba(62,232,168,0.25)}
+@keyframes ovSlideDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+
+.ov-greeting{padding:4px 4px 18px;animation:ovFadeUp .7s cubic-bezier(.2,.9,.3,1.1) .05s both}
+.ov-greeting h1{font-family:'Space Grotesk';font-size:24px;font-weight:700;letter-spacing:-0.8px;margin:0 0 5px}
+.ov-greeting h1 .name{background:linear-gradient(120deg,#3EE8A8,#7DF0C7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ov-greeting p{margin:0;font-size:12.5px;color:var(--ov-muted);font-weight:500}
+@keyframes ovFadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.ov-wallets{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;animation:ovFadeUp .75s cubic-bezier(.2,.9,.3,1.1) .1s both}
+.ov-wallet{position:relative;border-radius:18px;padding:16px 15px;border:1px solid var(--ov-line);overflow:hidden;transition:transform .25s}
+.ov-wallet:hover{transform:translateY(-2px)}
+.ov-wallet.deposit{background:linear-gradient(160deg,rgba(62,232,168,0.10) 0%,rgba(15,21,36,0.9) 60%);border-color:rgba(62,232,168,0.22)}
+.ov-wallet.withdraw{background:linear-gradient(160deg,rgba(91,141,239,0.10) 0%,rgba(15,21,36,0.9) 60%);border-color:rgba(91,141,239,0.22)}
+.ov-wallet::before{content:'';position:absolute;top:0;left:14px;right:14px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent)}
+.ov-wallet-head{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.ov-wallet-head i{font-size:1rem}
+.ov-wallet.deposit .ov-wallet-head i{color:var(--ov-accent)}
+.ov-wallet.withdraw .ov-wallet-head i{color:var(--ov-blue)}
+.ov-wallet-label{font-size:10.5px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--ov-muted)}
+.ov-wallet-amt{font-family:'Space Grotesk';font-size:22px;font-weight:700;letter-spacing:-0.5px;margin:0 0 12px;word-break:break-all}
+.ov-wallet.deposit .ov-wallet-amt{color:var(--ov-accent)}
+.ov-wallet.withdraw .ov-wallet-amt{color:var(--ov-blue)}
+.ov-wallet-btn{width:100%;height:34px;border-radius:10px;border:none;font-family:'Inter';font-size:11.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .22s;letter-spacing:0.3px}
+.ov-wallet.deposit .ov-wallet-btn{background:linear-gradient(135deg,#3EE8A8,#19B98B);color:#04261A}
+.ov-wallet.withdraw .ov-wallet-btn{background:linear-gradient(135deg,#5B8DEF,#3E72C7);color:#fff}
+.ov-wallet-btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+
+.ov-substats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;animation:ovFadeUp .8s cubic-bezier(.2,.9,.3,1.1) .12s both}
+.ov-substat{background:linear-gradient(160deg,rgba(20,27,46,0.7),rgba(15,21,36,0.9));border:1px solid var(--ov-line);border-radius:14px;padding:12px 13px;display:flex;flex-direction:column;gap:5px}
+.ov-substat-label{font-size:10px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:var(--ov-muted-2)}
+.ov-substat-val{font-family:'Space Grotesk';font-size:15px;font-weight:700;color:var(--ov-text);letter-spacing:-0.3px}
+.ov-substat-val.pos{color:var(--ov-accent)}
+.ov-substat-val.neg{color:var(--ov-danger)}
+
+.ov-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;animation:ovFadeUp .85s cubic-bezier(.2,.9,.3,1.1) .15s both}
+.ov-quick-item{background:linear-gradient(160deg,rgba(20,27,46,0.6),rgba(15,21,36,0.85));border:1px solid var(--ov-line);border-radius:14px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .25s}
+.ov-quick-item:hover{border-color:rgba(62,232,168,0.35);transform:translateY(-2px);background:linear-gradient(160deg,rgba(62,232,168,0.08),rgba(15,21,36,0.9))}
+.ov-quick-item i{font-size:1.3rem;color:var(--ov-accent)}
+.ov-quick-item span{font-size:10px;font-weight:700;color:var(--ov-muted);letter-spacing:0.3px}
+.ov-quick-item:hover span{color:var(--ov-text)}
+
+.ov-stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;animation:ovFadeUp .9s cubic-bezier(.2,.9,.3,1.1) .18s both}
+.ov-stat-card{background:linear-gradient(160deg,rgba(20,27,46,0.7),rgba(15,21,36,0.95));border:1px solid var(--ov-line);border-radius:14px;padding:14px 12px;text-align:center;position:relative;overflow:hidden}
+.ov-stat-card::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(62,232,168,0.5),transparent)}
+.ov-stat-card i{font-size:1.2rem;color:var(--ov-accent);display:block;margin-bottom:6px}
+.ov-stat-card .v{font-family:'Space Grotesk';font-size:17px;font-weight:700;color:var(--ov-text);letter-spacing:-0.4px;margin-bottom:3px}
+.ov-stat-card .l{font-size:9.5px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--ov-muted-2)}
+
+.ov-section{margin-bottom:22px;animation:ovFadeUp .95s cubic-bezier(.2,.9,.3,1.1) .22s both}
+.ov-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 4px}
+.ov-section-head h2{font-family:'Space Grotesk';font-size:16px;font-weight:700;letter-spacing:-0.3px;margin:0;display:flex;align-items:center;gap:8px}
+.ov-section-head h2 i{color:var(--ov-accent);font-size:1.05rem}
+.ov-section-head a{font-size:11px;color:var(--ov-accent);text-decoration:none;font-weight:700;transition:opacity .2s}
+.ov-section-head a:hover{opacity:.75}
+
+.ov-inv-card{background:linear-gradient(160deg,rgba(20,27,46,0.75),rgba(15,21,36,0.95));border:1px solid var(--ov-line);border-radius:16px;padding:15px 16px;margin-bottom:10px;position:relative;overflow:hidden}
+.ov-inv-card::before{content:'';position:absolute;top:0;left:18px;right:18px;height:1px;background:linear-gradient(90deg,transparent,rgba(62,232,168,0.5),transparent)}
+.ov-inv-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ov-inv-name{font-family:'Space Grotesk';font-size:14.5px;font-weight:700;letter-spacing:-0.2px;margin:0 0 3px}
+.ov-inv-meta{font-size:10.5px;color:var(--ov-muted);font-weight:600}
+.ov-inv-status{font-size:9.5px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;padding:4px 9px;border-radius:7px;background:rgba(62,232,168,0.14);color:var(--ov-accent);border:1px solid rgba(62,232,168,0.3)}
+.ov-inv-row{display:flex;justify-content:space-between;margin-bottom:10px;gap:8px}
+.ov-inv-cell{flex:1}
+.ov-inv-cell .k{font-size:9.5px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--ov-muted-2);margin-bottom:3px}
+.ov-inv-cell .v{font-family:'Space Grotesk';font-size:13px;font-weight:700;color:var(--ov-text)}
+.ov-progress{width:100%;height:7px;border-radius:5px;background:rgba(255,255,255,0.06);overflow:hidden;position:relative;margin-bottom:6px}
+.ov-progress-fill{height:100%;background:linear-gradient(90deg,#3EE8A8,#7DF0C7);border-radius:5px;transition:width .8s cubic-bezier(.2,.9,.3,1.1);box-shadow:0 0 12px rgba(62,232,168,0.5)}
+.ov-progress-meta{display:flex;justify-content:space-between;font-size:10px;color:var(--ov-muted);font-weight:600}
+
+.ov-tx{background:linear-gradient(160deg,rgba(20,27,46,0.6),rgba(15,21,36,0.9));border:1px solid var(--ov-line);border-radius:14px;padding:4px;overflow:hidden}
+.ov-tx-item{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background .2s}
+.ov-tx-item:last-child{border-bottom:none}
+.ov-tx-item:hover{background:rgba(255,255,255,0.02)}
+.ov-tx-icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:1rem;flex-shrink:0}
+.ov-tx-icon.dep{background:rgba(62,232,168,0.12);color:var(--ov-accent)}
+.ov-tx-icon.wd{background:rgba(91,141,239,0.12);color:var(--ov-blue)}
+.ov-tx-icon.roi{background:rgba(244,201,122,0.12);color:var(--ov-gold)}
+.ov-tx-icon.spin{background:rgba(185,139,255,0.12);color:var(--ov-purple)}
+.ov-tx-icon.inv{background:rgba(255,143,177,0.12);color:var(--ov-pink)}
+.ov-tx-icon.ref{background:rgba(62,232,168,0.12);color:var(--ov-accent)}
+.ov-tx-body{flex:1;min-width:0}
+.ov-tx-title{font-size:12.5px;font-weight:700;color:var(--ov-text);margin:0 0 3px;text-transform:capitalize}
+.ov-tx-time{font-size:10.5px;color:var(--ov-muted);font-weight:500}
+.ov-tx-amt{font-family:'Space Grotesk';font-size:13.5px;font-weight:700;white-space:nowrap}
+.ov-tx-amt.pos{color:var(--ov-accent)}
+.ov-tx-amt.neg{color:var(--ov-danger)}
+.ov-empty{padding:28px 16px;text-align:center;color:var(--ov-muted);font-size:12px;font-weight:500}
+.ov-empty i{font-size:1.8rem;display:block;margin-bottom:8px;color:var(--ov-muted-2)}
+
+.ov-anno-list{display:flex;flex-direction:column;gap:10px}
+.ov-anno{background:linear-gradient(160deg,rgba(244,201,122,0.06),rgba(15,21,36,0.9));border:1px solid rgba(244,201,122,0.18);border-radius:14px;padding:13px 15px;position:relative;overflow:hidden}
+.ov-anno::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#F4C97A,transparent)}
+.ov-anno-title{font-size:12.5px;font-weight:800;color:var(--ov-gold);margin:0 0 4px;display:flex;align-items:center;gap:6px}
+.ov-anno-body{font-size:11.5px;color:var(--ov-text);line-height:1.5;margin:0}
+.ov-anno-time{font-size:10px;color:var(--ov-muted);margin-top:7px;display:block}
+
+.ov-float-spin{position:fixed;bottom:100px;right:20px;z-index:60;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;user-select:none;animation:ovPop .5s cubic-bezier(.68,-.55,.265,1.55) .8s both}
+.ov-float-spin-btn{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#F4C97A,#FFB562,#F4C97A);display:grid;place-items:center;font-size:1.7rem;color:#3a2300;box-shadow:0 12px 30px rgba(244,201,122,0.45),inset 0 1px 0 rgba(255,255,255,0.5);border:2px solid rgba(255,255,255,0.15);position:relative;animation:ovSpinPulse 2.4s ease-in-out infinite}
+.ov-float-spin-btn::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:2px dashed rgba(244,201,122,0.4);animation:ovRotate 12s linear infinite}
+.ov-float-spin-label{font-size:9.5px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:var(--ov-gold);background:rgba(7,11,20,0.85);padding:3px 8px;border-radius:6px;border:1px solid rgba(244,201,122,0.3);backdrop-filter:blur(6px)}
+@keyframes ovSpinPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes ovRotate{to{transform:rotate(360deg)}}
+@keyframes ovPop{from{opacity:0;transform:scale(0) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.ov-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:55;background:linear-gradient(180deg,rgba(11,16,32,0.95),rgba(7,11,20,0.98));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--ov-line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));animation:ovFadeUp .6s cubic-bezier(.2,.9,.3,1.1) .6s both}
+.ov-nav-row{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.ov-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:12px;cursor:pointer;transition:all .22s;text-decoration:none;color:var(--ov-muted)}
+.ov-nav-item:hover{background:rgba(255,255,255,0.03)}
+.ov-nav-item.active{color:var(--ov-accent);background:rgba(62,232,168,0.08)}
+.ov-nav-item i{font-size:1.35rem}
+.ov-nav-item span{font-size:9.5px;font-weight:700;letter-spacing:0.3px}
+
+.ov-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(4,7,14,0.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ov-modal.open{display:flex;animation:ovModalFade .3s ease both}
+@keyframes ovModalFade{from{opacity:0}to{opacity:1}}
+.ov-modal-panel{position:relative;width:100%;max-width:420px;max-height:88vh;overflow-y:auto;background:linear-gradient(180deg,rgba(20,27,46,0.98),rgba(15,21,36,0.98));border:1px solid var(--ov-line-2);border-radius:22px;padding:22px 20px;box-shadow:0 30px 80px rgba(0,0,0,0.7);animation:ovModalPop .35s cubic-bezier(.68,-.55,.265,1.55) both}
+.ov-modal-panel::-webkit-scrollbar{width:6px}
+.ov-modal-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:3px}
+@keyframes ovModalPop{from{opacity:0;transform:scale(.94) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.ov-modal-cancel{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--ov-line);display:grid;place-items:center;color:var(--ov-muted);font-size:1.05rem;cursor:pointer;transition:all .22s}
+.ov-modal-cancel:hover{color:var(--ov-danger);border-color:rgba(255,107,122,0.4);background:rgba(255,107,122,0.08);transform:rotate(90deg)}
+
+.ov-info-head{display:flex;align-items:center;gap:11px;margin-bottom:18px;padding-right:44px}
+.ov-info-head .ic{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,rgba(62,232,168,0.2),rgba(62,232,168,0.05));display:grid;place-items:center;color:var(--ov-accent);font-size:1.25rem;border:1px solid rgba(62,232,168,0.3)}
+.ov-info-head h3{font-family:'Space Grotesk';font-size:17px;font-weight:700;margin:0;letter-spacing:-0.3px}
+.ov-info-head p{margin:3px 0 0;font-size:11px;color:var(--ov-muted);font-weight:500}
+.ov-info-row{display:flex;align-items:center;gap:12px;padding:12px 13px;background:rgba(255,255,255,0.02);border:1px solid var(--ov-line);border-radius:12px;margin-bottom:9px}
+.ov-info-row i{font-size:1.2rem;color:var(--ov-accent);flex-shrink:0}
+.ov-info-row .lbl{font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--ov-muted-2);margin-bottom:2px}
+.ov-info-row .val{font-size:13px;font-weight:700;color:var(--ov-text);font-family:'Space Grotesk'}
+.ov-info-divider{display:flex;align-items:center;gap:12px;margin:20px 0 16px;color:var(--ov-muted-2);font-size:10px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase}
+.ov-info-divider::before,.ov-info-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent)}
+.ov-community{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.ov-comm-btn{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 10px;border-radius:12px;text-decoration:none;font-size:12px;font-weight:700;border:1px solid;transition:all .22s;letter-spacing:0.3px}
+.ov-comm-btn.wa{background:rgba(37,211,102,0.12);color:#25D366;border-color:rgba(37,211,102,0.3)}
+.ov-comm-btn.wa:hover{background:rgba(37,211,102,0.2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,0.25)}
+.ov-comm-btn.tg{background:rgba(91,141,239,0.12);color:#5B8DEF;border-color:rgba(91,141,239,0.3)}
+.ov-comm-btn.tg:hover{background:rgba(91,141,239,0.2);transform:translateY(-2px);box-shadow:0 8px 20px rgba(91,141,239,0.25)}
+.ov-comm-btn i{font-size:1.15rem}
+.ov-modal-cta{width:100%;height:50px;margin-top:14px;border:none;border-radius:13px;background:linear-gradient(135deg,#3EE8A8,#19B98B);color:#04261A;font-family:'Inter';font-size:13.5px;font-weight:800;letter-spacing:0.4px;cursor:pointer;transition:all .25s;box-shadow:0 12px 26px rgba(62,232,168,0.3)}
+.ov-modal-cta:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(62,232,168,0.4)}
+
+.ov-notif-panel{position:fixed;top:70px;right:16px;left:16px;max-width:400px;margin-left:auto;z-index:80;background:linear-gradient(180deg,rgba(20,27,46,0.98),rgba(15,21,36,0.98));border:1px solid var(--ov-line-2);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,0.7);padding:14px;transform:translateY(-14px) scale(.96);opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.68,-.55,.265,1.55);max-height:70vh;overflow-y:auto;backdrop-filter:blur(16px)}
+.ov-notif-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
+.ov-notif-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;padding:0 4px}
+.ov-notif-head h4{font-family:'Space Grotesk';font-size:14px;font-weight:700;margin:0;display:flex;align-items:center;gap:7px}
+.ov-notif-head h4 i{color:var(--ov-accent)}
+.ov-notif-head button{background:none;border:none;color:var(--ov-accent);font-size:10.5px;font-weight:700;cursor:pointer;letter-spacing:0.3px}
+.ov-notif-head button:hover{opacity:.75}
+.ov-notif-item{padding:11px 12px;border-radius:11px;margin-bottom:7px;background:rgba(255,255,255,0.02);border:1px solid var(--ov-line);transition:all .2s}
+.ov-notif-item.unread{background:rgba(62,232,168,0.06);border-color:rgba(62,232,168,0.2)}
+.ov-notif-title{font-size:12px;font-weight:800;color:var(--ov-text);margin:0 0 4px}
+.ov-notif-body{font-size:11.5px;color:var(--ov-muted);line-height:1.5;margin:0}
+.ov-notif-time{font-size:10px;color:var(--ov-muted-2);margin-top:6px;font-weight:600}
+
+.ov-spin-panel{max-width:440px;text-align:center}
+.ov-spin-wheel-wrap{position:relative;width:100%;max-width:320px;aspect-ratio:1;margin:6px auto 20px}
+.ov-spin-pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);z-index:3;filter:drop-shadow(0 4px 10px rgba(244,201,122,0.6))}
+.ov-spin-pointer::before{content:'';display:block;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid var(--ov-gold)}
+.ov-spin-canvas{width:100%;height:100%;border-radius:50%;box-shadow:0 0 0 6px rgba(255,255,255,0.05),0 0 0 8px rgba(244,201,122,0.15),0 20px 50px rgba(0,0,0,0.6);transition:transform 5s cubic-bezier(.15,.9,.2,1);background:#0A0F1C}
+.ov-spin-hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#F4C97A,#FFB562);display:grid;place-items:center;color:#3a2300;font-family:'Space Grotesk';font-weight:900;font-size:13px;border:3px solid #0A0F1C;box-shadow:0 6px 20px rgba(244,201,122,0.5);z-index:2}
+.ov-spin-info{display:flex;justify-content:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.ov-spin-chip{font-size:10px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;padding:6px 11px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid var(--ov-line);color:var(--ov-muted)}
+.ov-spin-chip b{color:var(--ov-accent)}
+.ov-spin-chip.gold b{color:var(--ov-gold)}
+.ov-spin-btn{width:100%;height:54px;border:none;border-radius:14px;background:linear-gradient(135deg,#F4C97A,#FFB562);color:#3a2300;font-family:'Inter';font-size:14px;font-weight:900;letter-spacing:0.6px;cursor:pointer;transition:all .25s;box-shadow:0 14px 30px rgba(244,201,122,0.35);text-transform:uppercase}
+.ov-spin-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 18px 40px rgba(244,201,122,0.45)}
+.ov-spin-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.ov-spin-note{font-size:10.5px;color:var(--ov-muted);margin-top:11px;font-weight:500;line-height:1.55}
+.ov-spin-note b{color:var(--ov-gold)}
+.ov-spin-result{margin-top:16px;padding:14px;border-radius:13px;display:none}
+.ov-spin-result.show{display:block;animation:ovModalPop .4s cubic-bezier(.68,-.55,.265,1.55) both}
+.ov-spin-result.win{background:rgba(62,232,168,0.1);border:1px solid rgba(62,232,168,0.3)}
+.ov-spin-result.lose{background:rgba(255,107,122,0.08);border:1px solid rgba(255,107,122,0.25)}
+.ov-spin-result h4{margin:0 0 4px;font-family:'Space Grotesk';font-size:15px;font-weight:800}
+.ov-spin-result.win h4{color:var(--ov-accent)}
+.ov-spin-result.lose h4{color:var(--ov-danger)}
+.ov-spin-result p{margin:0;font-size:11.5px;color:var(--ov-muted);font-weight:600}
+.ov-spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(58,35,0,.3);border-top-color:#3a2300;border-radius:50%;animation:ovSpin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+
+#ov-toast-container{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:99999;display:flex;flex-direction:column;gap:10px;pointer-events:none;width:calc(100% - 32px);max-width:400px}
+.ov-toast{background:linear-gradient(180deg,rgba(20,27,46,0.98),rgba(15,21,36,0.98));border:1px solid var(--ov-line-2);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,0.6);display:flex;align-items:flex-start;padding:13px 14px;pointer-events:auto;transform:translateY(-28px) scale(.96);opacity:0;transition:all .45s cubic-bezier(.68,-.55,.265,1.55);backdrop-filter:blur(14px)}
+.ov-toast.show{transform:translateY(0) scale(1);opacity:1}
+.ov-toast-icon{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:15px;margin-right:11px;flex-shrink:0}
+.ov-toast-body{flex:1;min-width:0}
+.ov-toast-title{font-size:12.5px;font-weight:800;color:var(--ov-text);margin-bottom:3px}
+.ov-toast-msg{font-size:11.5px;color:var(--ov-muted);line-height:1.5;word-wrap:break-word}
+.ov-toast-close{background:none;border:none;color:var(--ov-muted-2);font-size:13px;cursor:pointer;padding:3px;border-radius:6px}
+.ov-toast-close:hover{color:var(--ov-text)}
+
+.ov-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:rgba(7,11,20,0.96);backdrop-filter:blur(8px);transition:opacity .4s}
+.ov-loader.hide{opacity:0;pointer-events:none}
+.ov-loader .ring{width:44px;height:44px;border:3px solid rgba(62,232,168,0.15);border-top-color:var(--ov-accent);border-radius:50%;animation:ovSpin .8s linear infinite}
+@keyframes ovSpin{to{transform:rotate(360deg)}}
+
+@media(max-width:380px){
+  .ov-shell{padding:0 13px}
+  .ov-wallet-amt{font-size:19px}
+  .ov-greeting h1{font-size:21px}
+  .ov-float-spin{right:14px;bottom:96px}
+  .ov-float-spin-btn{width:54px;height:54px;font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="ov-bg-layer">
+  <div class="ov-grid"></div>
+  <div class="ov-orb ov-orb-a"></div>
+  <div class="ov-orb ov-orb-b"></div>
+  <div class="ov-vignette"></div>
+</div>
+
+<main class="ov-shell">
+
+  <div class="ov-topbar">
+    <div class="ov-brand">Ovexa</div>
+    <div class="ov-top-actions">
+      <button class="ov-icon-btn" id="ovBellBtn" aria-label="Notifications">
+        <i class="ph ph-bell"></i>
+        <span class="badge hidden" id="ovBellBadge">0</span>
+      </button>
+      <button class="ov-icon-btn" id="ovInfoBtn" aria-label="Info">
+        <i class="ph ph-info"></i>
+      </button>
+      <div class="ov-avatar" id="ovAvatar">J</div>
+    </div>
+  </div>
+
+  <div class="ov-greeting">
+    <h1>Good <span id="ovTimeGreet">morning</span>,<br><span class="name" id="ovGreetName">Investor</span> 👋</h1>
+    <p>Here's your Ovexa overview</p>
+  </div>
+
+  <div class="ov-wallets">
+    <div class="ov-wallet deposit">
+      <div class="ov-wallet-head">
+        <i class="ph ph-wallet"></i>
+        <span class="ov-wallet-label">Deposit Wallet</span>
+      </div>
+      <div class="ov-wallet-amt" id="ovDepBal">₦0</div>
+      <button class="ov-wallet-btn" onclick="location.href='deposit.html'">
+        <i class="ph ph-plus-circle"></i> Fund
+      </button>
+    </div>
+    <div class="ov-wallet withdraw">
+      <div class="ov-wallet-head">
+        <i class="ph ph-hand-coins"></i>
+        <span class="ov-wallet-label">Withdrawal</span>
+      </div>
+      <div class="ov-wallet-amt" id="ovWdBal">₦0</div>
+      <button class="ov-wallet-btn" onclick="location.href='withdraw.html'">
+        <i class="ph ph-arrow-up-right"></i> Withdraw
+      </button>
+    </div>
+  </div>
+
+  <div class="ov-substats">
+    <div class="ov-substat">
+      <span class="ov-substat-label">Total Deposited</span>
+      <span class="ov-substat-val pos" id="ovTotalDep">₦0</span>
+    </div>
+    <div class="ov-substat">
+      <span class="ov-substat-label">Total Withdrawn</span>
+      <span class="ov-substat-val neg" id="ovTotalWd">₦0</span>
+    </div>
+  </div>
+
+  <div class="ov-quick">
+    <div class="ov-quick-item" onclick="location.href='deposit.html'">
+      <i class="ph ph-plus-circle"></i><span>Deposit</span>
+    </div>
+    <div class="ov-quick-item" onclick="location.href='withdraw.html'">
+      <i class="ph ph-arrow-up-right"></i><span>Withdraw</span>
+    </div>
+    <div class="ov-quick-item" onclick="location.href='invest.html'">
+      <i class="ph ph-chart-line-up"></i><span>Invest</span>
+    </div>
+    <div class="ov-quick-item" onclick="openSpinModal()">
+      <i class="ph ph-gift"></i><span>Spin</span>
+    </div>
+  </div>
+
+  <div class="ov-stats-grid">
+    <div class="ov-stat-card">
+      <i class="ph ph-users-three"></i>
+      <div class="v" id="ovStatRef">0</div>
+      <div class="l">Referrals</div>
+    </div>
+    <div class="ov-stat-card">
+      <i class="ph ph-briefcase"></i>
+      <div class="v" id="ovStatPlans">0</div>
+      <div class="l">Active Plans</div>
+    </div>
+    <div class="ov-stat-card">
+      <i class="ph ph-trend-up"></i>
+      <div class="v" id="ovStatEarn">₦0</div>
+      <div class="l">Earnings</div>
+    </div>
+  </div>
+
+  <div class="ov-section">
+    <div class="ov-section-head">
+      <h2><i class="ph ph-briefcase"></i> Active Investments</h2>
+      <a href="investments.html">View All</a>
+    </div>
+    <div id="ovInvestList">
+      <div class="ov-empty"><i class="ph ph-folder-open"></i>No active investments yet</div>
+    </div>
+  </div>
+
+  <div class="ov-section">
+    <div class="ov-section-head">
+      <h2><i class="ph ph-clock-counter-clockwise"></i> Recent Transactions</h2>
+      <a href="transactions.html">View All</a>
+    </div>
+    <div class="ov-tx" id="ovTxList">
+      <div class="ov-empty"><i class="ph ph-receipt"></i>No transactions yet</div>
+    </div>
+  </div>
+
+  <div class="ov-section" id="ovAnnoSection" style="display:none">
+    <div class="ov-section-head">
+      <h2><i class="ph ph-megaphone"></i> Announcements</h2>
+    </div>
+    <div class="ov-anno-list" id="ovAnnoList"></div>
+  </div>
+
+</main>
+
+<div class="ov-float-spin" id="ovFloatSpin" onclick="openSpinModal()">
+  <div class="ov-float-spin-btn"><i class="ph ph-gift"></i></div>
+  <div class="ov-float-spin-label">Spin Wheel</div>
+</div>
+
+<nav class="ov-bottom-nav">
+  <div class="ov-nav-row">
+    <a class="ov-nav-item active" href="dashboard.html"><i class="ph ph-house"></i><span>Home</span></a>
+    <a class="ov-nav-item" href="invest.html"><i class="ph ph-chart-line-up"></i><span>Invest</span></a>
+    <a class="ov-nav-item" href="transactions.html"><i class="ph ph-receipt"></i><span>History</span></a>
+    <a class="ov-nav-item" href="profile.html"><i class="ph ph-user"></i><span>Profile</span></a>
+  </div>
+</nav>
+
+<div class="ov-modal" id="ovInfoModal">
+  <div class="ov-modal-panel">
+    <button class="ov-modal-cancel" onclick="closeModal('ovInfoModal')"><i class="ph ph-x"></i></button>
+    <div class="ov-info-head">
+      <div class="ic"><i class="ph ph-info"></i></div>
+      <div>
+        <h3>Withdrawal Information</h3>
+        <p>Please read before making a withdrawal</p>
+      </div>
+    </div>
+
+    <div class="ov-info-row">
+      <i class="ph ph-clock"></i>
+      <div>
+        <div class="lbl">Withdrawal Time</div>
+        <div class="val">8:30 AM – 5:30 PM</div>
+      </div>
+    </div>
+    <div class="ov-info-row">
+      <i class="ph ph-calendar-check"></i>
+      <div>
+        <div class="lbl">Withdrawal Days</div>
+        <div class="val">Monday – Saturday</div>
+      </div>
+    </div>
+    <div class="ov-info-row">
+      <i class="ph ph-percent"></i>
+      <div>
+        <div class="lbl">Withdrawal Charges</div>
+        <div class="val">13%</div>
+      </div>
+    </div>
+    <div class="ov-info-row">
+      <i class="ph ph-currency-ngn"></i>
+      <div>
+        <div class="lbl">Minimum Withdrawal</div>
+        <div class="val">₦1,000</div>
+      </div>
+    </div>
+
+    <div class="ov-info-divider">Join Our Community</div>
+
+    <div class="ov-community">
+      <a class="ov-comm-btn wa" id="ovWhatsappLink" href="#" target="_blank" rel="noopener">
+        <i class="ph ph-whatsapp-logo"></i> WhatsApp
+      </a>
+      <a class="ov-comm-btn tg" id="ovTelegramLink" href="#" target="_blank" rel="noopener">
+        <i class="ph ph-telegram-logo"></i> Telegram
+      </a>
+    </div>
+
+    <button class="ov-modal-cta" onclick="closeModal('ovInfoModal')">Got it</button>
+  </div>
+</div>
+
+<div class="ov-modal" id="ovSpinModal">
+  <div class="ov-modal-panel ov-spin-panel">
+    <button class="ov-modal-cancel" onclick="closeSpinModal()"><i class="ph ph-x"></i></button>
+
+    <div class="ov-info-head" style="text-align:left;padding-right:44px">
+      <div class="ic" style="background:linear-gradient(135deg,rgba(244,201,122,0.25),rgba(244,201,122,0.05));color:var(--ov-gold);border-color:rgba(244,201,122,0.35)"><i class="ph ph-gift"></i></div>
+      <div>
+        <h3>Lucky Spin Wheel</h3>
+        <p id="ovSpinSubtitle">Spin to win rewards</p>
+      </div>
+    </div>
+
+    <div class="ov-spin-info">
+      <div class="ov-spin-chip">Free Spins: <b id="ovFreeSpins">1</b></div>
+      <div class="ov-spin-chip gold">Retries: <b id="ovRetries">2</b></div>
+    </div>
+
+    <div class="ov-spin-wheel-wrap">
+      <div class="ov-spin-pointer"></div>
+      <canvas class="ov-spin-canvas" id="ovSpinCanvas" width="600" height="600"></canvas>
+      <div class="ov-spin-hub">SPIN</div>
+    </div>
+
+    <button class="ov-spin-btn" id="ovSpinBtn" onclick="doSpin()">Spin Now</button>
+    <div class="ov-spin-note" id="ovSpinNote">
+      Free spin available once per day. Extra spins cost <b>₦50</b> each (max 2/day).<br>Active investment required to spin.
+    </div>
+
+    <div class="ov-spin-result" id="ovSpinResult">
+      <h4 id="ovSpinResultTitle">🎉 You won!</h4>
+      <p id="ovSpinResultMsg">₦50 has been added to your withdrawal wallet.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ov-notif-panel" id="ovNotifPanel">
+  <div class="ov-notif-head">
+    <h4><i class="ph ph-bell"></i> Notifications</h4>
+    <button onclick="markAllRead()">Mark all read</button>
+  </div>
+  <div id="ovNotifList">
+    <div class="ov-empty"><i class="ph ph-bell-slash"></i>No notifications yet</div>
+  </div>
+</div>
+
+<div id="ov-toast-container"></div>
+<div class="ov-loader" id="ovLoader"><div class="ring"></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, collection, getDocs,
+  serverTimestamp, increment, runTransaction
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCqXdfRRQZbbrB4DIpTAj45FkxJsXm3JrM",
+  authDomain: "vexa-c0868.firebaseapp.com",
+  projectId: "vexa-c0868",
+  storageBucket: "vexa-c0868.firebasestorage.app",
+  messagingSenderId: "209201666488",
+  appId: "1:209201666488:web:ae6d16fec94097e719174d"
+};
+
+// ================== OVEXA CONFIG (EDIT HERE) ==================
+window.OVEXA_CONFIG = {
+  whatsappGroup: "https://chat.whatsapp.com/YOUR_INVITE_LINK",
+  telegramGroup: "https://t.me/YOUR_GROUP_LINK",
+  spinRetryCost: 50,
+  maxRetriesPerDay: 2
+};
+// =============================================================
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+window._auth = auth; window._db = db;
+
+const S = window._state = { user:null, username:null, userDoc:null, wheelConfig:null, spinning:false, scrollY:0, activeCount:0, rot:0 };
+
+// ============== UPDATED WHEEL: max ₦200 ==============
+const DEFAULT_WHEEL = {
+  enabled: true,
+  slots: [
+    { id:1, label:"₦10",        amount:10,   weight:30, color:"#3EE8A8" },
+    { id:2, label:"₦20",        amount:20,   weight:25, color:"#F4C97A" },
+    { id:3, label:"₦30",        amount:30,   weight:15, color:"#5B8DEF" },
+    { id:4, label:"₦50",        amount:50,   weight:10, color:"#FF8FB1" },
+    { id:5, label:"₦80",        amount:80,   weight:8,  color:"#B98BFF" },
+    { id:6, label:"₦100",       amount:100,  weight:5,  color:"#FFB562" },
+    { id:7, label:"Try Again",  amount:0,    weight:5,  color:"#7C87A3" },
+    { id:8, label:"₦200",       amount:200,  weight:2,  color:"#FFD700" }
+  ]
+};
+// =====================================================
+
+// ================== HELPERS ==================
+const DAY = 86400000, WAT = 3600000;
+const dayNum  = t => Math.floor((t + WAT) / DAY);
+const dateKey = () => new Date(Date.now() + WAT).toISOString().slice(0,10);
+const toMs = v => !v ? 0 : v.toDate ? v.toDate().getTime() : new Date(v).getTime();
+const r2 = n => Math.round((Number(n)||0) * 100) / 100;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function fmt(n){ n = Number(n)||0; return '₦' + n.toLocaleString('en-NG',{minimumFractionDigits:0,maximumFractionDigits:2}); }
+const validSlots = cfg => (cfg && Array.isArray(cfg.slots) && cfg.slots.length >= 2) ? cfg.slots : DEFAULT_WHEEL.slots;
+
+// Icon name fix
+document.querySelectorAll('.ph-currency-naira').forEach(e => { e.className = 'ph ph-currency-ngn'; });
+
+// ================== AUTH GUARD ==================
+onAuthStateChanged(auth, async (user) => {
+  if(!user){ window.location.href = 'login.html'; return; }
+  S.user = user;
+  await bootstrap(user);
+});
+
+async function bootstrap(user){
+  try{
+    let username = sessionStorage.getItem('username');
+    if(!username){
+      const mapSnap = await getDoc(doc(db,'usersByUid',user.uid));
+      if(mapSnap.exists()) username = mapSnap.data().username;
+    }
+    if(!username) username = (sessionStorage.getItem('userEmail') || '').split('@')[0].toUpperCase();
+    S.username = username;
+
+    const userSnap = await getDoc(doc(db,'users',username));
+    if(!userSnap.exists()){ console.warn('User doc missing'); document.getElementById('ovLoader').classList.add('hide'); return; }
+    S.userDoc = userSnap.data();
+    renderUser(); updateGreeting();
+
+    document.getElementById('ovWhatsappLink').href = window.OVEXA_CONFIG.whatsappGroup;
+    document.getElementById('ovTelegramLink').href = window.OVEXA_CONFIG.telegramGroup;
+
+    try{
+      const wc = await getDoc(doc(db,'spinWheelConfig','wheel'));
+      S.wheelConfig = wc.exists() ? wc.data() : DEFAULT_WHEEL;
+    }catch(e){ S.wheelConfig = DEFAULT_WHEEL; }
+
+    await runRoiEngine();
+
+    const u2 = await getDoc(doc(db,'users',username));
+    if(u2.exists()){ S.userDoc = u2.data(); renderUser(); }
+
+    await Promise.all([loadInvestments(), loadTransactions(), loadAnnouncements(), loadNotifications(), loadSpinState()]);
+    updateSpinUI();
+    drawWheel();
+
+    if(!sessionStorage.getItem('ovexa_info_shown')){
+      setTimeout(()=>openModal('ovInfoModal'), 900);
+      sessionStorage.setItem('ovexa_info_shown','1');
+    }
+  }catch(err){
+    console.error('Bootstrap error:', err);
+  }finally{
+    document.getElementById('ovLoader').classList.add('hide');
+  }
+}
+
+// ================== RENDER ==================
+function renderUser(){
+  const u = S.userDoc; if(!u) return;
+  document.getElementById('ovDepBal').textContent = fmt(u.depositWallet);
+  document.getElementById('ovWdBal').textContent = fmt(u.withdrawalWallet);
+  document.getElementById('ovTotalDep').textContent = fmt(u.totalDeposited);
+  document.getElementById('ovTotalWd').textContent = fmt(u.totalWithdrawn);
+  document.getElementById('ovStatRef').textContent = u.referralCount || 0;
+  document.getElementById('ovStatEarn').textContent = fmt(u.totalEarnings || 0);
+  document.getElementById('ovGreetName').textContent = u.username || 'Investor';
+  document.getElementById('ovAvatar').textContent = (u.username || 'U').charAt(0).toUpperCase();
+}
+function updateGreeting(){
+  const h = new Date().getHours();
+  document.getElementById('ovTimeGreet').textContent = h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening';
+}
+
+// ================== ROI ENGINE ==================
+async function runRoiEngine(){
+  const username = S.username; if(!username) return;
+  const invRef = doc(db,'investments',username);
+  const userRef = doc(db,'users',username);
+  const txRef = doc(db,'transactionHistory',username);
+  let credited = 0;
+  try{
+    await runTransaction(db, async (t) => {
+      credited = 0;
+      const invSnap = await t.get(invRef);
+      if(!invSnap.exists()) return;
+      const data = invSnap.data();
+      const active = Array.isArray(data.activeInvestments) ? data.activeInvestments : [];
+      if(!active.length) return;
+      const txSnap = await t.get(txRef);
+      const today = dayNum(Date.now());
+      const keep = [], done = [], log = [];
+      let total = 0;
+
+      for(const src of active){
+        const inv = { ...src };
+        const startMs = toMs(inv.startDate);
+        const lastMs = toMs(inv.lastCreditedAt) || startMs;
+        const duration = Number(inv.durationDays)||0, rate = Number(inv.dailyRoi)||0, amount = Number(inv.amount)||0;
+        let days = Number(inv.daysCredited)||0;
+        if(!startMs || amount <= 0 || rate <= 0 || duration <= 0 || inv.status === 'completed'){ keep.push(inv); continue; }
+
+        const elig = [];
+        for(let d = dayNum(lastMs) + 1; d <= today; d++) if((d + 4) % 7 !== 0) elig.push(d);
+        const n = Math.min(elig.length, duration - days);
+        if(n > 0){
+          const earn = r2(amount * rate / 100 * n);
+          total += earn; days += n;
+          inv.daysCredited = days;
+          inv.lastCreditedAt = new Date(elig[n-1] * DAY - WAT).toISOString();
+          log.push({ type:'ROI', amount:earn, status:'Success', timestamp:new Date().toISOString(), note:`${inv.planName || 'Investment'} • ${n} day(s)`, username });
+        }
+        if(days >= duration){
+          inv.status = 'completed'; done.push(inv);
+          log.push({ type:'Investment Completed', amount:0, status:'Success', timestamp:new Date().toISOString(), note:inv.planName || 'Investment', username });
+        } else keep.push(inv);
+      }
+      if(!log.length) return;
+
+      const old = txSnap.exists() && Array.isArray(txSnap.data().transactions) ? txSnap.data().transactions : [];
+      const upd = { activeInvestments: keep };
+      if(done.length) upd.completedInvestments = [...(Array.isArray(data.completedInvestments) ? data.completedInvestments : []), ...done];
+      if(total > 0) upd.totalReturns = increment(total);
+      t.update(invRef, upd);
+      if(total > 0) t.update(userRef, { withdrawalWallet: increment(total), totalEarnings: increment(total) });
+      t.set(txRef, { username, transactions:[...log, ...old].slice(0,200), ...(txSnap.exists() ? {} : { createdAt: serverTimestamp() }) }, { merge:true });
+      credited = total;
+    });
+    if(credited > 0) ovNotify('success', `💰 ROI credited: ${fmt(credited)} to your withdrawal wallet`);
+  }catch(err){ console.error('ROI engine error:', err); }
+}
+
+// ================== LOAD INVESTMENTS ==================
+async function loadInvestments(){
+  const wrap = document.getElementById('ovInvestList');
+  const empty = '<div class="ov-empty"><i class="ph ph-folder-open"></i>No active investments yet</div>';
+  try{
+    const snap = await getDoc(doc(db,'investments',S.username));
+    const all = snap.exists() && Array.isArray(snap.data().activeInvestments) ? snap.data().activeInvestments : [];
+    const active = all.filter(i => i.status !== 'completed');
+    S.activeCount = active.length;
+    document.getElementById('ovStatPlans').textContent = active.length;
+    if(!active.length){ wrap.innerHTML = empty; return; }
+    wrap.innerHTML = active.map(inv => {
+      const done = Number(inv.daysCredited) || 0;
+      const total = Number(inv.durationDays) || 1;
+      const pct = Math.min(100, (done / total) * 100);
+      const perDay = ((Number(inv.amount)||0) * (Number(inv.dailyRoi)||0)) / 100;
+      return `
+        <div class="ov-inv-card">
+          <div class="ov-inv-top">
+            <div>
+              <p class="ov-inv-name">${esc(inv.planName || 'Investment Plan')}</p>
+              <p class="ov-inv-meta">${esc(inv.dailyRoi || 0)}% daily • ${esc(inv.durationDays || 0)} days</p>
+            </div>
+            <span class="ov-inv-status">Active</span>
+          </div>
+          <div class="ov-inv-row">
+            <div class="ov-inv-cell"><div class="k">Invested</div><div class="v">${fmt(inv.amount)}</div></div>
+            <div class="ov-inv-cell"><div class="k">Daily ROI</div><div class="v">${fmt(perDay)}</div></div>
+          </div>
+          <div class="ov-progress"><div class="ov-progress-fill" style="width:${pct}%"></div></div>
+          <div class="ov-progress-meta"><span>Day ${done} of ${total}</span><span>${pct.toFixed(0)}%</span></div>
+        </div>`;
+    }).join('');
+  }catch(err){
+    console.error('loadInvestments error:', err);
+    wrap.innerHTML = '<div class="ov-empty"><i class="ph ph-warning"></i>Failed to load investments</div>';
+  }
+}
+
+// ================== LOAD TRANSACTIONS ==================
+function txIcon(type){
+  const t = (type||'').toLowerCase();
+  if(t.includes('deposit')) return {cls:'dep', icon:'ph-arrow-down-left'};
+  if(t.includes('withdraw')) return {cls:'wd', icon:'ph-arrow-up-right'};
+  if(t.includes('roi') || t.includes('earning')) return {cls:'roi', icon:'ph-trend-up'};
+  if(t.includes('spin')) return {cls:'spin', icon:'ph-gift'};
+  if(t.includes('invest')) return {cls:'inv', icon:'ph-chart-line-up'};
+  if(t.includes('referral')) return {cls:'ref', icon:'ph-users-three'};
+  return {cls:'dep', icon:'ph-receipt'};
+}
+function timeAgo(v){
+  const ms = toMs(v); if(!ms) return 'just now';
+  const s = Math.floor((Date.now() - ms) / 1000);
+  if(s < 60) return 'just now';
+  if(s < 3600) return Math.floor(s/60) + 'm ago';
+  if(s < 86400) return Math.floor(s/3600) + 'h ago';
+  if(s < 604800) return Math.floor(s/86400) + 'd ago';
+  return new Date(ms).toLocaleDateString();
+}
+async function loadTransactions(){
+  const wrap = document.getElementById('ovTxList');
+  try{
+    const snap = await getDoc(doc(db,'transactionHistory',S.username));
+    const all = snap.exists() && Array.isArray(snap.data().transactions) ? snap.data().transactions : [];
+    if(!all.length){ wrap.innerHTML = '<div class="ov-empty"><i class="ph ph-receipt"></i>No transactions yet</div>'; return; }
+    wrap.innerHTML = all.slice(0,6).map(tx => {
+      const {cls, icon} = txIcon(tx.type);
+      const amt = Number(tx.amount) || 0;
+      const t = (tx.type||'').toLowerCase();
+      const neg = t.includes('withdraw') || t.includes('fee') || (t.includes('invest') && !t.includes('completed'));
+      const sign = amt === 0 ? '' : (neg ? '-' : '+');
+      return `
+        <div class="ov-tx-item">
+          <div class="ov-tx-icon ${cls}"><i class="ph ${icon}"></i></div>
+          <div class="ov-tx-body">
+            <div class="ov-tx-title">${esc(tx.type || 'Transaction')}</div>
+            <div class="ov-tx-time">${timeAgo(tx.timestamp)}${tx.note ? ' • ' + esc(tx.note) : ''}</div>
+          </div>
+          <div class="ov-tx-amt ${neg ? 'neg' : 'pos'}">${sign}${fmt(amt)}</div>
+        </div>`;
+    }).join('');
+  }catch(err){
+    console.error('loadTransactions error:', err);
+    wrap.innerHTML = '<div class="ov-empty"><i class="ph ph-warning"></i>Failed to load</div>';
+  }
+}
+
+// ================== ANNOUNCEMENTS ==================
+async function loadAnnouncements(){
+  const section = document.getElementById('ovAnnoSection');
+  const list = document.getElementById('ovAnnoList');
+  try{
+    const snap = await getDocs(collection(db,'announcements'));
+    const items = [];
+    snap.forEach(d => { const data = d.data(); if(data.active !== false) items.push({ id:d.id, ...data }); });
+    items.sort((a,b) => toMs(b.timestamp) - toMs(a.timestamp));
+    if(!items.length){ section.style.display = 'none'; return; }
+    section.style.display = '';
+    list.innerHTML = items.map(a => `
+      <div class="ov-anno">
+        <p class="ov-anno-title"><i class="ph ph-megaphone"></i> ${esc(a.title || 'Announcement')}</p>
+        <p class="ov-anno-body">${esc(a.body || '')}</p>
+        <span class="ov-anno-time">${timeAgo(a.timestamp)}</span>
+      </div>`).join('');
+  }catch(err){ console.warn('announcements:', err); section.style.display = 'none'; }
+}
+
+// ================== NOTIFICATIONS ==================
+let _notifItems = [];
+function renderNotifs(){
+  const wrap = document.getElementById('ovNotifList');
+  const badge = document.getElementById('ovBellBadge');
+  const unread = _notifItems.filter(n => !n.read).length;
+  if(unread > 0){ badge.textContent = unread > 9 ? '9+' : unread; badge.classList.remove('hidden'); }
+  else badge.classList.add('hidden');
+  if(!_notifItems.length){ wrap.innerHTML = '<div class="ov-empty"><i class="ph ph-bell-slash"></i>No notifications yet</div>'; return; }
+  wrap.innerHTML = _notifItems.slice(0,20).map(n => `
+    <div class="ov-notif-item ${n.read ? '' : 'unread'}">
+      <p class="ov-notif-title">${esc(n.title || 'Notification')}</p>
+      <p class="ov-notif-body">${esc(n.body || '')}</p>
+      <div class="ov-notif-time">${timeAgo(n.timestamp)}</div>
+    </div>`).join('');
+}
+async function loadNotifications(){
+  try{
+    const snap = await getDoc(doc(db,'notifications',S.username));
+    _notifItems = snap.exists() && Array.isArray(snap.data().items) ? snap.data().items : [];
+    _notifItems.sort((a,b) => toMs(b.timestamp) - toMs(a.timestamp));
+  }catch(err){ console.warn('notifications:', err); _notifItems = []; }
+  renderNotifs();
+}
+async function markAllRead(){
+  if(!_notifItems.length) return;
+  _notifItems = _notifItems.map(n => ({...n, read:true}));
+  renderNotifs();
+  try{ await setDoc(doc(db,'notifications',S.username), { items:_notifItems }, { merge:true }); }
+  catch(e){ console.warn(e); }
+}
+
+// ================== SPIN WHEEL ==================
+let _spin = null;
+
+async function loadSpinState(){
+  const today = dateKey();
+  try{
+    const snap = await getDoc(doc(db,'spinWheel',S.username));
+    const d = snap.exists() ? snap.data() : {};
+    const same = d.dateKey === today;
+    _spin = { dateKey:today, spinsToday: same ? Number(d.spinsToday)||0 : 0, retriesUsed: same ? Number(d.retriesUsed)||0 : 0 };
+  }catch(e){
+    console.warn('spin state:', e);
+    _spin = { dateKey:today, spinsToday:0, retriesUsed:0 };
+  }
+  updateSpinUI();
+}
+
+function updateSpinUI(){
+  if(!_spin) return;
+  if(_spin.dateKey !== dateKey()){ _spin = { dateKey:dateKey(), spinsToday:0, retriesUsed:0 }; }
+  const C = window.OVEXA_CONFIG;
+  const freeLeft = _spin.spinsToday === 0 ? 1 : 0;
+  const retriesLeft = Math.max(0, C.maxRetriesPerDay - _spin.retriesUsed);
+  document.getElementById('ovFreeSpins').textContent = freeLeft;
+  document.getElementById('ovRetries').textContent = retriesLeft;
+  if(S.spinning) return;
+
+  const btn = document.getElementById('ovSpinBtn');
+  const note = document.getElementById('ovSpinNote');
+  const cfg = S.wheelConfig || DEFAULT_WHEEL;
+
+  if(cfg.enabled === false){ btn.disabled = true; btn.textContent = 'Wheel Unavailable'; note.textContent = 'The spin wheel is currently disabled.'; return; }
+  if(S.activeCount < 1){ btn.disabled = true; btn.textContent = 'No Active Investment'; note.innerHTML = 'You need an <b>active investment</b> to spin the wheel.'; return; }
+  if(freeLeft > 0){
+    btn.disabled = false; btn.textContent = 'Spin Now (Free)';
+    note.innerHTML = `Free spin available once per day. Extra spins cost <b>${fmt(C.spinRetryCost)}</b> each (max ${C.maxRetriesPerDay}/day).`;
+  } else if(retriesLeft > 0){
+    btn.disabled = false; btn.textContent = `Retry Spin (${fmt(C.spinRetryCost)})`;
+    note.innerHTML = `Retries left today: <b>${retriesLeft}</b>. Each retry costs <b>${fmt(C.spinRetryCost)}</b> from your withdrawal wallet.`;
+  } else {
+    btn.disabled = true; btn.textContent = 'Come Back Tomorrow';
+    note.textContent = 'You have used all spins for today. Come back tomorrow!';
+  }
+}
+
+function drawWheel(){
+  const canvas = document.getElementById('ovSpinCanvas'); if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, cx = W/2, cy = H/2, r = W/2 - 10;
+  ctx.clearRect(0,0,W,H);
+  const slots = validSlots(S.wheelConfig || DEFAULT_WHEEL);
+  const n = slots.length, arc = Math.PI * 2 / n, top = -Math.PI / 2;
+  for(let i=0;i<n;i++){
+    const a0 = top + i * arc;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,a0,a0+arc); ctx.closePath();
+    ctx.fillStyle = slots[i].color || '#3EE8A8'; ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,0.35)'; ctx.lineWidth = 3; ctx.stroke();
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(a0 + arc/2);
+    ctx.textAlign = 'right'; ctx.fillStyle = '#04261A';
+    ctx.font = `bold ${n > 10 ? 20 : 26}px Inter, sans-serif`;
+    ctx.fillText(String(slots[i].label ?? ''), r - 22, 9);
+    ctx.restore();
+  }
+  ctx.beginPath(); ctx.arc(cx,cy,r*0.55,0,Math.PI*2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 2; ctx.stroke();
+}
+
+function rand(){ const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] / 4294967296; }
+function pickWeightedSlot(slots){
+  const total = slots.reduce((s,x) => s + Math.max(0, Number(x.weight)||0), 0);
+  if(total <= 0) return Math.floor(rand() * slots.length);
+  let r = rand() * total;
+  for(let i=0;i<slots.length;i++){ const w = Math.max(0, Number(slots[i].weight)||0); if(r < w) return i; r -= w; }
+  return slots.length - 1;
+}
+
+function openSpinModal(){
+  S.scrollY = window.scrollY;
+  document.body.style.overflow = 'hidden';
+  openModal('ovSpinModal'); drawWheel(); updateSpinUI();
+}
+function closeSpinModal(){
+  closeModal('ovSpinModal');
+  document.body.style.overflow = '';
+  window.scrollTo(0, S.scrollY || 0);
+  if(!S.spinning) document.getElementById('ovSpinResult').classList.remove('show','win','lose');
+}
+
+async function doSpin(){
+  if(S.spinning) return;
+  if(!S.userDoc || !_spin) return ovNotify('warning','Still loading, please try again in a moment.');
+  const cfg = S.wheelConfig || DEFAULT_WHEEL;
+  if(cfg.enabled === false) return ovNotify('warning','The spin wheel is currently disabled.');
+
+  const C = window.OVEXA_CONFIG, cost = C.spinRetryCost, maxR = C.maxRetriesPerDay;
+  const slots = validSlots(cfg);
+  const idx = pickWeightedSlot(slots), chosen = slots[idx];
+  const reward = Math.max(0, Number(chosen.amount)||0);
+  const username = S.username;
+  const btn = document.getElementById('ovSpinBtn');
+
+  S.spinning = true;
+  btn.disabled = true; btn.innerHTML = '<span class="ov-spinner"></span>Spinning…';
+  document.getElementById('ovSpinResult').classList.remove('show','win','lose');
+
+  try{
+    const out = await runTransaction(db, async (t) => {
+      const userRef = doc(db,'users',username), spinRef = doc(db,'spinWheel',username);
+      const invRef = doc(db,'investments',username), txRef = doc(db,'transactionHistory',username);
+      const uS = await t.get(userRef), sS = await t.get(spinRef), iS = await t.get(invRef), xS = await t.get(txRef);
+      if(!uS.exists()) throw new Error('Account not found.');
+      const hasInv = iS.exists() && (iS.data().activeInvestments || []).some(i => i.status !== 'completed');
+      if(!hasInv) throw new Error('You need an active investment to spin.');
+
+      const key = dateKey(), sp = sS.exists() ? sS.data() : {}, same = sp.dateKey === key;
+      const spins = same ? Number(sp.spinsToday)||0 : 0, retries = same ? Number(sp.retriesUsed)||0 : 0;
+      const isRetry = spins > 0;
+      if(isRetry && retries >= maxR) throw new Error('You have used all spins for today.');
+      const u = uS.data(), wd = Number(u.withdrawalWallet)||0;
+      if(isRetry && wd < cost) throw new Error(`You need ${fmt(cost)} in your withdrawal wallet to retry.`);
+
+      const now = new Date().toISOString();
+      const upd = { withdrawalWallet: r2(wd + reward - (isRetry ? cost : 0)) };
+      if(reward > 0) upd.totalEarnings = r2((Number(u.totalEarnings)||0) + reward);
+      t.update(userRef, upd);
+
+      const hist = [{ amount:reward, label:chosen.label, at:now, isRetry }, ...(Array.isArray(sp.history) ? sp.history : [])].slice(0,50);
+      t.set(spinRef, { dateKey:key, spinsToday:spins+1, retriesUsed:retries+(isRetry?1:0), totalWon:r2((Number(sp.totalWon)||0)+reward), history:hist, username, updatedAt:serverTimestamp() }, { merge:true });
+
+      const log = [{ type: reward > 0 ? 'Spin Bonus' : 'Spin Attempt', amount:reward, status:'Success', timestamp:now, note:`${chosen.label}${isRetry ? ' (retry)' : ' (free)'}`, username }];
+      if(isRetry) log.push({ type:'Spin Fee', amount:cost, status:'Success', timestamp:now, note:'Retry spin', username });
+      const old = xS.exists() && Array.isArray(xS.data().transactions) ? xS.data().transactions : [];
+      t.set(txRef, { username, transactions:[...log, ...old].slice(0,200), ...(xS.exists() ? {} : { createdAt: serverTimestamp() }) }, { merge:true });
+
+      return { isRetry, spins:spins+1, retries:retries+(isRetry?1:0), key };
+    });
+    _spin = { dateKey:out.key, spinsToday:out.spins, retriesUsed:out.retries };
+
+    const canvas = document.getElementById('ovSpinCanvas');
+    const sd = 360 / slots.length, c = (idx + 0.5) * sd, jitter = (rand() - 0.5) * sd * 0.6;
+    const want = (((-(c + jitter)) % 360) + 360) % 360;
+    const delta = (want - (S.rot % 360) + 360) % 360;
+    S.rot += 360 * 6 + delta;
+    canvas.style.transform = `rotate(${S.rot}deg)`;
+    await new Promise(r => setTimeout(r, 5200));
+
+    const fresh = await getDoc(doc(db,'users',username));
+    if(fresh.exists()){ S.userDoc = fresh.data(); renderUser(); }
+    loadTransactions();
+
+    const res = document.getElementById('ovSpinResult');
+    res.classList.remove('win','lose');
+    if(reward > 0){
+      document.getElementById('ovSpinResultTitle').textContent = `🎉 You won ${fmt(reward)}!`;
+      document.getElementById('ovSpinResultMsg').textContent = out.isRetry ? `Credited to your withdrawal wallet (${fmt(cost)} retry fee deducted).` : 'Credited to your withdrawal wallet.';
+      res.classList.add('win','show');
+      ovNotify('success', `🎉 Spin: won ${fmt(reward)}!`);
+    } else {
+      document.getElementById('ovSpinResultTitle').textContent = '😅 Try Again!';
+      document.getElementById('ovSpinResultMsg').textContent = out.isRetry ? `Better luck next time. (${fmt(cost)} fee used)` : 'Better luck next time!';
+      res.classList.add('lose','show');
+      ovNotify('warning','No reward this time.');
+    }
+  }catch(err){
+    console.error('Spin error:', err);
+    ovNotify('error', err && err.message && !/permission|insufficient/i.test(err.message) ? err.message : 'Spin failed. Please try again.');
+  }finally{
+    S.spinning = false;
+    btn.disabled = false;
+    updateSpinUI();
+  }
+}
+
+// ================== MODAL / UI HELPERS ==================
+function openModal(id){ const m = document.getElementById(id); if(m) m.classList.add('open'); }
+function closeModal(id){ const m = document.getElementById(id); if(m) m.classList.remove('open'); }
+
+document.getElementById('ovBellBtn').addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('ovNotifPanel').classList.toggle('open'); });
+document.getElementById('ovInfoBtn').addEventListener('click', () => openModal('ovInfoModal'));
+document.getElementById('ovAvatar').addEventListener('click', () => location.href = 'profile.html');
+document.addEventListener('click', (e) => {
+  const panel = document.getElementById('ovNotifPanel');
+  if(!panel.contains(e.target) && !document.getElementById('ovBellBtn').contains(e.target)) panel.classList.remove('open');
+});
+document.querySelectorAll('.ov-modal').forEach(m => m.addEventListener('click', (e) => {
+  if(e.target !== m) return;
+  m.id === 'ovSpinModal' ? closeSpinModal() : closeModal(m.id);
+}));
+document.addEventListener('keydown', (e) => {
+  if(e.key !== 'Escape') return;
+  if(document.getElementById('ovSpinModal').classList.contains('open')) closeSpinModal();
+  closeModal('ovInfoModal');
+});
+
+// ================== TOASTS ==================
+function ovNotify(type, message){
+  let container = document.getElementById('ov-toast-container');
+  if(!container){ container = document.createElement('div'); container.id = 'ov-toast-container'; document.body.appendChild(container); }
+  const themes = {
+    success:{ icon:'fa-solid fa-check-double', color:'#3EE8A8', bg:'rgba(62,232,168,0.12)', title:'Success' },
+    error:{ icon:'fa-solid fa-circle-exclamation', color:'#FF6B7A', bg:'rgba(255,107,122,0.12)', title:'Error' },
+    warning:{ icon:'fa-solid fa-triangle-exclamation', color:'#F4C97A', bg:'rgba(244,201,122,0.12)', title:'Notice' },
+    info:{ icon:'fa-solid fa-bell', color:'#5B8DEF', bg:'rgba(91,141,239,0.12)', title:'Info' }
+  };
+  const th = themes[type] || themes.info;
+  const toast = document.createElement('div');
+  toast.className = 'ov-toast';
+  toast.style.borderLeft = `3px solid ${th.color}`;
+  toast.innerHTML = `
+    <div class="ov-toast-icon" style="color:${th.color};background:${th.bg}"><i class="${th.icon}"></i></div>
+    <div class="ov-toast-body"><div class="ov-toast-title">${th.title}</div><div class="ov-toast-msg">${esc(message)}</div></div>
+    <button class="ov-toast-close" onclick="this.closest('.ov-toast').remove()"><i class="fa-solid fa-xmark"></i></button>`;
+  container.appendChild(toast);
+  setTimeout(()=>toast.classList.add('show'), 10);
+  setTimeout(()=>{ toast.classList.remove('show'); setTimeout(()=>toast.remove(), 350); }, 5000);
+}
+
+window.ovNotify = ovNotify;
+window.openSpinModal = openSpinModal;
+window.closeSpinModal = closeSpinModal;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.doSpin = doSpin;
+window.markAllRead = markAllRead;
+</script>
+</body>
+</html>
