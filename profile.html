@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ovexa — My Profile</title>
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="theme-color" content="#070B14">
+
+<style>
+:root{
+  --ov-bg:#070B14;
+  --ov-panel:#0F1524;
+  --ov-panel-2:#141B2E;
+  --ov-line:rgba(255,255,255,0.07);
+  --ov-line-2:rgba(255,255,255,0.12);
+  --ov-text:#EEF3FF;
+  --ov-muted:#7C87A3;
+  --ov-muted-2:#5A6478;
+  --ov-accent:#3EE8A8;
+  --ov-accent-2:#19B98B;
+  --ov-accent-deep:#0E8E68;
+  --ov-gold:#F4C97A;
+  --ov-danger:#FF6B7A;
+  --ov-blue:#5B8DEF;
+  --ov-pink:#FF8FB1;
+  --ov-purple:#B98BFF;
+}
+html,body{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:var(--ov-bg);color:var(--ov-text)}
+*,*::before,*::after{box-sizing:inherit}
+body{display:flex;flex-direction:column;min-height:100vh;position:relative;overflow-x:hidden;padding-bottom:88px}
+
+/* BACKGROUND */
+.ov-bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:
+  radial-gradient(1200px 600px at 50% -10%,rgba(62,232,168,0.08),transparent 60%),
+  radial-gradient(900px 500px at 100% 100%,rgba(91,141,239,0.07),transparent 60%),
+  linear-gradient(180deg,#070B14 0%,#0A0F1C 100%)}
+.ov-grid{position:absolute;inset:0;background-image:
+  linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(ellipse at 50% 15%,#000 30%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 15%,#000 30%,transparent 75%)}
+.ov-orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.42;will-change:transform}
+.ov-orb-a{width:420px;height:420px;background:radial-gradient(circle,rgba(62,232,168,0.9) 0%,transparent 70%);top:-150px;right:-150px;animation:ovFloatA 16s ease-in-out infinite}
+.ov-orb-b{width:400px;height:400px;background:radial-gradient(circle,rgba(91,141,239,0.8) 0%,transparent 70%);bottom:-180px;left:-140px;animation:ovFloatB 20s ease-in-out infinite}
+@keyframes ovFloatA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-24px,32px) scale(1.08)}}
+@keyframes ovFloatB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(28px,-24px) scale(1.1)}}
+.ov-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,0.45) 100%);pointer-events:none}
+
+/* SHELL */
+.ov-shell{width:100%;max-width:520px;margin:0 auto;flex:1;display:flex;flex-direction:column;position:relative;z-index:1;padding:0 18px}
+
+/* TOP BAR */
+.ov-topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 4px 18px;animation:ovSlideDown .6s cubic-bezier(.2,.9,.3,1.2) both;position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(7,11,20,0.95),rgba(7,11,20,0.7) 70%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:22px;padding-bottom:14px}
+.ov-top-left{display:flex;align-items:center;gap:12px}
+.ov-back-btn{width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,0.03);border:1px solid var(--ov-line);display:grid;place-items:center;color:var(--ov-muted);font-size:1.15rem;cursor:pointer;transition:all .22s;text-decoration:none}
+.ov-back-btn:hover{color:var(--ov-text);border-color:var(--ov-line-2);background:rgba(255,255,255,0.06);transform:translateY(-1px)}
+.ov-brand{font-family:'Space Grotesk';font-weight:700;font-size:22px;letter-spacing:-0.8px;background:linear-gradient(120deg,#FFFFFF 0%,#B8F3DA 55%,#3EE8A8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;position:relative}
+.ov-brand::after{content:'';position:absolute;left:0;bottom:-4px;width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,#3EE8A8,transparent)}
+.ov-balance-pill{font-size:11.5px;font-weight:700;color:var(--ov-accent);background:rgba(62,232,168,0.08);border:1px solid rgba(62,232,168,0.22);padding:8px 12px;border-radius:999px;white-space:nowrap}
+.ov-balance-pill b{font-family:'Space Grotesk';letter-spacing:-0.3px;font-size:12.5px}
+@keyframes ovSlideDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO / COMMAND CENTER */
+.ov-hero-panel{position:relative;padding:14px 0 22px;display:flex;flex-direction:column;align-items:center;animation:ovFadeUp .8s cubic-bezier(.2,.9,.3,1.1) both}
+.ov-ring-wrap{position:relative;width:158px;height:158px;margin-bottom:18px}
+.ov-ring-svg{transform:rotate(-90deg);width:100%;height:100%}
+.ov-ring-bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:6}
+.ov-ring-fill{fill:none;stroke:url(#ovRingGrad);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.9,.3,1.1)}
+.ov-ring-avatar{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#3EE8A8,#19B98B);display:grid;place-items:center;font-family:'Space Grotesk';font-weight:800;font-size:38px;color:#04261A;box-shadow:0 12px 32px rgba(62,232,168,0.35),inset 0 2px 0 rgba(255,255,255,0.3);letter-spacing:-2px}
+.ov-ring-pct{position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);padding:5px 12px;border-radius:999px;background:linear-gradient(135deg,#3EE8A8,#19B98B);color:#04261A;font-family:'Space Grotesk';font-weight:800;font-size:11.5px;letter-spacing:0.3px;box-shadow:0 8px 20px rgba(62,232,168,0.4);white-space:nowrap}
+.ov-hero-name{font-family:'Space Grotesk';font-size:24px;font-weight:700;letter-spacing:-0.8px;margin:6px 0 4px;background:linear-gradient(120deg,#FFFFFF 0%,#B8F3DA 60%,#3EE8A8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ov-hero-email{font-size:12.5px;color:var(--ov-muted);font-weight:500;margin:0 0 10px}
+.ov-hero-meta{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--ov-muted-2);font-weight:600}
+.ov-hero-meta .dot{width:4px;height:4px;border-radius:50%;background:var(--ov-muted-2)}
+.ov-hero-meta .badge{color:var(--ov-accent);display:inline-flex;align-items:center;gap:4px;font-weight:700}
+@keyframes ovFadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* STAT ORBS */
+.ov-orbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px;animation:ovFadeUp .85s cubic-bezier(.2,.9,.3,1.1) .1s both}
+.ov-orb-card{background:linear-gradient(160deg,rgba(20,27,46,0.75),rgba(15,21,36,0.95));border:1px solid var(--ov-line);border-radius:13px;padding:11px 6px;text-align:center;position:relative;overflow:hidden}
+.ov-orb-card::before{content:'';position:absolute;top:0;left:22%;right:22%;height:1px;background:linear-gradient(90deg,transparent,rgba(62,232,168,0.4),transparent)}
+.ov-orb-card .v{font-family:'Space Grotesk';font-size:14.5px;font-weight:700;color:var(--ov-text);letter-spacing:-0.4px;margin-bottom:2px}
+.ov-orb-card .l{font-size:9px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--ov-muted-2)}
+
+/* SECTION */
+.ov-section{margin-bottom:20px;animation:ovFadeUp .9s cubic-bezier(.2,.9,.3,1.1) .15s both}
+.ov-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 4px}
+.ov-section-head h2{font-family:'Space Grotesk';font-size:15.5px;font-weight:700;letter-spacing:-0.3px;margin:0;display:flex;align-items:center;gap:8px}
+.ov-section-head h2 i{color:var(--ov-accent);font-size:1.05rem}
+
+/* ACCORDION */
+.ov-acc{background:linear-gradient(160deg,rgba(20,27,46,0.7),rgba(15,21,36,0.95));border:1px solid var(--ov-line);border-radius:15px;margin-bottom:10px;overflow:hidden;transition:border-color .25s}
+.ov-acc:hover{border-color:rgba(62,232,168,0.25)}
+.ov-acc.open{border-color:rgba(62,232,168,0.32)}
+.ov-acc-head{display:flex;align-items:center;gap:12px;padding:15px 15px;cursor:pointer;user-select:none;transition:background .2s}
+.ov-acc-head:hover{background:rgba(255,255,255,0.02)}
+.ov-acc-icon{width:38px;height:38px;flex-shrink:0;border-radius:11px;background:linear-gradient(145deg,rgba(62,232,168,0.16),rgba(62,232,168,0.04));display:grid;place-items:center;color:var(--ov-accent);font-size:1.15rem;border:1px solid rgba(62,232,168,0.2)}
+.ov-acc-title{flex:1;min-width:0}
+.ov-acc-title h3{font-family:'Space Grotesk';font-size:13.5px;font-weight:700;margin:0 0 2px;letter-spacing:-0.2px}
+.ov-acc-title p{font-size:10.5px;color:var(--ov-muted);margin:0;font-weight:500}
+.ov-acc-chev{color:var(--ov-muted);font-size:1.05rem;transition:transform .3s cubic-bezier(.2,.9,.3,1.2)}
+.ov-acc.open .ov-acc-chev{transform:rotate(180deg);color:var(--ov-accent)}
+.ov-acc-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.2,.9,.3,1.1)}
+.ov-acc.open .ov-acc-body{max-height:520px}
+.ov-acc-body-inner{padding:2px 15px 15px;border-top:1px dashed rgba(255,255,255,0.05);margin-top:-1px}
+.ov-acc-rows{padding:10px 0 8px}
+.ov-acc-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;font-size:12.5px;gap:12px}
+.ov-acc-row + .ov-acc-row{border-top:1px dashed rgba(255,255,255,0.04)}
+.ov-acc-row .k{color:var(--ov-muted);font-weight:600;flex-shrink:0}
+.ov-acc-row .v{color:var(--ov-text);font-weight:700;text-align:right;word-break:break-word;font-family:'Space Grotesk'}
+.ov-acc-row .v.empty{color:var(--ov-muted-2);font-style:italic;font-weight:600;font-family:'Inter'}
+.ov-acc-cta{width:100%;height:42px;margin-top:6px;border:none;border-radius:11px;background:linear-gradient(135deg,#3EE8A8,#19B98B);color:#04261A;font-family:'Inter';font-size:12.5px;font-weight:800;letter-spacing:0.3px;cursor:pointer;transition:all .25s;box-shadow:0 8px 20px rgba(62,232,168,0.22);display:flex;align-items:center;justify-content:center;gap:7px}
+.ov-acc-cta:hover{transform:translateY(-1px);box-shadow:0 12px 26px rgba(62,232,168,0.32)}
+.ov-acc-cta.ghost{background:rgba(255,255,255,0.03);color:var(--ov-text);border:1px solid var(--ov-line-2);box-shadow:none}
+.ov-acc-cta.ghost:hover{background:rgba(255,255,255,0.08);box-shadow:none}
+
+/* REFERRAL TICKET */
+.ov-ticket{position:relative;background:linear-gradient(160deg,rgba(244,201,122,0.08),rgba(15,21,36,0.95));border:1px solid rgba(244,201,122,0.3);border-radius:16px;padding:18px 16px;overflow:hidden;animation:ovFadeUp .9s cubic-bezier(.2,.9,.3,1.1) .2s both;margin-bottom:20px}
+.ov-ticket::before{content:'';position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(244,201,122,0.6),transparent)}
+.ov-ticket-label{font-size:9.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--ov-gold);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ov-ticket-code{font-family:'Space Grotesk';font-size:22px;font-weight:700;letter-spacing:3px;color:var(--ov-text);margin:0 0 12px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ov-ticket-copy{background:rgba(244,201,122,0.12);border:1px solid rgba(244,201,122,0.3);color:var(--ov-gold);padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;transition:all .22s;font-family:'Inter';letter-spacing:0.3px;display:inline-flex;align-items:center;gap:5px}
+.ov-ticket-copy:hover{background:rgba(244,201,122,0.22);border-color:rgba(244,201,122,0.55)}
+.ov-ticket-link{font-size:11.5px;color:var(--ov-muted);font-weight:500;margin:0 0 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;word-break:break-all}
+.ov-ticket-link span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:'Space Grotesk'}
+.ov-ticket-divider{position:relative;height:1px;margin:6px 0 14px;background:repeating-linear-gradient(to right,rgba(244,201,122,0.35) 0 6px,transparent 6px 12px)}
+.ov-ticket-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.ov-ticket-stat{text-align:center;padding:9px 6px;background:rgba(11,15,26,0.5);border:1px solid rgba(244,201,122,0.15);border-radius:10px}
+.ov-ticket-stat .v{font-family:'Space Grotesk';font-size:16px;font-weight:700;color:var(--ov-gold);letter-spacing:-0.3px}
+.ov-ticket-stat .l{font-size:9.5px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--ov-muted-2);margin-top:2px}
+.ov-ticket-share{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.ov-share-btn{height:38px;border-radius:10px;border:1px solid;font-family:'Inter';font-size:11.5px;font-weight:700;cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center;gap:5px;background:none;letter-spacing:0.2px}
+.ov-share-btn.wa{color:#25D366;border-color:rgba(37,211,102,0.3);background:rgba(37,211,102,0.08)}
+.ov-share-btn.wa:hover{background:rgba(37,211,102,0.18)}
+.ov-share-btn.tg{color:#5B8DEF;border-color:rgba(91,141,239,0.3);background:rgba(91,141,239,0.08)}
+.ov-share-btn.tg:hover{background:rgba(91,141,239,0.18)}
+.ov-share-btn.gen{color:var(--ov-text);border-color:var(--ov-line-2);background:rgba(255,255,255,0.03)}
+.ov-share-btn.gen:hover{background:rgba(255,255,255,0.08)}
+
+/* COMMUNITY */
+.ov-community{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;animation:ovFadeUp .95s cubic-bezier(.2,.9,.3,1.1) .25s both}
+.ov-comm-card{display:flex;align-items:center;gap:11px;padding:13px;border-radius:14px;border:1px solid;cursor:pointer;transition:all .25s;text-decoration:none;position:relative;overflow:hidden}
+.ov-comm-card.wa{background:linear-gradient(160deg,rgba(37,211,102,0.10),rgba(15,21,36,0.9));border-color:rgba(37,211,102,0.28)}
+.ov-comm-card.tg{background:linear-gradient(160deg,rgba(91,141,239,0.10),rgba(15,21,36,0.9));border-color:rgba(91,141,239,0.28)}
+.ov-comm-card:hover{transform:translateY(-2px)}
+.ov-comm-card.wa:hover{box-shadow:0 12px 26px rgba(37,211,102,0.25)}
+.ov-comm-card.tg:hover{box-shadow:0 12px 26px rgba(91,141,239,0.25)}
+.ov-comm-card i{font-size:1.35rem}
+.ov-comm-card.wa i{color:#25D366}
+.ov-comm-card.tg i{color:#5B8DEF}
+.ov-comm-card .txt{font-size:12px;font-weight:700;color:var(--ov-text);letter-spacing:0.2px}
+.ov-comm-card .sub{font-size:10px;color:var(--ov-muted);font-weight:500;margin-top:2px}
+
+/* SETTINGS LIST */
+.ov-settings{background:linear-gradient(160deg,rgba(20,27,46,0.6),rgba(15,21,36,0.9));border:1px solid var(--ov-line);border-radius:15px;padding:4px;overflow:hidden;margin-bottom:20px;animation:ovFadeUp 1s cubic-bezier(.2,.9,.3,1.1) .3s both}
+.ov-setting-item{display:flex;align-items:center;gap:12px;padding:13px 12px;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:background .2s;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left;font-family:'Inter';color:inherit}
+.ov-setting-item:last-child{border-bottom:none}
+.ov-setting-item:hover{background:rgba(255,255,255,0.025)}
+.ov-setting-item i:first-child{font-size:1.15rem;color:var(--ov-accent);width:22px;flex-shrink:0}
+.ov-setting-item .txt{flex:1;font-size:12.5px;font-weight:600;color:var(--ov-text);letter-spacing:0.2px}
+.ov-setting-item .ver{font-size:10.5px;color:var(--ov-muted);font-weight:600;font-family:'Space Grotesk'}
+.ov-setting-item .chev{color:var(--ov-muted-2);font-size:1rem}
+
+/* LOGOUT */
+.ov-logout{width:100%;height:52px;margin-bottom:12px;border-radius:14px;background:linear-gradient(135deg,rgba(255,107,122,0.14),rgba(255,107,122,0.06));border:1px solid rgba(255,107,122,0.32);color:var(--ov-danger);font-family:'Inter';font-size:13px;font-weight:800;letter-spacing:0.4px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;animation:ovFadeUp 1.05s cubic-bezier(.2,.9,.3,1.1) .35s both}
+.ov-logout:hover{background:linear-gradient(135deg,rgba(255,107,122,0.24),rgba(255,107,122,0.12));border-color:rgba(255,107,122,0.55);transform:translateY(-1px);box-shadow:0 10px 24px rgba(255,107,122,0.2)}
+
+/* RIGHT DOCK */
+.ov-dock{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:10px;animation:ovFadeUp .8s cubic-bezier(.2,.9,.3,1.1) .4s both}
+.ov-dock-btn{position:relative;width:48px;height:48px;border-radius:14px;background:linear-gradient(160deg,rgba(20,27,46,0.9),rgba(15,21,36,0.98));border:1px solid var(--ov-line);display:grid;place-items:center;color:var(--ov-muted);font-size:1.2rem;cursor:pointer;transition:all .25s;backdrop-filter:blur(10px);box-shadow:0 8px 20px rgba(0,0,0,0.35)}
+.ov-dock-btn:hover{color:var(--ov-accent);border-color:rgba(62,232,168,0.4);transform:translateX(-3px);box-shadow:0 12px 26px rgba(62,232,168,0.22)}
+.ov-dock-btn::after{content:attr(data-label);position:absolute;right:calc(100% + 10px);top:50%;transform:translateY(-50%);background:rgba(20,27,46,0.98);border:1px solid var(--ov-line-2);color:var(--ov-text);font-family:'Inter';font-size:10.5px;font-weight:700;padding:5px 9px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:all .2s;letter-spacing:0.3px}
+.ov-dock-btn:hover::after{opacity:1;transform:translateY(-50%) translateX(-2px)}
+
+/* BOTTOM NAV */
+.ov-bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:55;background:linear-gradient(180deg,rgba(11,16,32,0.95),rgba(7,11,20,0.98));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--ov-line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+.ov-nav-row{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.ov-nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:12px;cursor:pointer;transition:all .22s;text-decoration:none;color:var(--ov-muted)}
+.ov-nav-item:hover{background:rgba(255,255,255,0.03)}
+.ov-nav-item.active{color:var(--ov-accent);background:rgba(62,232,168,0.08)}
+.ov-nav-item i{font-size:1.35rem}
+.ov-nav-item span{font-size:9.5px;font-weight:700;letter-spacing:0.3px}
+
+/* MODAL */
+.ov-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(4,7,14,0.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ov-modal.open{display:flex;animation:ovModalFade .3s ease both}
+@keyframes ovModalFade{from{opacity:0}to{opacity:1}}
+.ov-modal-panel{position:relative;width:100%;max-width:400px;background:linear-gradient(180deg,rgba(20,27,46,0.98),rgba(15,21,36,0.98));border:1px solid var(--ov-line-2);border-radius:22px;padding:24px 20px;box-shadow:0 30px 80px rgba(0,0,0,0.7);animation:ovModalPop .35s cubic-bezier(.68,-.55,.265,1.55) both;text-align:center}
+@keyframes ovModalPop{from{opacity:0;transform:scale(.94) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.ov-modal-cancel{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid var(--ov-line);display:grid;place-items:center;color:var(--ov-muted);font-size:1.05rem;cursor:pointer;transition:all .22s;z-index:2}
+.ov-modal-cancel:hover{color:var(--ov-danger);border-color:rgba(255,107,122,0.4);background:rgba(255,107,122,0.08);transform:rotate(90deg)}
+.ov-modal-icon{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font-size:1.7rem;margin:0 auto 16px}
+.ov-modal-icon.warn{background:linear-gradient(145deg,rgba(244,201,122,0.22),rgba(244,201,122,0.05));color:var(--ov-gold);border:1px solid rgba(244,201,122,0.35)}
+.ov-modal-icon.error{background:linear-gradient(145deg,rgba(255,107,122,0.22),rgba(255,107,122,0.05));color:var(--ov-danger);border:1px solid rgba(255,107,122,0.35)}
+.ov-modal-icon.info{background:linear-gradient(145deg,rgba(91,141,239,0.22),rgba(91,141,239,0.05));color:var(--ov-blue);border:1px solid rgba(91,141,239,0.35)}
+.ov-modal-title{font-family:'Space Grotesk';font-size:18px;font-weight:700;letter-spacing:-0.4px;margin:0 0 8px}
+.ov-modal-desc{font-size:12.5px;color:var(--ov-muted);line-height:1.6;margin:0 0 20px}
+.ov-modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ov-modal-btn{height:48px;border:none;border-radius:12px;font-family:'Inter';font-size:13px;font-weight:800;letter-spacing:0.3px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:7px}
+.ov-modal-btn.ghost{background:rgba(255,255,255,0.04);color:var(--ov-text);border:1px solid var(--ov-line-2)}
+.ov-modal-btn.ghost:hover{background:rgba(255,255,255,0.08)}
+.ov-modal-btn.danger{background:linear-gradient(135deg,#FF6B7A,#E23D4E);color:#fff;box-shadow:0 12px 26px rgba(255,107,122,0.3)}
+.ov-modal-btn.danger:hover{transform:translateY(-1px);box-shadow:0 16px 32px rgba(255,107,122,0.4)}
+.ov-modal-btn.primary{background:linear-gradient(135deg,#3EE8A8,#19B98B);color:#04261A;box-shadow:0 12px 26px rgba(62,232,168,0.3)}
+.ov-modal-btn.primary:hover{transform:translateY(-1px);box-shadow:0 16px 32px rgba(62,232,168,0.4)}
+.ov-modal-btn.full{grid-column:span 2}
+.ov-spinner{width:16px;height:16px;border:2.5px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:ovSpin .7s linear infinite;display:inline-block}
+@keyframes ovSpin{to{transform:rotate(360deg)}}
+
+/* TOASTS */
+#ov-toast-container{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:99999;display:flex;flex-direction:column;gap:10px;pointer-events:none;width:calc(100% - 32px);max-width:400px}
+.ov-toast{background:linear-gradient(180deg,rgba(20,27,46,0.98),rgba(15,21,36,0.98));border:1px solid var(--ov-line-2);border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,0.6);display:flex;align-items:flex-start;padding:13px 14px;pointer-events:auto;transform:translateY(-28px) scale(.96);opacity:0;transition:all .45s cubic-bezier(.68,-.55,.265,1.55);backdrop-filter:blur(14px)}
+.ov-toast.show{transform:translateY(0) scale(1);opacity:1}
+.ov-toast-icon{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:15px;margin-right:11px;flex-shrink:0}
+.ov-toast-body{flex:1;min-width:0}
+.ov-toast-title{font-size:12.5px;font-weight:800;color:var(--ov-text);margin-bottom:3px}
+.ov-toast-msg{font-size:11.5px;color:var(--ov-muted);line-height:1.5}
+.ov-toast-close{background:none;border:none;color:var(--ov-muted-2);font-size:13px;cursor:pointer;padding:3px;border-radius:6px}
+.ov-toast-close:hover{color:var(--ov-text)}
+
+/* LOADER */
+.ov-loader{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:rgba(7,11,20,0.96);backdrop-filter:blur(8px);transition:opacity .4s}
+.ov-loader.hide{opacity:0;pointer-events:none}
+.ov-loader .ring{width:44px;height:44px;border:3px solid rgba(62,232,168,0.15);border-top-color:var(--ov-accent);border-radius:50%;animation:ovSpin .8s linear infinite}
+
+@media(max-width:380px){
+  .ov-shell{padding:0 13px}
+  .ov-hero-name{font-size:21px}
+  .ov-ring-wrap{width:140px;height:140px}
+  .ov-ring-avatar{width:98px;height:98px;font-size:34px}
+  .ov-dock{right:10px}
+  .ov-dock-btn{width:44px;height:44px}
+  .ov-ticket-code{font-size:19px;letter-spacing:2px}
+  .ov-orbs{gap:6px}
+  .ov-orb-card{padding:10px 4px}
+  .ov-orb-card .v{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<div class="ov-bg-layer">
+  <div class="ov-grid"></div>
+  <div class="ov-orb ov-orb-a"></div>
+  <div class="ov-orb ov-orb-b"></div>
+  <div class="ov-vignette"></div>
+</div>
+
+<main class="ov-shell">
+
+  <!-- TOP BAR -->
+  <div class="ov-topbar">
+    <div class="ov-top-left">
+      <a href="dashboard.html" class="ov-back-btn"><i class="ph ph-arrow-left"></i></a>
+      <div class="ov-brand">Ovexa</div>
+    </div>
+    <div class="ov-balance-pill">Deposit: <b id="ovDepBal">₦0</b></div>
+  </div>
+
+  <!-- HERO / COMPLETION RING -->
+  <div class="ov-hero-panel">
+    <div class="ov-ring-wrap">
+      <svg class="ov-ring-svg" viewBox="0 0 158 158">
+        <defs>
+          <linearGradient id="ovRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3EE8A8"/>
+            <stop offset="50%" stop-color="#7DF0C7"/>
+            <stop offset="100%" stop-color="#F4C97A"/>
+          </linearGradient>
+        </defs>
+        <circle class="ov-ring-bg" cx="79" cy="79" r="71"/>
+        <circle class="ov-ring-fill" id="ovRingFill" cx="79" cy="79" r="71"/>
+      </svg>
+      <div class="ov-ring-avatar" id="ovAvatarInitial">J</div>
+      <div class="ov-ring-pct" id="ovRingPct">0% Complete</div>
+    </div>
+    <h1 class="ov-hero-name" id="ovUsername">Investor</h1>
+    <p class="ov-hero-email" id="ovEmail">—</p>
+    <div class="ov-hero-meta">
+      <span class="badge"><i class="ph ph-shield-check"></i> Active</span>
+      <span class="dot"></span>
+      <span id="ovMemberSince">Member</span>
+    </div>
+  </div>
+
+  <!-- STAT ORBS -->
+  <div class="ov-orbs">
+    <div class="ov-orb-card"><div class="v" id="ovStatRef">0</div><div class="l">Referrals</div></div>
+    <div class="ov-orb-card"><div class="v" id="ovStatInv">0</div><div class="l">Invests</div></div>
+    <div class="ov-orb-card"><div class="v" id="ovStatEarn">₦0</div><div class="l">Earned</div></div>
+    <div class="ov-orb-card"><div class="v" id="ovStatDays">0</div><div class="l">Days</div></div>
+  </div>
+
+  <!-- ACCOUNT SECTIONS -->
+  <div class="ov-section">
+    <div class="ov-section-head">
+      <h2><i class="ph ph-user-circle"></i> Account</h2>
+    </div>
+
+    <!-- Identity -->
+    <div class="ov-acc open" id="accIdentity">
+      <div class="ov-acc-head" onclick="toggleAcc('accIdentity')">
+        <div class="ov-acc-icon"><i class="ph ph-identification-card"></i></div>
+        <div class="ov-acc-title">
+          <h3>Identity</h3>
+          <p>Name, phone, and personal details</p>
+        </div>
+        <i class="ph ph-caret-down ov-acc-chev"></i>
+      </div>
+      <div class="ov-acc-body">
+        <div class="ov-acc-body-inner">
+          <div class="ov-acc-rows">
+            <div class="ov-acc-row"><span class="k">Full Name</span><span class="v empty" id="ovFullName">Not set</span></div>
+            <div class="ov-acc-row"><span class="k">Phone</span><span class="v" id="ovPhone">—</span></div>
+            <div class="ov-acc-row"><span class="k">Username</span><span class="v" id="ovUsernameRow">—</span></div>
+          </div>
+          <button class="ov-acc-cta" onclick="confirmAction('edit-profile')">
+            <i class="ph ph-pencil-simple"></i> Edit Identity
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bank Details -->
+    <div class="ov-acc" id="accBank">
+      <div class="ov-acc-head" onclick="toggleAcc('accBank')">
+        <div class="ov-acc-icon"><i class="ph ph-bank"></i></div>
+        <div class="ov-acc-title">
+          <h3>Bank Details</h3>
+          <p>Where your withdrawals are sent</p>
+        </div>
+        <i class="ph ph-caret-down ov-acc-chev"></i>
+      </div>
+      <div class="ov-acc-body">
+        <div class="ov-acc-body-inner">
+          <div class="ov-acc-rows">
+            <div class="ov-acc-row"><span class="k">Bank Name</span><span class="v empty" id="ovBankName">Not set</span></div>
+            <div class="ov-acc-row"><span class="k">Account Number</span><span class="v empty" id="ovBankAcc">Not set</span></div>
+            <div class="ov-acc-row"><span class="k">Account Name</span><span class="v empty" id="ovBankAccName">Not set</span></div>
+          </div>
+          <button class="ov-acc-cta" onclick="confirmAction('bank-details')">
+            <i class="ph ph-plus-circle"></i> Manage Bank
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security -->
+    <div class="ov-acc" id="accSecurity">
+      <div class="ov-acc-head" onclick="toggleAcc('accSecurity')">
+        <div class="ov-acc-icon"><i class="ph ph-shield-checkered"></i></div>
+        <div class="ov-acc-title">
+          <h3>Security</h3>
+          <p>Password and account protection</p>
+        </div>
+        <i class="ph ph-caret-down ov-acc-chev"></i>
+      </div>
+      <div class="ov-acc-body">
+        <div class="ov-acc-body-inner">
+          <div class="ov-acc-rows">
+            <div class="ov-acc-row"><span class="k">Password</span><span class="v" id="ovPassState">Default</span></div>
+            <div class="ov-acc-row"><span class="k">Last Login</span><span class="v" id="ovLastLogin">—</span></div>
+          </div>
+          <button class="ov-acc-cta ghost" onclick="confirmAction('security')">
+            <i class="ph ph-lock-key"></i> Change Password
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFERRAL TICKET -->
+  <div class="ov-ticket">
+    <p class="ov-ticket-label"><i class="ph ph-ticket"></i> Referral Ticket</p>
+    <p class="ov-ticket-code">
+      <span id="ovRefCode">——</span>
+      <button class="ov-ticket-copy" onclick="copyText(document.getElementById('ovRefCode').textContent, 'Referral code copied')">
+        <i class="ph ph-copy"></i> Copy
+      </button>
+    </p>
+    <p class="ov-ticket-link">
+      <span id="ovRefLink">—</span>
+      <button class="ov-ticket-copy" onclick="copyText(document.getElementById('ovRefLink').textContent, 'Referral link copied')">
+        <i class="ph ph-link"></i>
+      </button>
+    </p>
+    <div class="ov-ticket-divider"></div>
+    <div class="ov-ticket-stats">
+      <div class="ov-ticket-stat"><div class="v" id="ovTicketRefs">0</div><div class="l">Referrals</div></div>
+      <div class="ov-ticket-stat"><div class="v" id="ovTicketEarn">₦0</div><div class="l">Earned</div></div>
+    </div>
+    <div class="ov-ticket-share">
+      <button class="ov-share-btn wa" onclick="shareReferral('whatsapp')"><i class="ph ph-whatsapp-logo"></i> WhatsApp</button>
+      <button class="ov-share-btn tg" onclick="shareReferral('telegram')"><i class="ph ph-telegram-logo"></i> Telegram</button>
+      <button class="ov-share-btn gen" onclick="shareReferral('native')"><i class="ph ph-share-network"></i> Share</button>
+    </div>
+  </div>
+
+  <!-- COMMUNITY -->
+  <div class="ov-section">
+    <div class="ov-section-head">
+      <h2><i class="ph ph-users"></i> Community</h2>
+    </div>
+    <div class="ov-community">
+      <a class="ov-comm-card wa" id="ovWaLink" href="#" target="_blank" rel="noopener">
+        <i class="ph ph-whatsapp-logo"></i>
+        <div>
+          <div class="txt">WhatsApp Group</div>
+          <div class="sub">Join community</div>
+        </div>
+      </a>
+      <a class="ov-comm-card tg" id="ovTgLink" href="#" target="_blank" rel="noopener">
+        <i class="ph ph-telegram-logo"></i>
+        <div>
+          <div class="txt">Telegram Group</div>
+          <div class="sub">Join channel</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- SETTINGS & SUPPORT -->
+  <div class="ov-section">
+    <div class="ov-section-head">
+      <h2><i class="ph ph-gear"></i> Settings & Support</h2>
+    </div>
+    <div class="ov-settings">
+      <button class="ov-setting-item" onclick="confirmAction('notification-settings')">
+        <i class="ph ph-bell"></i>
+        <span class="txt">Notification Preferences</span>
+        <i class="ph ph-caret-right chev"></i>
+      </button>
+      <button class="ov-setting-item" onclick="confirmAction('terms')">
+        <i class="ph ph-scroll"></i>
+        <span class="txt">Terms of Service</span>
+        <i class="ph ph-caret-right chev"></i>
+      </button>
+      <button class="ov-setting-item" onclick="confirmAction('privacy')">
+        <i class="ph ph-shield"></i>
+        <span class="txt">Privacy Policy</span>
+        <i class="ph ph-caret-right chev"></i>
+      </button>
+      <button class="ov-setting-item" onclick="confirmAction('about')">
+        <i class="ph ph-info"></i>
+        <span class="txt">About Ovexa</span>
+        <i class="ph ph-caret-right chev"></i>
+      </button>
+      <button class="ov-setting-item" onclick="confirmAction('version')">
+        <i class="ph ph-app-window"></i>
+        <span class="txt">App Version</span>
+        <span class="ver">1.0.0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- LOGOUT -->
+  <button class="ov-logout" onclick="confirmAction('logout')">
+    <i class="ph ph-sign-out"></i> Log Out
+  </button>
+
+</main>
+
+<!-- RIGHT DOCK -->
+<div class="ov-dock">
+  <button class="ov-dock-btn" data-label="Edit Profile" onclick="confirmAction('edit-profile')"><i class="ph ph-pencil-simple"></i></button>
+  <button class="ov-dock-btn" data-label="Bank Details" onclick="confirmAction('bank-details')"><i class="ph ph-bank"></i></button>
+  <button class="ov-dock-btn" data-label="Security" onclick="confirmAction('security')"><i class="ph ph-lock-key"></i></button>
+  <button class="ov-dock-btn" data-label="Referrals" onclick="confirmAction('referrals')"><i class="ph ph-gift"></i></button>
+  <button class="ov-dock-btn" data-label="Log Out" onclick="confirmAction('logout')"><i class="ph ph-sign-out"></i></button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="ov-bottom-nav">
+  <div class="ov-nav-row">
+    <a class="ov-nav-item" href="dashboard.html"><i class="ph ph-house"></i><span>Home</span></a>
+    <a class="ov-nav-item" href="invest.html"><i class="ph ph-chart-line-up"></i><span>Invest</span></a>
+    <a class="ov-nav-item" href="transactions.html"><i class="ph ph-receipt"></i><span>History</span></a>
+    <a class="ov-nav-item active" href="profile.html"><i class="ph ph-user"></i><span>Profile</span></a>
+  </div>
+</nav>
+
+<!-- UNIVERSAL CONFIRMATION MODAL -->
+<div class="ov-modal" id="ovConfirmModal">
+  <div class="ov-modal-panel">
+    <button class="ov-modal-cancel" onclick="closeModal('ovConfirmModal')"><i class="ph ph-x"></i></button>
+    <div class="ov-modal-icon warn" id="ovConfirmIcon"><i class="ph ph-warning-circle"></i></div>
+    <h3 class="ov-modal-title" id="ovConfirmTitle">Are you sure?</h3>
+    <p class="ov-modal-desc" id="ovConfirmDesc">Please confirm this action.</p>
+    <div class="ov-modal-actions">
+      <button class="ov-modal-btn ghost" onclick="closeModal('ovConfirmModal')">Cancel</button>
+      <button class="ov-modal-btn primary" id="ovConfirmProceedBtn" onclick="executeAction()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<div id="ov-toast-container"></div>
+<div class="ov-loader" id="ovLoader"><div class="ring"></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCqXdfRRQZbbrB4DIpTAj45FkxJsXm3JrM",
+  authDomain: "vexa-c0868.firebaseapp.com",
+  projectId: "vexa-c0868",
+  storageBucket: "vexa-c0868.firebasestorage.app",
+  messagingSenderId: "209201666488",
+  appId: "1:209201666488:web:ae6d16fec94097e719174d"
+};
+
+// ================== CONFIG ==================
+window.OVEXA_CONFIG = {
+  whatsappGroup: "https://chat.whatsapp.com/YOUR_INVITE_LINK",
+  telegramGroup: "https://t.me/YOUR_GROUP_LINK",
+  referralBaseUrl: "https://ovexa.com/?ref="
+};
+// ============================================
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+window._state = {
+  user: null,
+  username: null,
+  userDoc: null,
+  pendingAction: null,
+  ringAnimated: false
+};
+
+function fmt(n){
+  n = Number(n)||0;
+  return '₦' + n.toLocaleString('en-NG',{minimumFractionDigits:0,maximumFractionDigits:2});
+}
+
+// ---------- AUTH GUARD ----------
+onAuthStateChanged(auth, async (user)=>{
+  if(!user){ window.location.href = 'login.html'; return; }
+  window._state.user = user;
+  await bootstrap();
+});
+
+async function bootstrap(){
+  try{
+    let username = sessionStorage.getItem('username');
+    if(!username){
+      const mapSnap = await getDoc(doc(db,'usersByUid', window._state.user.uid));
+      if(mapSnap.exists()) username = mapSnap.data().username;
+    }
+    if(!username){
+      username = (sessionStorage.getItem('userEmail') || '').split('@')[0].toUpperCase();
+    }
+    window._state.username = username;
+
+    const snap = await getDoc(doc(db,'users',username));
+    if(snap.exists()){
+      window._state.userDoc = snap.data();
+    }
+    renderProfile();
+    document.getElementById('ovLoader').classList.add('hide');
+  }catch(err){
+    console.error('Bootstrap error:', err);
+    document.getElementById('ovLoader').classList.add('hide');
+  }
+}
+
+function renderProfile(){
+  const u = window._state.userDoc || {};
+  const username = window._state.username || 'Investor';
+
+  // Balance pill
+  document.getElementById('ovDepBal').textContent = fmt(u.depositWallet || 0);
+
+  // Avatar + name
+  document.getElementById('ovAvatarInitial').textContent = (username || 'U').charAt(0).toUpperCase();
+  document.getElementById('ovUsername').textContent = username;
+  document.getElementById('ovEmail').textContent = u.email || '—';
+
+  // Member since
+  const created = u.createdAt?.toDate ? u.createdAt.toDate() : (u.registrationDate ? new Date(u.registrationDate) : null);
+  if(created){
+    const days = Math.max(1, Math.floor((Date.now() - created.getTime()) / 86400000));
+    document.getElementById('ovMemberSince').textContent = `Member ${days} day${days===1?'':'s'}`;
+    document.getElementById('ovStatDays').textContent = days;
+  } else {
+    document.getElementById('ovMemberSince').textContent = 'Member';
+  }
+
+  // Stats
+  document.getElementById('ovStatRef').textContent = u.referralCount || 0;
+  document.getElementById('ovStatEarn').textContent = fmt(u.totalEarnings || 0);
+  // Investment count placeholder (loaded in future enhancement)
+  document.getElementById('ovStatInv').textContent = u.activePlans || 0;
+
+  // Identity
+  document.getElementById('ovFullName').textContent = u.fullName || 'Not set';
+  document.getElementById('ovFullName').className = 'v' + (u.fullName ? '' : ' empty');
+  document.getElementById('ovPhone').textContent = u.phone || '—';
+  document.getElementById('ovUsernameRow').textContent = username;
+
+  // Bank
+  const bank = u.bankDetails || {};
+  document.getElementById('ovBankName').textContent = bank.bankName || 'Not set';
+  document.getElementById('ovBankName').className = 'v' + (bank.bankName ? '' : ' empty');
+  document.getElementById('ovBankAcc').textContent = bank.accountNumber || 'Not set';
+  document.getElementById('ovBankAcc').className = 'v' + (bank.accountNumber ? '' : ' empty');
+  document.getElementById('ovBankAccName').textContent = bank.accountName || 'Not set';
+  document.getElementById('ovBankAccName').className = 'v' + (bank.accountName ? '' : ' empty');
+
+  // Security
+  document.getElementById('ovPassState').textContent = u.passwordChanged ? 'Updated' : 'Default';
+  const lastLogin = u.lastLogin?.toDate ? u.lastLogin.toDate() : null;
+  document.getElementById('ovLastLogin').textContent = lastLogin ? timeAgo(lastLogin.toISOString()) : '—';
+
+  // Referral ticket
+  const code = u.ownReferralCode || username;
+  document.getElementById('ovRefCode').textContent = code;
+  document.getElementById('ovRefLink').textContent = window.OVEXA_CONFIG.referralBaseUrl + code;
+  document.getElementById('ovTicketRefs').textContent = u.referralCount || 0;
+  document.getElementById('ovTicketEarn').textContent = fmt(u.referralBonus || 0);
+
+  // Community links
+  document.getElementById('ovWaLink').href = window.OVEXA_CONFIG.whatsappGroup;
+  document.getElementById('ovTgLink').href = window.OVEXA_CONFIG.telegramGroup;
+
+  // Completion ring
+  computeCompletion(u);
+}
+
+function timeAgo(iso){
+  if(!iso) return '—';
+  const s = Math.floor((Date.now() - new Date(iso).getTime())/1000);
+  if(s < 60) return 'just now';
+  if(s < 3600) return Math.floor(s/60) + 'm ago';
+  if(s < 86400) return Math.floor(s/3600) + 'h ago';
+  if(s < 604800) return Math.floor(s/86400) + 'd ago';
+  return new Date(iso).toLocaleDateString();
+}
+
+// ---------- COMPLETION RING ----------
+// Weights: fullName 25, phone 20, bank 30, password 15 (picture removed)
+// Purely visual — nothing is gated
+function computeCompletion(u){
+  let pct = 0;
+  if(u.fullName) pct += 25;
+  if(u.phone) pct += 20;
+  const bank = u.bankDetails || {};
+  if(bank.bankName && bank.accountNumber && bank.accountName) pct += 30;
+  if(u.passwordChanged) pct += 15;
+  // Picture removed (was 10) — so max is 90 now. Re-weight to 100.
+  // Normalize to 100: 25+20+30+15 = 90 → scale by 100/90
+  pct = Math.round(pct * (100 / 90));
+  pct = Math.min(100, Math.max(0, pct));
+
+  // Animate ring
+  const circle = document.getElementById('ovRingFill');
+  const radius = 71;
+  const circumference = 2 * Math.PI * radius;
+  circle.style.strokeDasharray = circumference;
+  circle.style.strokeDashoffset = circumference;
+
+  // Trigger animation after a short delay
+  setTimeout(() => {
+    const offset = circumference - (pct / 100) * circumference;
+    circle.style.strokeDashoffset = offset;
+  }, 150);
+
+  document.getElementById('ovRingPct').textContent = pct + '% Complete';
+}
+
+// ---------- ACCORDION ----------
+function toggleAcc(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  // Close others
+  document.querySelectorAll('.ov-acc').forEach(a => { if(a.id !== id) a.classList.remove('open'); });
+  el.classList.toggle('open');
+}
+window.toggleAcc = toggleAcc;
+
+// ---------- CONFIRMATION MODAL SYSTEM ----------
+// All buttons route through this — every action gets a confirm
+const ACTIONS = {
+  'edit-profile': {
+    title: 'Edit Identity',
+    desc: 'You are about to open the Edit Profile page where you can update your name and phone number. Continue?',
+    icon: 'info',
+    btn: 'Continue',
+    route: 'edit-profile.html',
+    type: 'navigate'
+  },
+  'bank-details': {
+    title: 'Manage Bank Details',
+    desc: 'You are about to open the Bank Details page where you can update your withdrawal account. Continue?',
+    icon: 'info',
+    btn: 'Continue',
+    route: 'bank-details.html',
+    type: 'navigate'
+  },
+  'security': {
+    title: 'Change Password',
+    desc: 'You are about to open the Security page where you can change your password. Continue?',
+    icon: 'info',
+    btn: 'Continue',
+    route: 'security.html',
+    type: 'navigate'
+  },
+  'referrals': {
+    title: 'Referral Program',
+    desc: 'You are about to open the Referrals page where you can manage your referral code and track earnings. Continue?',
+    icon: 'info',
+    btn: 'Continue',
+    route: 'referrals.html',
+    type: 'navigate'
+  },
+  'notification-settings': {
+    title: 'Notification Preferences',
+    desc: 'You are about to open Notification Preferences. Continue?',
+    icon: 'info',
+    btn: 'Continue',
+    route: 'notification-settings.html',
+    type: 'navigate'
+  },
+  'terms': {
+    title: 'Terms of Service',
+    desc: 'You are about to open the Terms of Service page. Continue?',
+    icon: 'info',
+    btn: 'Continue',
+    route: 'terms.html',
+    type: 'navigate'
+  },
+  'privacy': {
+    title: 'Privacy Policy',
+    desc: 'You are about to open the Privacy Policy page. Continue?',
+    icon: 'info',
+    btn: 'Continue',
+    route: 'privacy.html',
+    type: 'navigate'
+  },
+  'about': {
+    title: 'About Ovexa',
+    desc: 'You are about to open the About Ovexa page. Continue?',
+    icon: 'info',
+    btn: 'Continue',
+    route: 'about.html',
+    type: 'navigate'
+  },
+  'version': {
+    title: 'App Version',
+    desc: 'You are running Ovexa version 1.0.0. Latest version is installed on your device.',
+    icon: 'info',
+    btn: 'Got it',
+    type: 'info'
+  },
+  'logout': {
+    title: 'Log Out',
+    desc: 'Are you sure you want to log out of your Ovexa account? You will need to sign in again to access your dashboard.',
+    icon: 'warn',
+    btn: 'Log Out',
+    type: 'logout',
+    danger: true
+  },
+  'share-whatsapp': {
+    title: 'Share on WhatsApp',
+    desc: 'You are about to share your referral link on WhatsApp. Continue?',
+    icon: 'info',
+    btn: 'Share',
+    type: 'share',
+    channel: 'whatsapp'
+  },
+  'share-telegram': {
+    title: 'Share on Telegram',
+    desc: 'You are about to share your referral link on Telegram. Continue?',
+    icon: 'info',
+    btn: 'Share',
+    type: 'share',
+    channel: 'telegram'
+  },
+  'share-native': {
+    title: 'Share Referral Link',
+    desc: 'You are about to share your referral link via your device. Continue?',
+    icon: 'info',
+    btn: 'Share',
+    type: 'share',
+    channel: 'native'
+  }
+};
+
+function confirmAction(action){
+  const cfg = ACTIONS[action];
+  if(!cfg){ ovNotify('warning', 'Action not available'); return; }
+  window._state.pendingAction = { action, cfg };
+
+  // Icon
+  const iconEl = document.getElementById('ovConfirmIcon');
+  iconEl.className = 'ov-modal-icon ' + (cfg.icon || 'info');
+  const iconMap = { warn:'ph-warning-circle', error:'ph-x-circle', info:'ph-info' };
+  iconEl.innerHTML = `<i class="ph ${iconMap[cfg.icon] || 'ph-info'}"></i>`;
+
+  // Text
+  document.getElementById('ovConfirmTitle').textContent = cfg.title;
+  document.getElementById('ovConfirmDesc').textContent = cfg.desc;
+
+  // Button
+  const btn = document.getElementById('ovConfirmProceedBtn');
+  btn.textContent = cfg.btn || 'Continue';
+  btn.className = 'ov-modal-btn ' + (cfg.danger ? 'danger' : 'primary');
+
+  openModal('ovConfirmModal');
+}
+window.confirmAction = confirmAction;
+
+async function executeAction(){
+  const pending = window._state.pendingAction;
+  if(!pending) return;
+  const { cfg } = pending;
+
+  const btn = document.getElementById('ovConfirmProceedBtn');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="ov-spinner"></span> Processing…';
+
+  try{
+    if(cfg.type === 'navigate'){
+      closeModal('ovConfirmModal');
+      ovNotify('info','Opening ' + cfg.title + '…');
+      setTimeout(()=>{ window.location.href = cfg.route; }, 500);
+    }
+    else if(cfg.type === 'info'){
+      closeModal('ovConfirmModal');
+      ovNotify('info','Version 1.0.0');
+    }
+    else if(cfg.type === 'logout'){
+      try{
+        await signOut(auth);
+        sessionStorage.clear();
+        localStorage.removeItem('ovRemember');
+        ovNotify('success','Logged out successfully');
+        setTimeout(()=>{ window.location.href = 'login.html'; }, 900);
+      }catch(err){
+        console.error('Signout error:', err);
+        // Force redirect anyway
+        sessionStorage.clear();
+        window.location.href = 'login.html';
+      }
+    }
+    else if(cfg.type === 'share'){
+      closeModal('ovConfirmModal');
+      await performShare(cfg.channel);
+    }
+    else{
+      closeModal('ovConfirmModal');
+    }
+  }catch(err){
+    console.error('Execute error:', err);
+    ovNotify('error','Action failed. Please try again.');
+    btn.disabled = false;
+    btn.textContent = originalText;
+  }finally{
+    window._state.pendingAction = null;
+  }
+}
+window.executeAction = executeAction;
+
+// ---------- SHARE REFERRAL ----------
+function shareReferral(channel){
+  confirmAction('share-' + channel);
+}
+window.shareReferral = shareReferral;
+
+async function performShare(channel){
+  const u = window._state.userDoc || {};
+  const code = u.ownReferralCode || window._state.username || '';
+  const link = window.OVEXA_CONFIG.referralBaseUrl + code;
+  const text = `Join me on Ovexa — a smart investing platform. Use my referral link to get started: ${link}`;
+
+  if(channel === 'whatsapp'){
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+    ovNotify('success','Opening WhatsApp…');
+  }
+  else if(channel === 'telegram'){
+    window.open('https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent('Join me on Ovexa!'), '_blank');
+    ovNotify('success','Opening Telegram…');
+  }
+  else if(channel === 'native'){
+    if(navigator.share){
+      try{
+        await navigator.share({ title:'Join Ovexa', text: text, url: link });
+      }catch(e){ /* cancelled */ }
+    } else {
+      // Fallback: copy
+      copyText(link, 'Referral link copied');
+    }
+  }
+}
+
+// ---------- COPY ----------
+function copyText(text, msg){
+  try{
+    navigator.clipboard.writeText(text).then(()=>{
+      ovNotify('success', msg || 'Copied to clipboard');
+    }).catch(()=>{
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      ovNotify('success', msg || 'Copied');
+    });
+  }catch(e){
+    ovNotify('warning','Copy failed');
+  }
+}
+window.copyText = copyText;
+
+// ---------- MODAL HELPERS ----------
+function openModal(id){ document.getElementById(id)?.classList.add('open'); }
+function closeModal(id){ document.getElementById(id)?.classList.remove('open'); }
+window.openModal = openModal;
+window.closeModal = closeModal;
+
+// ---------- TOASTS ----------
+function ovNotify(type, message){
+  let container = document.getElementById('ov-toast-container');
+  if(!container){ container = document.createElement('div'); container.id = 'ov-toast-container'; document.body.appendChild(container); }
+  const themes = {
+    success:{ icon:'fa-solid fa-check-double', color:'#3EE8A8', bg:'rgba(62,232,168,0.12)', title:'Success' },
+    error:{ icon:'fa-solid fa-circle-exclamation', color:'#FF6B7A', bg:'rgba(255,107,122,0.12)', title:'Error' },
+    warning:{ icon:'fa-solid fa-triangle-exclamation', color:'#F4C97A', bg:'rgba(244,201,122,0.12)', title:'Notice' },
+    info:{ icon:'fa-solid fa-bell', color:'#5B8DEF', bg:'rgba(91,141,239,0.12)', title:'Info' }
+  };
+  const th = themes[type] || themes.info;
+  const toast = document.createElement('div');
+  toast.className = 'ov-toast';
+  toast.style.borderLeft = `3px solid ${th.color}`;
+  toast.innerHTML = `
+    <div class="ov-toast-icon" style="color:${th.color};background:${th.bg}"><i class="${th.icon}"></i></div>
+    <div class="ov-toast-body">
+      <div class="ov-toast-title">${th.title}</div>
+      <div class="ov-toast-msg">${message}</div>
+    </div>
+    <button class="ov-toast-close" onclick="this.closest('.ov-toast').remove()"><i class="fa-solid fa-xmark"></i></button>`;
+  container.appendChild(toast);
+  setTimeout(()=>toast.classList.add('show'), 10);
+  setTimeout(()=>{ toast.classList.remove('show'); setTimeout(()=>toast.remove(), 350); }, 4500);
+}
+window.ovNotify = ovNotify;
+
+console.log('✅ Ovexa profile ready');
+</script>
+</body>
+</html>
