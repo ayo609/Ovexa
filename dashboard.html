@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ovexa — Dashboard</title>
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<meta name="theme-color" content="#07090D">
+
+<style>
+:root{
+  --bg:#07090D;
+  --s1:#0D1117;
+  --s2:#131922;
+  --s3:#1A2230;
+  --ln:rgba(255,255,255,0.07);
+  --ln2:rgba(255,255,255,0.13);
+  --tx:#ECF1F8;
+  --tx2:#8791A5;
+  --tx3:#555F73;
+  --mint:#3EE8A8;
+  --mint2:#19B98B;
+  --gold:#F4C97A;
+  --rose:#FF6B7A;
+  --sky:#5B8DEF;
+  --violet:#B98BFF;
+  --r:16px;
+}
+html,body{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:var(--bg);color:var(--tx)}
+*,*::before,*::after{box-sizing:inherit}
+body{min-height:100vh;position:relative;overflow-x:hidden;padding-bottom:112px;
+  background-image:radial-gradient(rgba(255,255,255,0.045) 1px,transparent 1px);background-size:22px 22px}
+.num{font-family:'Space Grotesk';font-variant-numeric:tabular-nums;letter-spacing:-0.03em}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.5)}}
+
+.wrap{max-width:540px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+
+/* ============ HEADER ============ */
+.top{position:sticky;top:0;z-index:60;margin:0 -16px;padding:calc(12px + env(safe-area-inset-top)) 16px 10px;background:rgba(7,9,13,0.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:12px}
+.who{display:flex;align-items:center;gap:11px;flex:1;min-width:0;cursor:pointer}
+.av{width:40px;height:40px;border-radius:12px;background:var(--s3);border:1px solid var(--ln2);display:grid;place-items:center;font-family:'Space Grotesk';font-weight:700;font-size:16px;color:var(--mint);flex-shrink:0}
+.who-t{min-width:0}
+.who-t small{display:block;font-size:11px;color:var(--tx2);font-weight:500}
+.who-t b{display:block;font-family:'Space Grotesk';font-size:16px;font-weight:700;letter-spacing:-0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{position:relative;width:38px;height:38px;border-radius:12px;background:var(--s1);border:1px solid var(--ln);display:grid;place-items:center;color:var(--tx2);font-size:1.1rem;cursor:pointer;transition:.2s;flex-shrink:0}
+.ib:hover{color:var(--tx);border-color:var(--ln2)}
+.ib .cnt{position:absolute;top:-4px;right:-4px;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--rose);color:#fff;font-size:9px;font-weight:800;display:grid;place-items:center;border:2px solid var(--bg)}
+.ib .cnt.hidden{display:none}
+
+/* ============ BALANCE PANEL ============ */
+.bal{margin-top:16px;border:1px solid var(--ln2);border-radius:20px;background:linear-gradient(180deg,var(--s2),var(--s1));overflow:hidden;animation:rise .6s ease both}
+.bal-top{padding:18px 18px 14px}
+.bal-row{display:flex;align-items:center;justify-content:space-between}
+.lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+.eye{background:none;border:none;color:var(--tx2);font-size:1.1rem;cursor:pointer;padding:4px;border-radius:8px;display:grid;place-items:center}
+.eye:hover{color:var(--mint)}
+.total{margin:8px 0 14px;font-size:40px;font-weight:700;line-height:1;display:flex;align-items:baseline;gap:6px}
+.total .cur{font-size:22px;color:var(--mint)}
+.split{display:flex;height:6px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,0.06);gap:2px}
+.split i{display:block;height:100%;transition:width .8s cubic-bezier(.2,.9,.3,1.1)}
+.split .d{background:var(--mint)}
+.split .w{background:var(--sky)}
+.wal{border-top:1px solid var(--ln);display:flex;align-items:center;gap:12px;padding:13px 18px}
+.wal + .wal{border-top:1px solid var(--ln)}
+.wal .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.wal .dot.d{background:var(--mint)}
+.wal .dot.w{background:var(--sky)}
+.wal-t{flex:1;min-width:0}
+.wal-t small{display:block;font-size:10.5px;color:var(--tx2);font-weight:600;margin-bottom:2px}
+.wal-t b{font-size:17px;font-weight:700}
+.pill{height:34px;padding:0 14px;border-radius:10px;border:1px solid var(--ln2);background:transparent;color:var(--tx);font-family:'Inter';font-size:12px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s;text-decoration:none}
+.pill:hover{border-color:var(--mint);color:var(--mint)}
+.pill.solid{background:var(--mint);border-color:var(--mint);color:#04261A}
+.pill.solid:hover{background:#6CF0C0;color:#04261A}
+
+/* ============ BENTO ============ */
+.bento{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px;animation:rise .7s ease .08s both}
+.tile{border:1px solid var(--ln);border-radius:var(--r);background:var(--s1);padding:14px;position:relative;overflow:hidden;min-height:96px;display:flex;flex-direction:column;justify-content:space-between}
+.tile .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:1rem}
+.tile .v{font-size:21px;font-weight:700;margin-top:12px}
+.tile .k{font-size:10.5px;color:var(--tx2);font-weight:600;margin-top:2px}
+.tile.wide{grid-column:span 2}
+.tile.earn{background:linear-gradient(135deg,rgba(62,232,168,0.10),var(--s1) 70%);border-color:rgba(62,232,168,0.2)}
+.tile.earn .ic{background:rgba(62,232,168,0.14);color:var(--mint)}
+.tile.earn .v{font-size:28px;color:var(--mint)}
+.tile.earn .day{position:absolute;top:14px;right:14px;font-size:10.5px;font-weight:700;color:var(--mint);background:rgba(62,232,168,0.1);border:1px solid rgba(62,232,168,0.22);padding:4px 9px;border-radius:999px}
+.tile.plans .ic{background:rgba(255,143,177,0.14);color:#FF8FB1}
+.tile.ref{cursor:pointer;transition:.2s}
+.tile.ref:hover{border-color:rgba(185,139,255,0.4)}
+.tile.ref .ic{background:rgba(185,139,255,0.14);color:var(--violet)}
+.tile.spin{cursor:pointer;flex-direction:row;align-items:center;gap:14px;background:linear-gradient(120deg,rgba(244,201,122,0.16),rgba(255,181,98,0.04) 60%,var(--s1));border-color:rgba(244,201,122,0.3);min-height:82px;transition:.2s}
+.tile.spin:hover{border-color:rgba(244,201,122,0.6)}
+.tile.spin .wh{width:46px;height:46px;border-radius:50%;background:conic-gradient(#F4C97A,#FFB562,#F4C97A,#FFB562,#F4C97A);display:grid;place-items:center;color:#3a2300;font-size:1.3rem;flex-shrink:0;box-shadow:0 8px 20px rgba(244,201,122,0.35)}
+.tile.spin .tt{flex:1}
+.tile.spin .tt b{display:block;font-family:'Space Grotesk';font-size:15px;font-weight:700}
+.tile.spin .tt small{display:block;font-size:11px;color:var(--gold);font-weight:600;margin-top:3px}
+.tile.spin > i{color:var(--gold);font-size:1.1rem}
+.tile.life{flex-direction:row;gap:14px;min-height:0;align-items:center}
+.tile.life div{flex:1}
+.tile.life div + div{border-left:1px solid var(--ln);padding-left:14px}
+.tile.life .k{margin:0 0 4px}
+.tile.life .v{font-size:16px;margin:0}
+
+/* ============ SECTIONS ============ */
+.sec{margin-top:26px;animation:rise .8s ease .15s both}
+.sec-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-h h2{margin:0;font-family:'Space Grotesk';font-size:15px;font-weight:700;letter-spacing:-0.01em}
+.sec-h a{font-size:12px;font-weight:700;color:var(--mint);text-decoration:none;display:inline-flex;align-items:center;gap:3px}
+
+/* ============ INVEST CAROUSEL ============ */
+.car{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:2px 16px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.car::-webkit-scrollbar{display:none}
+.plan{flex:0 0 82%;max-width:300px;scroll-snap-align:start;border:1px solid var(--ln);border-radius:var(--r);background:var(--s1);padding:15px;display:flex;gap:14px;align-items:center}
+.car .plan:only-child{flex-basis:100%;max-width:none}
+.ring{position:relative;width:62px;height:62px;flex-shrink:0}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:6;stroke-linecap:round}
+.ring .bg{stroke:rgba(255,255,255,0.07)}
+.ring .fg{stroke:var(--mint);transition:stroke-dashoffset .9s cubic-bezier(.2,.9,.3,1.1)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:'Space Grotesk';font-size:13px;font-weight:700}
+.plan-b{flex:1;min-width:0}
+.plan-b h3{margin:0 0 3px;font-family:'Space Grotesk';font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plan-b p{margin:0;font-size:11px;color:var(--tx2);font-weight:500}
+.plan-b .kv{display:flex;justify-content:space-between;margin-top:9px;font-size:11px;color:var(--tx2)}
+.plan-b .kv b{color:var(--tx);font-family:'Space Grotesk';font-size:12.5px}
+.plan-b .kv b.m{color:var(--mint)}
+.empty{border:1px dashed var(--ln2);border-radius:var(--r);padding:26px 16px;text-align:center;color:var(--tx2);font-size:12.5px;font-weight:500}
+.empty i{display:block;font-size:1.7rem;color:var(--tx3);margin-bottom:8px}
+.empty a{display:inline-flex;margin-top:12px}
+
+/* ============ TIMELINE ============ */
+.tl{position:relative;padding-left:22px}
+.tl::before{content:'';position:absolute;left:6px;top:6px;bottom:6px;width:1px;background:var(--ln2)}
+.tl-day{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);margin:14px 0 8px;position:relative}
+.tl-day:first-child{margin-top:0}
+.tl-day::before{content:'';position:absolute;left:-20px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--bg);border:2px solid var(--tx3)}
+.tx{display:flex;align-items:center;gap:12px;padding:11px 12px;margin-bottom:7px;border:1px solid var(--ln);border-radius:14px;background:var(--s1)}
+.tx-i{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:1rem;flex-shrink:0}
+.tx-i.dep{background:rgba(62,232,168,0.12);color:var(--mint)}
+.tx-i.wd{background:rgba(91,141,239,0.12);color:var(--sky)}
+.tx-i.roi{background:rgba(244,201,122,0.12);color:var(--gold)}
+.tx-i.spin{background:rgba(185,139,255,0.12);color:var(--violet)}
+.tx-i.inv{background:rgba(255,143,177,0.12);color:#FF8FB1}
+.tx-i.ref{background:rgba(62,232,168,0.12);color:var(--mint)}
+.tx-b{flex:1;min-width:0}
+.tx-b b{display:block;font-size:12.5px;font-weight:700;text-transform:capitalize;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx-b small{display:block;font-size:10.5px;color:var(--tx2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tx-a{font-size:13px;font-weight:700;white-space:nowrap}
+.tx-a.pos{color:var(--mint)}
+.tx-a.neg{color:var(--rose)}
+
+/* ============ ANNOUNCEMENTS ============ */
+.an{display:flex;gap:12px;padding:13px;border:1px solid rgba(244,201,122,0.2);border-radius:14px;background:rgba(244,201,122,0.05);margin-bottom:8px}
+.an > i{color:var(--gold);font-size:1.2rem;margin-top:1px}
+.an b{display:block;font-size:12.5px;color:var(--gold);margin-bottom:3px}
+.an p{margin:0;font-size:11.5px;line-height:1.55}
+.an small{display:block;margin-top:6px;font-size:10px;color:var(--tx2);font-weight:600}
+
+/* ============ DOCK ============ */
+.dock-w{position:fixed;left:0;right:0;bottom:0;z-index:70;padding:0 14px calc(10px + env(safe-area-inset-bottom));pointer-events:none}
+.dock{pointer-events:auto;max-width:480px;margin:0 auto;position:relative;display:grid;grid-template-columns:1fr 1fr 74px 1fr 1fr;align-items:center;height:62px;background:rgba(13,17,23,0.94);border:1px solid var(--ln2);border-radius:22px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 18px 40px rgba(0,0,0,0.55)}
+.dk{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--tx3);text-decoration:none;font-size:9.5px;font-weight:700;padding:6px 0;transition:.2s}
+.dk i{font-size:1.3rem}
+.dk.on,.dk:hover{color:var(--mint)}
+.dk-spin{position:relative;height:100%}
+.dk-spin button{position:absolute;left:50%;top:-22px;transform:translateX(-50%);width:62px;height:62px;border-radius:50%;border:4px solid var(--bg);background:conic-gradient(from 0deg,#F4C97A,#FFB562,#F4C97A,#FFB562,#F4C97A);color:#3a2300;font-size:1.6rem;display:grid;place-items:center;cursor:pointer;box-shadow:0 10px 26px rgba(244,201,122,0.45);animation:wob 3.2s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:translateX(-50%) rotate(0)}50%{transform:translateX(-50%) rotate(14deg)}}
+
+/* ============ SHEETS (modals) ============ */
+.ov-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:flex-end;justify-content:center;background:rgba(3,5,8,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.ov-modal.open{display:flex;animation:fade .25s ease both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheet{position:relative;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;background:var(--s1);border:1px solid var(--ln2);border-bottom:none;border-radius:26px 26px 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));animation:up .35s cubic-bezier(.2,.9,.3,1) both}
+.sheet::before{content:'';display:block;width:38px;height:4px;border-radius:2px;background:var(--ln2);margin:0 auto 16px}
+.sheet-h{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.sheet-h .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:1.2rem;flex-shrink:0}
+.sheet-h .ic.m{background:rgba(62,232,168,0.12);color:var(--mint)}
+.sheet-h .ic.g{background:rgba(244,201,122,0.14);color:var(--gold)}
+.sheet-h h3{margin:0;font-family:'Space Grotesk';font-size:17px;font-weight:700}
+.sheet-h p{margin:2px 0 0;font-size:11.5px;color:var(--tx2)}
+.sheet-h .x{margin-left:auto;width:34px;height:34px;border-radius:10px;background:var(--s2);border:1px solid var(--ln);color:var(--tx2);display:grid;place-items:center;cursor:pointer;font-size:1rem}
+.rows{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row{padding:12px;border:1px solid var(--ln);border-radius:13px;background:var(--s2)}
+.row i{color:var(--mint);font-size:1.1rem}
+.row small{display:block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin:8px 0 3px}
+.row b{font-family:'Space Grotesk';font-size:13.5px}
+.comm{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.cb{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px;border-radius:12px;text-decoration:none;font-size:12.5px;font-weight:700;border:1px solid}
+.cb.wa{background:rgba(37,211,102,0.1);color:#25D366;border-color:rgba(37,211,102,0.3)}
+.cb.tg{background:rgba(91,141,239,0.1);color:var(--sky);border-color:rgba(91,141,239,0.3)}
+.cta{width:100%;height:50px;margin-top:14px;border:none;border-radius:13px;background:var(--mint);color:#04261A;font-family:'Inter';font-size:13.5px;font-weight:800;cursor:pointer}
+
+/* Spin sheet */
+.sp-chips{display:flex;gap:8px;justify-content:center;margin-bottom:12px}
+.chip{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 11px;border-radius:999px;background:var(--s2);border:1px solid var(--ln);color:var(--tx2)}
+.chip b{color:var(--mint)}
+.chip.g b{color:var(--gold)}
+.wheel{position:relative;width:100%;max-width:290px;aspect-ratio:1;margin:10px auto 18px}
+.ptr{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:3;filter:drop-shadow(0 4px 10px rgba(244,201,122,0.6))}
+.ptr::before{content:'';display:block;border-left:13px solid transparent;border-right:13px solid transparent;border-top:24px solid var(--gold)}
+.cv{width:100%;height:100%;border-radius:50%;background:#07090D;box-shadow:0 0 0 5px rgba(255,255,255,0.05),0 0 0 8px rgba(244,201,122,0.2),0 20px 44px rgba(0,0,0,0.6);transition:transform 5s cubic-bezier(.15,.9,.2,1)}
+.hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,#F4C97A,#FFB562);border:3px solid #07090D;display:grid;place-items:center;color:#3a2300;font-family:'Space Grotesk';font-weight:700;font-size:11px;z-index:2}
+.sbtn{width:100%;height:52px;border:none;border-radius:14px;background:linear-gradient(135deg,#F4C97A,#FFB562);color:#3a2300;font-family:'Inter';font-size:13.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;box-shadow:0 12px 28px rgba(244,201,122,0.3)}
+.sbtn:disabled{opacity:.5;cursor:not-allowed}
+.snote{text-align:center;font-size:11px;color:var(--tx2);margin-top:11px;line-height:1.55}
+.snote b{color:var(--gold)}
+.sres{margin-top:14px;padding:13px;border-radius:13px;display:none;text-align:center}
+.sres.show{display:block;animation:rise .35s ease both}
+.sres.win{background:rgba(62,232,168,0.1);border:1px solid rgba(62,232,168,0.3)}
+.sres.lose{background:rgba(255,107,122,0.08);border:1px solid rgba(255,107,122,0.25)}
+.sres h4{margin:0 0 3px;font-family:'Space Grotesk';font-size:15px}
+.sres.win h4{color:var(--mint)}
+.sres.lose h4{color:var(--rose)}
+.sres p{margin:0;font-size:11.5px;color:var(--tx2);font-weight:600}
+.spn{display:inline-block;width:14px;height:14px;border:2px solid rgba(58,35,0,.3);border-top-color:#3a2300;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px;margin-right:6px}
+
+/* Notifications dropdown */
+.nf{position:fixed;top:calc(64px + env(safe-area-inset-top));right:12px;left:12px;max-width:380px;margin-left:auto;z-index:90;background:var(--s1);border:1px solid var(--ln2);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,0.7);padding:12px;max-height:68vh;overflow-y:auto;transform:translateY(-8px);opacity:0;pointer-events:none;transition:.22s}
+.nf.open{transform:none;opacity:1;pointer-events:auto}
+.nf-h{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 10px}
+.nf-h b{font-family:'Space Grotesk';font-size:14px}
+.nf-h button{background:none;border:none;color:var(--mint);font-size:11px;font-weight:700;cursor:pointer}
+.ni{padding:11px 12px;border-radius:12px;margin-bottom:6px;background:var(--s2);border:1px solid var(--ln)}
+.ni.un{border-color:rgba(62,232,168,0.3);background:rgba(62,232,168,0.06)}
+.ni b{display:block;font-size:12px;margin-bottom:3px}
+.ni p{margin:0;font-size:11.5px;color:var(--tx2);line-height:1.5}
+.ni small{display:block;margin-top:5px;font-size:10px;color:var(--tx3);font-weight:600}
+
+/* Toast: compact, top-right */
+#ov-toast-container{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none;max-width:min(300px,calc(100vw - 24px))}
+.ov-toast{position:relative;display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:11px;background:rgba(19,25,34,0.95);border:1px solid var(--ln2);box-shadow:0 10px 28px rgba(0,0,0,0.5);backdrop-filter:blur(12px);pointer-events:auto;cursor:pointer;overflow:hidden;transform:translateX(26px);opacity:0;transition:transform .3s cubic-bezier(.2,.9,.3,1.1),opacity .25s}
+.ov-toast.show{transform:none;opacity:1}
+.ov-toast > i{font-size:16px;color:var(--c);flex-shrink:0}
+.ov-toast span.m{font-size:11.5px;font-weight:600;line-height:1.4}
+.ov-toast .bar{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--c);opacity:.75;transform-origin:left;animation:bar 4.2s linear forwards}
+@keyframes bar{to{transform:scaleX(0)}}
+
+/* Loader */
+.ov-loader{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:var(--bg);transition:opacity .4s}
+.ov-loader.hide{opacity:0;pointer-events:none}
+.ov-loader .rg{width:42px;height:42px;border:3px solid rgba(62,232,168,0.15);border-top-color:var(--mint);border-radius:50%;animation:spin .8s linear infinite}
+
+@media(max-width:380px){
+  .total{font-size:34px}
+  .plan{flex-basis:88%}
+  .rows{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="top">
+    <div class="who" id="ovWho">
+      <div class="av" id="ovAvatar">U</div>
+      <div class="who-t"><small id="ovGreet">Good morning</small><b id="ovName">Investor</b></div>
+    </div>
+    <button class="ib" id="ovBellBtn" aria-label="Notifications"><i class="ph ph-bell"></i><span class="cnt hidden" id="ovBellCount">0</span></button>
+    <button class="ib" id="ovInfoBtn" aria-label="Info"><i class="ph ph-info"></i></button>
+  </header>
+
+  <!-- BALANCE -->
+  <section class="bal">
+    <div class="bal-top">
+      <div class="bal-row">
+        <span class="lbl">Total balance</span>
+        <button class="eye" id="ovEye" aria-label="Hide balance"><i class="ph ph-eye"></i></button>
+      </div>
+      <div class="total num"><span class="cur">₦</span><span id="ovTotal">0</span></div>
+      <div class="split"><i class="d" id="ovBarD" style="width:0"></i><i class="w" id="ovBarW" style="width:0"></i></div>
+    </div>
+    <div class="wal">
+      <span class="dot d"></span>
+      <div class="wal-t"><small>Deposit wallet</small><b class="num" id="ovDep">₦0</b></div>
+      <a class="pill solid" href="deposit.html"><i class="ph ph-plus"></i> Fund</a>
+    </div>
+    <div class="wal">
+      <span class="dot w"></span>
+      <div class="wal-t"><small>Withdrawal wallet</small><b class="num" id="ovWd">₦0</b></div>
+      <a class="pill" href="withdraw.html"><i class="ph ph-arrow-up-right"></i> Withdraw</a>
+    </div>
+  </section>
+
+  <!-- BENTO -->
+  <section class="bento">
+    <div class="tile wide earn">
+      <div class="ic"><i class="ph ph-trend-up"></i></div>
+      <span class="day num" id="ovDaily">₦0 / day</span>
+      <div><div class="v num" id="ovEarn">₦0</div><div class="k">Total earnings</div></div>
+    </div>
+    <div class="tile plans">
+      <div class="ic"><i class="ph ph-briefcase"></i></div>
+      <div><div class="v num" id="ovPlans">0</div><div class="k">Active plans</div></div>
+    </div>
+    <div class="tile ref" onclick="location.href='referral.html'">
+      <div class="ic"><i class="ph ph-users-three"></i></div>
+      <div><div class="v num" id="ovRef">0</div><div class="k">Referrals</div></div>
+    </div>
+    <div class="tile wide spin" onclick="openSpinModal()">
+      <div class="wh"><i class="ph ph-gift"></i></div>
+      <div class="tt"><b>Lucky Spin</b><small id="ovSpinTile">Loading…</small></div>
+      <i class="ph ph-caret-right"></i>
+    </div>
+    <div class="tile wide life">
+      <div><div class="k">Total deposited</div><div class="v num" id="ovTotDep">₦0</div></div>
+      <div><div class="k">Total withdrawn</div><div class="v num" id="ovTotWd">₦0</div></div>
+    </div>
+  </section>
+
+  <!-- INVESTMENTS -->
+  <section class="sec">
+    <div class="sec-h"><h2>Active plans</h2><a href="invest.html">Browse <i class="ph ph-arrow-right"></i></a></div>
+    <div id="ovInvestList"><div class="empty"><i class="ph ph-folder-open"></i>No active plans yet</div></div>
+  </section>
+
+  <!-- ACTIVITY -->
+  <section class="sec">
+    <div class="sec-h"><h2>Activity</h2><a href="transactions.html">History <i class="ph ph-arrow-right"></i></a></div>
+    <div id="ovTxList"><div class="empty"><i class="ph ph-receipt"></i>No activity yet</div></div>
+  </section>
+
+  <!-- ANNOUNCEMENTS -->
+  <section class="sec" id="ovAnnoSection" style="display:none">
+    <div class="sec-h"><h2>Announcements</h2></div>
+    <div id="ovAnnoList"></div>
+  </section>
+
+</div>
+
+<!-- DOCK -->
+<div class="dock-w">
+  <nav class="dock">
+    <a class="dk on" href="dashboard.html"><i class="ph ph-squares-four"></i><span>Home</span></a>
+    <a class="dk" href="invest.html"><i class="ph ph-chart-line-up"></i><span>Invest</span></a>
+    <div class="dk-spin"><button onclick="openSpinModal()" aria-label="Lucky spin"><i class="ph ph-gift"></i></button></div>
+    <a class="dk" href="referral.html"><i class="ph ph-users-three"></i><span>Referral</span></a>
+    <a class="dk" href="profile.html"><i class="ph ph-user"></i><span>Profile</span></a>
+  </nav>
+</div>
+
+<!-- INFO SHEET -->
+<div class="ov-modal" id="ovInfoModal">
+  <div class="sheet">
+    <div class="sheet-h">
+      <div class="ic m"><i class="ph ph-info"></i></div>
+      <div><h3>Withdrawal info</h3><p>Read before you withdraw</p></div>
+      <button class="x" onclick="closeModal('ovInfoModal')"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="rows">
+      <div class="row"><i class="ph ph-clock"></i><small>Time</small><b>8:30 AM – 5:30 PM</b></div>
+      <div class="row"><i class="ph ph-calendar-check"></i><small>Days</small><b>Mon – Sat</b></div>
+      <div class="row"><i class="ph ph-percent"></i><small>Charges</small><b>13%</b></div>
+      <div class="row"><i class="ph ph-currency-ngn"></i><small>Minimum</small><b>₦1,000</b></div>
+    </div>
+    <div class="comm">
+      <a class="cb wa" id="ovWhatsappLink" href="#" target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i> WhatsApp</a>
+      <a class="cb tg" id="ovTelegramLink" href="#" target="_blank" rel="noopener"><i class="ph ph-telegram-logo"></i> Telegram</a>
+    </div>
+    <button class="cta" onclick="closeModal('ovInfoModal')">Got it</button>
+  </div>
+</div>
+
+<!-- SPIN SHEET -->
+<div class="ov-modal" id="ovSpinModal">
+  <div class="sheet">
+    <div class="sheet-h">
+      <div class="ic g"><i class="ph ph-gift"></i></div>
+      <div><h3>Lucky Spin</h3><p>Spin to win rewards</p></div>
+      <button class="x" onclick="closeSpinModal()"><i class="ph ph-x"></i></button>
+    </div>
+    <div class="sp-chips">
+      <span class="chip">Free <b id="ovFreeSpins">1</b></span>
+      <span class="chip g">Retries <b id="ovRetries">2</b></span>
+    </div>
+    <div class="wheel">
+      <div class="ptr"></div>
+      <canvas class="cv" id="ovSpinCanvas" width="600" height="600"></canvas>
+      <div class="hub">SPIN</div>
+    </div>
+    <button class="sbtn" id="ovSpinBtn" onclick="doSpin()">Spin Now</button>
+    <div class="snote" id="ovSpinNote"></div>
+    <div class="sres" id="ovSpinResult">
+      <h4 id="ovSpinResultTitle"></h4>
+      <p id="ovSpinResultMsg"></p>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div class="nf" id="ovNotifPanel">
+  <div class="nf-h"><b>Notifications</b><button onclick="markAllRead()">Mark all read</button></div>
+  <div id="ovNotifList"><div class="empty"><i class="ph ph-bell-slash"></i>Nothing yet</div></div>
+</div>
+
+<div id="ov-toast-container"></div>
+<div class="ov-loader" id="ovLoader"><div class="rg"></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, collection, getDocs,
+  serverTimestamp, increment, runTransaction
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCqXdfRRQZbbrB4DIpTAj45FkxJsXm3JrM",
+  authDomain: "vexa-c0868.firebaseapp.com",
+  projectId: "vexa-c0868",
+  storageBucket: "vexa-c0868.firebasestorage.app",
+  messagingSenderId: "209201666488",
+  appId: "1:209201666488:web:ae6d16fec94097e719174d"
+};
+
+// ================== OVEXA CONFIG (EDIT HERE) ==================
+window.OVEXA_CONFIG = {
+  whatsappGroup: "https://chat.whatsapp.com/YOUR_INVITE_LINK",
+  telegramGroup: "https://t.me/YOUR_GROUP_LINK",
+  spinRetryCost: 50,
+  maxRetriesPerDay: 2
+};
+// =============================================================
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+
+const S = window._state = { user:null, username:null, userDoc:null, wheelConfig:null, spinning:false, scrollY:0, activeCount:0, daily:0, rot:0, hide:false };
+
+// First TWO spins of the day always win. From the 3rd spin, "Try Again" can appear.
+const DEFAULT_WHEEL = {
+  enabled: true,
+  slots: [
+    { id:1, label:"₦10",       amount:10,  weight:30, color:"#3EE8A8" },
+    { id:2, label:"₦20",       amount:20,  weight:25, color:"#F4C97A" },
+    { id:3, label:"₦30",       amount:30,  weight:15, color:"#5B8DEF" },
+    { id:4, label:"₦50",       amount:50,  weight:10, color:"#FF8FB1" },
+    { id:5, label:"₦80",       amount:80,  weight:8,  color:"#B98BFF" },
+    { id:6, label:"₦100",      amount:100, weight:5,  color:"#FFB562" },
+    { id:7, label:"Try Again", amount:0,   weight:5,  color:"#7C87A3" },
+    { id:8, label:"₦200",      amount:200, weight:2,  color:"#FFD700" }
+  ]
+};
+
+// ================== HELPERS ==================
+const DAY = 86400000, WAT = 3600000;
+const dayNum  = t => Math.floor((t + WAT) / DAY);
+const dateKey = () => new Date(Date.now() + WAT).toISOString().slice(0,10);
+const toMs = v => !v ? 0 : v.toDate ? v.toDate().getTime() : new Date(v).getTime();
+const r2 = n => Math.round((Number(n)||0) * 100) / 100;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => '₦' + (Number(n)||0).toLocaleString('en-NG',{minimumFractionDigits:0,maximumFractionDigits:2});
+const money = n => S.hide ? '₦••••' : fmt(n);
+const validSlots = cfg => (cfg && Array.isArray(cfg.slots) && cfg.slots.length >= 2) ? cfg.slots : DEFAULT_WHEEL.slots;
+function timeAgo(v){
+  const ms = toMs(v); if(!ms) return 'just now';
+  const s = Math.floor((Date.now() - ms) / 1000);
+  if(s < 60) return 'just now';
+  if(s < 3600) return Math.floor(s/60) + 'm ago';
+  if(s < 86400) return Math.floor(s/3600) + 'h ago';
+  if(s < 604800) return Math.floor(s/86400) + 'd ago';
+  return new Date(ms).toLocaleDateString();
+}
+
+// ================== TOAST ==================
+function ovNotify(type, message){
+  const c = $('ov-toast-container');
+  const th = ({ success:['ph-check-circle','#3EE8A8'], error:['ph-x-circle','#FF6B7A'], warning:['ph-warning-circle','#F4C97A'], info:['ph-info','#5B8DEF'] })[type] || ['ph-info','#5B8DEF'];
+  while(c.children.length >= 3) c.firstChild.remove();
+  const t = document.createElement('div');
+  t.className = 'ov-toast'; t.style.setProperty('--c', th[1]);
+  t.innerHTML = `<i class="ph ${th[0]}"></i><span class="m"></span><span class="bar"></span>`;
+  t.querySelector('.m').textContent = message;
+  const kill = () => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); };
+  t.addEventListener('click', kill);
+  c.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(kill, 4200);
+}
+
+// ================== AUTH GUARD ==================
+onAuthStateChanged(auth, async (user) => {
+  if(!user){ window.location.href = 'login.html'; return; }
+  S.user = user;
+  await bootstrap(user);
+});
+
+async function bootstrap(user){
+  try{
+    let username = sessionStorage.getItem('username');
+    if(!username){
+      const map = await getDoc(doc(db,'usersByUid',user.uid));
+      if(map.exists()) username = map.data().username;
+    }
+    if(!username) username = (sessionStorage.getItem('userEmail') || '').split('@')[0].toUpperCase();
+    S.username = username;
+
+    const us = await getDoc(doc(db,'users',username));
+    if(!us.exists()){ console.warn('User doc missing'); return; }
+    S.userDoc = us.data();
+    updateGreeting(); renderUser();
+
+    $('ovWhatsappLink').href = window.OVEXA_CONFIG.whatsappGroup;
+    $('ovTelegramLink').href = window.OVEXA_CONFIG.telegramGroup;
+
+    try{
+      const wc = await getDoc(doc(db,'spinWheelConfig','wheel'));
+      S.wheelConfig = wc.exists() ? wc.data() : DEFAULT_WHEEL;
+    }catch(e){ S.wheelConfig = DEFAULT_WHEEL; }
+
+    await runRoiEngine();
+    const u2 = await getDoc(doc(db,'users',username));
+    if(u2.exists()) S.userDoc = u2.data();
+
+    await Promise.all([loadInvestments(), loadTransactions(), loadAnnouncements(), loadNotifications(), loadSpinState()]);
+    renderUser(); updateSpinUI(); drawWheel();
+
+    if(!sessionStorage.getItem('ovexa_info_shown')){
+      setTimeout(() => openModal('ovInfoModal'), 900);
+      sessionStorage.setItem('ovexa_info_shown','1');
+    }
+  }catch(err){
+    console.error('Bootstrap error:', err);
+  }finally{
+    $('ovLoader').classList.add('hide');
+  }
+}
+
+function updateGreeting(){
+  const h = new Date().getHours();
+  $('ovGreet').textContent = 'Good ' + (h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening');
+}
+
+// ================== RENDER ==================
+function renderUser(){
+  const u = S.userDoc; if(!u) return;
+  const dep = Number(u.depositWallet)||0, wd = Number(u.withdrawalWallet)||0, total = dep + wd;
+  $('ovName').textContent = u.username || 'Investor';
+  $('ovAvatar').textContent = (u.username || 'U').charAt(0).toUpperCase();
+  $('ovTotal').textContent = S.hide ? '••••••' : total.toLocaleString('en-NG',{minimumFractionDigits:0,maximumFractionDigits:2});
+  $('ovBarD').style.width = total > 0 ? (dep/total*100) + '%' : '0';
+  $('ovBarW').style.width = total > 0 ? (wd/total*100) + '%' : '0';
+  $('ovDep').textContent = money(dep);
+  $('ovWd').textContent = money(wd);
+  $('ovEarn').textContent = money(u.totalEarnings || 0);
+  $('ovDaily').textContent = (S.hide ? '₦••••' : fmt(S.daily)) + ' / day';
+  $('ovPlans').textContent = S.activeCount || 0;
+  $('ovRef').textContent = u.referralCount || 0;
+  $('ovTotDep').textContent = money(u.totalDeposited || 0);
+  $('ovTotWd').textContent = money(u.totalWithdrawn || 0);
+}
+$('ovEye').addEventListener('click', function(){
+  S.hide = !S.hide;
+  this.innerHTML = `<i class="ph ph-eye${S.hide ? '-slash' : ''}"></i>`;
+  renderUser();
+});
+
+// ================== ROI ENGINE (atomic, Mon–Sat, WAT) ==================
+async function runRoiEngine(){
+  const username = S.username; if(!username) return;
+  const invRef = doc(db,'investments',username), userRef = doc(db,'users',username), txRef = doc(db,'transactionHistory',username);
+  let credited = 0;
+  try{
+    await runTransaction(db, async (t) => {
+      credited = 0;
+      const invSnap = await t.get(invRef);
+      if(!invSnap.exists()) return;
+      const data = invSnap.data();
+      const active = Array.isArray(data.activeInvestments) ? data.activeInvestments : [];
+      if(!active.length) return;
+      const txSnap = await t.get(txRef);
+      const today = dayNum(Date.now());
+      const keep = [], done = [], log = [];
+      let total = 0;
+
+      for(const src of active){
+        const inv = { ...src };
+        const startMs = toMs(inv.startDate);
+        const lastMs = toMs(inv.lastCreditedAt) || startMs;
+        const duration = Number(inv.durationDays)||0, rate = Number(inv.dailyRoi)||0, amount = Number(inv.amount)||0;
+        let days = Number(inv.daysCredited)||0;
+        if(!startMs || amount <= 0 || rate <= 0 || duration <= 0 || inv.status === 'completed'){ keep.push(inv); continue; }
+
+        const elig = [];
+        for(let d = dayNum(lastMs) + 1; d <= today; d++) if((d + 4) % 7 !== 0) elig.push(d);   // skip Sunday
+        const n = Math.min(elig.length, duration - days);
+        if(n > 0){
+          const earn = r2(amount * rate / 100 * n);
+          total += earn; days += n;
+          inv.daysCredited = days;
+          inv.lastCreditedAt = new Date(elig[n-1] * DAY - WAT).toISOString();
+          log.push({ type:'ROI', amount:earn, status:'Success', timestamp:new Date().toISOString(), note:`${inv.planName || 'Investment'} • ${n} day(s)`, username });
+        }
+        if(days >= duration){
+          inv.status = 'completed'; done.push(inv);
+          log.push({ type:'Investment Completed', amount:0, status:'Success', timestamp:new Date().toISOString(), note:inv.planName || 'Investment', username });
+        } else keep.push(inv);
+      }
+      if(!log.length) return;
+
+      const old = txSnap.exists() && Array.isArray(txSnap.data().transactions) ? txSnap.data().transactions : [];
+      const upd = { activeInvestments: keep };
+      if(done.length) upd.completedInvestments = [...(Array.isArray(data.completedInvestments) ? data.completedInvestments : []), ...done];
+      if(total > 0) upd.totalReturns = increment(total);
+      t.update(invRef, upd);
+      if(total > 0) t.update(userRef, { withdrawalWallet: increment(total), totalEarnings: increment(total) });
+      t.set(txRef, { username, transactions:[...log, ...old].slice(0,200), ...(txSnap.exists() ? {} : { createdAt: serverTimestamp() }) }, { merge:true });
+      credited = total;
+    });
+    if(credited > 0) ovNotify('success', `ROI credited: ${fmt(credited)}`);
+  }catch(err){ console.error('ROI engine error:', err); }
+}
+
+// ================== INVESTMENTS ==================
+async function loadInvestments(){
+  const wrap = $('ovInvestList');
+  const empty = '<div class="empty"><i class="ph ph-folder-open"></i>No active plans yet<br><a class="pill solid" href="invest.html">Start investing</a></div>';
+  try{
+    const snap = await getDoc(doc(db,'investments',S.username));
+    const all = snap.exists() && Array.isArray(snap.data().activeInvestments) ? snap.data().activeInvestments : [];
+    const active = all.filter(i => i.status !== 'completed');
+    S.activeCount = active.length;
+    S.daily = active.reduce((s,i) => s + (Number(i.amount)||0) * (Number(i.dailyRoi)||0) / 100, 0);
+    if(!active.length){ wrap.innerHTML = empty; return; }
+    const C = 2 * Math.PI * 25;
+    wrap.innerHTML = '<div class="car">' + active.map(inv => {
+      const done = Number(inv.daysCredited) || 0, total = Number(inv.durationDays) || 1;
+      const pct = Math.min(100, done / total * 100);
+      const perDay = (Number(inv.amount)||0) * (Number(inv.dailyRoi)||0) / 100;
+      return `
+        <div class="plan">
+          <div class="ring">
+            <svg viewBox="0 0 62 62"><circle class="bg" cx="31" cy="31" r="25"/><circle class="fg" cx="31" cy="31" r="25" stroke-dasharray="${C}" stroke-dashoffset="${C - C * pct / 100}"/></svg>
+            <b>${pct.toFixed(0)}%</b>
+          </div>
+          <div class="plan-b">
+            <h3>${esc(inv.planName || 'Investment')}</h3>
+            <p>${esc(inv.dailyRoi || 0)}% daily · day ${done}/${total}</p>
+            <div class="kv"><span>Invested</span><b>${fmt(inv.amount)}</b></div>
+            <div class="kv"><span>Daily</span><b class="m">${fmt(perDay)}</b></div>
+          </div>
+        </div>`;
+    }).join('') + '</div>';
+  }catch(err){
+    console.error('loadInvestments error:', err);
+    wrap.innerHTML = '<div class="empty"><i class="ph ph-warning"></i>Failed to load</div>';
+  }
+}
+
+// ================== ACTIVITY TIMELINE ==================
+function txIcon(type){
+  const t = (type||'').toLowerCase();
+  if(t.includes('deposit')) return ['dep','ph-arrow-down-left'];
+  if(t.includes('withdraw')) return ['wd','ph-arrow-up-right'];
+  if(t.includes('roi') || t.includes('earning')) return ['roi','ph-trend-up'];
+  if(t.includes('spin')) return ['spin','ph-gift'];
+  if(t.includes('invest')) return ['inv','ph-chart-line-up'];
+  if(t.includes('referral')) return ['ref','ph-users-three'];
+  return ['dep','ph-receipt'];
+}
+function dayLabel(ms){
+  const d = dayNum(ms), t = dayNum(Date.now());
+  if(d === t) return 'Today';
+  if(d === t - 1) return 'Yesterday';
+  return new Date(ms).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+}
+async function loadTransactions(){
+  const wrap = $('ovTxList');
+  try{
+    const snap = await getDoc(doc(db,'transactionHistory',S.username));
+    const all = snap.exists() && Array.isArray(snap.data().transactions) ? snap.data().transactions : [];
+    if(!all.length){ wrap.innerHTML = '<div class="empty"><i class="ph ph-receipt"></i>No activity yet</div>'; return; }
+    let last = '', html = '<div class="tl">';
+    all.slice(0,8).forEach(tx => {
+      const ms = toMs(tx.timestamp) || Date.now(), label = dayLabel(ms);
+      if(label !== last){ html += `<div class="tl-day">${esc(label)}</div>`; last = label; }
+      const [cls, icon] = txIcon(tx.type);
+      const amt = Number(tx.amount) || 0, t = (tx.type||'').toLowerCase();
+      const neg = t.includes('withdraw') || t.includes('fee') || (t.includes('invest') && !t.includes('completed'));
+      html += `
+        <div class="tx">
+          <div class="tx-i ${cls}"><i class="ph ${icon}"></i></div>
+          <div class="tx-b"><b>${esc(tx.type || 'Transaction')}</b><small>${timeAgo(tx.timestamp)}${tx.note ? ' · ' + esc(tx.note) : ''}</small></div>
+          <div class="tx-a num ${neg ? 'neg' : 'pos'}">${amt === 0 ? '' : (neg ? '-' : '+')}${fmt(amt)}</div>
+        </div>`;
+    });
+    wrap.innerHTML = html + '</div>';
+  }catch(err){
+    console.error('loadTransactions error:', err);
+    wrap.innerHTML = '<div class="empty"><i class="ph ph-warning"></i>Failed to load</div>';
+  }
+}
+
+// ================== ANNOUNCEMENTS ==================
+async function loadAnnouncements(){
+  const sec = $('ovAnnoSection'), list = $('ovAnnoList');
+  try{
+    const snap = await getDocs(collection(db,'announcements'));
+    const items = [];
+    snap.forEach(d => { const x = d.data(); if(x.active !== false) items.push({ id:d.id, ...x }); });
+    items.sort((a,b) => toMs(b.timestamp) - toMs(a.timestamp));
+    if(!items.length){ sec.style.display = 'none'; return; }
+    sec.style.display = '';
+    list.innerHTML = items.map(a => `
+      <div class="an"><i class="ph ph-megaphone"></i><div><b>${esc(a.title || 'Announcement')}</b><p>${esc(a.body || '')}</p><small>${timeAgo(a.timestamp)}</small></div></div>`).join('');
+  }catch(err){ console.warn('announcements:', err); sec.style.display = 'none'; }
+}
+
+// ================== NOTIFICATIONS ==================
+let _notifs = [];
+function renderNotifs(){
+  const unread = _notifs.filter(n => !n.read).length, b = $('ovBellCount');
+  if(unread > 0){ b.textContent = unread > 9 ? '9+' : unread; b.classList.remove('hidden'); } else b.classList.add('hidden');
+  $('ovNotifList').innerHTML = _notifs.length ? _notifs.slice(0,20).map(n => `
+    <div class="ni ${n.read ? '' : 'un'}"><b>${esc(n.title || 'Notification')}</b><p>${esc(n.body || '')}</p><small>${timeAgo(n.timestamp)}</small></div>`).join('')
+    : '<div class="empty"><i class="ph ph-bell-slash"></i>Nothing yet</div>';
+}
+async function loadNotifications(){
+  try{
+    const snap = await getDoc(doc(db,'notifications',S.username));
+    _notifs = snap.exists() && Array.isArray(snap.data().items) ? snap.data().items : [];
+    _notifs.sort((a,b) => toMs(b.timestamp) - toMs(a.timestamp));
+  }catch(err){ console.warn('notifications:', err); _notifs = []; }
+  renderNotifs();
+}
+async function markAllRead(){
+  if(!_notifs.length) return;
+  _notifs = _notifs.map(n => ({...n, read:true}));
+  renderNotifs();
+  try{ await setDoc(doc(db,'notifications',S.username), { items:_notifs }, { merge:true }); }catch(e){ console.warn(e); }
+}
+
+// ================== SPIN ==================
+let _spin = null;
+
+async function loadSpinState(){
+  const today = dateKey();
+  try{
+    const snap = await getDoc(doc(db,'spinWheel',S.username));
+    const d = snap.exists() ? snap.data() : {}, same = d.dateKey === today;
+    _spin = { dateKey:today, spinsToday: same ? Number(d.spinsToday)||0 : 0, retriesUsed: same ? Number(d.retriesUsed)||0 : 0 };
+  }catch(e){
+    console.warn('spin state:', e);
+    _spin = { dateKey:today, spinsToday:0, retriesUsed:0 };
+  }
+}
+
+function updateSpinUI(){
+  if(!_spin) return;
+  if(_spin.dateKey !== dateKey()) _spin = { dateKey:dateKey(), spinsToday:0, retriesUsed:0 };
+  const C = window.OVEXA_CONFIG;
+  const freeLeft = _spin.spinsToday === 0 ? 1 : 0;
+  const retriesLeft = Math.max(0, C.maxRetriesPerDay - _spin.retriesUsed);
+  $('ovFreeSpins').textContent = freeLeft;
+  $('ovRetries').textContent = retriesLeft;
+  if(S.spinning) return;
+
+  const btn = $('ovSpinBtn'), note = $('ovSpinNote'), tile = $('ovSpinTile');
+  const cfg = S.wheelConfig || DEFAULT_WHEEL;
+
+  if(cfg.enabled === false){ btn.disabled = true; btn.textContent = 'Wheel unavailable'; note.textContent = 'The spin wheel is currently disabled.'; tile.textContent = 'Unavailable'; return; }
+  if(S.activeCount < 1){ btn.disabled = true; btn.textContent = 'No active plan'; note.innerHTML = 'You need an <b>active plan</b> to spin.'; tile.textContent = 'Invest to unlock'; return; }
+  if(freeLeft > 0){
+    btn.disabled = false; btn.textContent = 'Spin now (free)';
+    note.innerHTML = `Free daily spin. Extra spins cost <b>${fmt(C.spinRetryCost)}</b> (max ${C.maxRetriesPerDay}/day).`;
+    tile.textContent = '1 free spin ready';
+  } else if(retriesLeft > 0){
+    btn.disabled = false; btn.textContent = `Retry (${fmt(C.spinRetryCost)})`;
+    note.innerHTML = `Retries left: <b>${retriesLeft}</b>. Each costs <b>${fmt(C.spinRetryCost)}</b> from your withdrawal wallet.`;
+    tile.textContent = `Retry for ${fmt(C.spinRetryCost)}`;
+  } else {
+    btn.disabled = true; btn.textContent = 'Come back tomorrow';
+    note.textContent = 'All spins used today.';
+    tile.textContent = 'Back tomorrow';
+  }
+}
+
+function drawWheel(){
+  const canvas = $('ovSpinCanvas'); if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height, cx = W/2, cy = H/2, r = W/2 - 10;
+  ctx.clearRect(0,0,W,H);
+  const slots = validSlots(S.wheelConfig || DEFAULT_WHEEL);
+  const n = slots.length, arc = Math.PI * 2 / n, top = -Math.PI / 2;
+  for(let i=0;i<n;i++){
+    const a0 = top + i * arc;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,a0,a0+arc); ctx.closePath();
+    ctx.fillStyle = slots[i].color || '#3EE8A8'; ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,0.4)'; ctx.lineWidth = 3; ctx.stroke();
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(a0 + arc/2);
+    ctx.textAlign = 'right'; ctx.fillStyle = '#04261A';
+    ctx.font = `bold ${n > 10 ? 20 : 26}px Inter, sans-serif`;
+    ctx.fillText(String(slots[i].label ?? ''), r - 22, 9);
+    ctx.restore();
+  }
+  ctx.beginPath(); ctx.arc(cx,cy,r*0.55,0,Math.PI*2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.lineWidth = 2; ctx.stroke();
+}
+
+function rand(){ const a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] / 4294967296; }
+function pickWeightedSlot(slots, skipTryAgain){
+  const pool = skipTryAgain ? slots.filter(s => Number(s.amount) > 0) : slots;
+  const use = pool.length ? pool : slots;
+  const total = use.reduce((s,x) => s + Math.max(0, Number(x.weight)||0), 0);
+  if(total <= 0) return slots.indexOf(use[Math.floor(rand() * use.length)]);
+  let r = rand() * total;
+  for(const s of use){ const w = Math.max(0, Number(s.weight)||0); if(r < w) return slots.indexOf(s); r -= w; }
+  return slots.indexOf(use[use.length - 1]);
+}
+
+function openSpinModal(){
+  S.scrollY = window.scrollY;
+  document.body.style.overflow = 'hidden';
+  openModal('ovSpinModal'); drawWheel(); updateSpinUI();
+}
+function closeSpinModal(){
+  closeModal('ovSpinModal');
+  document.body.style.overflow = '';
+  window.scrollTo(0, S.scrollY || 0);
+  if(!S.spinning) $('ovSpinResult').classList.remove('show','win','lose');
+}
+
+async function doSpin(){
+  if(S.spinning) return;
+  if(!S.userDoc || !_spin) return ovNotify('warning','Still loading, try again.');
+  const cfg = S.wheelConfig || DEFAULT_WHEEL;
+  if(cfg.enabled === false) return ovNotify('warning','The spin wheel is disabled.');
+
+  const C = window.OVEXA_CONFIG, cost = C.spinRetryCost, maxR = C.maxRetriesPerDay;
+  const slots = validSlots(cfg), username = S.username, btn = $('ovSpinBtn');
+
+  S.spinning = true;
+  btn.disabled = true; btn.innerHTML = '<span class="spn"></span>Spinning…';
+  $('ovSpinResult').classList.remove('show','win','lose');
+
+  try{
+    // 1) Commit the result first (atomic, re-validated against live data)
+    const out = await runTransaction(db, async (t) => {
+      const userRef = doc(db,'users',username), spinRef = doc(db,'spinWheel',username);
+      const invRef = doc(db,'investments',username), txRef = doc(db,'transactionHistory',username);
+      const uS = await t.get(userRef), sS = await t.get(spinRef), iS = await t.get(invRef), xS = await t.get(txRef);
+      if(!uS.exists()) throw new Error('Account not found.');
+      const hasInv = iS.exists() && (iS.data().activeInvestments || []).some(i => i.status !== 'completed');
+      if(!hasInv) throw new Error('You need an active plan to spin.');
+
+      const key = dateKey(), sp = sS.exists() ? sS.data() : {}, same = sp.dateKey === key;
+      const spins = same ? Number(sp.spinsToday)||0 : 0, retries = same ? Number(sp.retriesUsed)||0 : 0;
+      const isRetry = spins > 0;
+      if(isRetry && retries >= maxR) throw new Error('All spins used today.');
+      const u = uS.data(), wd = Number(u.withdrawalWallet)||0;
+      if(isRetry && wd < cost) throw new Error(`You need ${fmt(cost)} in your withdrawal wallet to retry.`);
+
+      // Spins 1 & 2 of the day are guaranteed wins
+      const chosenIdx = pickWeightedSlot(slots, spins + 1 <= 2);
+      const chosen = slots[chosenIdx];
+      const reward = Math.max(0, Number(chosen.amount)||0);
+
+      const now = new Date().toISOString();
+      const upd = { withdrawalWallet: r2(wd + reward - (isRetry ? cost : 0)) };
+      if(reward > 0) upd.totalEarnings = r2((Number(u.totalEarnings)||0) + reward);
+      t.update(userRef, upd);
+
+      const hist = [{ amount:reward, label:chosen.label, at:now, isRetry }, ...(Array.isArray(sp.history) ? sp.history : [])].slice(0,50);
+      t.set(spinRef, { dateKey:key, spinsToday:spins+1, retriesUsed:retries+(isRetry?1:0), totalWon:r2((Number(sp.totalWon)||0)+reward), history:hist, username, updatedAt:serverTimestamp() }, { merge:true });
+
+      const log = [{ type: reward > 0 ? 'Spin Bonus' : 'Spin Attempt', amount:reward, status:'Success', timestamp:now, note:`${chosen.label}${isRetry ? ' (retry)' : ' (free)'}`, username }];
+      if(isRetry) log.push({ type:'Spin Fee', amount:cost, status:'Success', timestamp:now, note:'Retry spin', username });
+      const old = xS.exists() && Array.isArray(xS.data().transactions) ? xS.data().transactions : [];
+      t.set(txRef, { username, transactions:[...log, ...old].slice(0,200), ...(xS.exists() ? {} : { createdAt: serverTimestamp() }) }, { merge:true });
+
+      return { isRetry, spins:spins+1, retries:retries+(isRetry?1:0), key, chosenIdx, reward };
+    });
+    _spin = { dateKey:out.key, spinsToday:out.spins, retriesUsed:out.retries };
+
+    // 2) Animate to the slice that was actually credited
+    const sd = 360 / slots.length, c = (out.chosenIdx + 0.5) * sd, jitter = (rand() - 0.5) * sd * 0.6;
+    const want = (((-(c + jitter)) % 360) + 360) % 360;
+    S.rot += 360 * 6 + ((want - (S.rot % 360) + 360) % 360);
+    $('ovSpinCanvas').style.transform = `rotate(${S.rot}deg)`;
+    await new Promise(r => setTimeout(r, 5200));
+
+    // 3) Reveal + refresh balances
+    const fresh = await getDoc(doc(db,'users',username));
+    if(fresh.exists()){ S.userDoc = fresh.data(); renderUser(); }
+    loadTransactions();
+
+    const res = $('ovSpinResult');
+    res.classList.remove('win','lose');
+    if(out.reward > 0){
+      $('ovSpinResultTitle').textContent = `You won ${fmt(out.reward)}!`;
+      $('ovSpinResultMsg').textContent = out.isRetry ? `Credited (${fmt(cost)} retry fee deducted).` : 'Credited to your withdrawal wallet.';
+      res.classList.add('win','show');
+      ovNotify('success', `Spin: won ${fmt(out.reward)}`);
+    } else {
+      $('ovSpinResultTitle').textContent = 'Try again!';
+      $('ovSpinResultMsg').textContent = out.isRetry ? `No reward. (${fmt(cost)} fee used)` : 'No reward this time.';
+      res.classList.add('lose','show');
+      ovNotify('warning','No reward this time.');
+    }
+  }catch(err){
+    console.error('Spin error:', err);
+    ovNotify('error', err && err.message && !/permission|insufficient/i.test(err.message) ? err.message : 'Spin failed. Try again.');
+  }finally{
+    S.spinning = false;
+    btn.disabled = false;
+    updateSpinUI();
+  }
+}
+
+// ================== MODALS / UI ==================
+function openModal(id){ const m = $(id); if(m) m.classList.add('open'); }
+function closeModal(id){ const m = $(id); if(m) m.classList.remove('open'); }
+
+$('ovBellBtn').addEventListener('click', e => { e.stopPropagation(); $('ovNotifPanel').classList.toggle('open'); });
+$('ovInfoBtn').addEventListener('click', () => openModal('ovInfoModal'));
+$('ovWho').addEventListener('click', () => location.href = 'profile.html');
+document.addEventListener('click', e => {
+  const p = $('ovNotifPanel');
+  if(!p.contains(e.target) && !$('ovBellBtn').contains(e.target)) p.classList.remove('open');
+});
+document.querySelectorAll('.ov-modal').forEach(m => m.addEventListener('click', e => {
+  if(e.target !== m) return;
+  m.id === 'ovSpinModal' ? closeSpinModal() : closeModal(m.id);
+}));
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Escape') return;
+  if($('ovSpinModal').classList.contains('open')) closeSpinModal();
+  closeModal('ovInfoModal');
+});
+
+window.ovNotify = ovNotify;
+window.openSpinModal = openSpinModal;
+window.closeSpinModal = closeSpinModal;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.doSpin = doSpin;
+window.markAllRead = markAllRead;
+</script>
+</body>
+</html>
