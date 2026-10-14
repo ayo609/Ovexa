@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ovexa — Invest</title>
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<meta name="theme-color" content="#07090D">
+
+<style>
+:root{
+  --bg:#07090D;
+  --s1:#0D1117;
+  --s2:#131922;
+  --s3:#1A2230;
+  --ln:rgba(255,255,255,0.07);
+  --ln2:rgba(255,255,255,0.13);
+  --tx:#ECF1F8;
+  --tx2:#8791A5;
+  --tx3:#555F73;
+  --mint:#3EE8A8;
+  --gold:#F4C97A;
+  --rose:#FF6B7A;
+  --sky:#5B8DEF;
+}
+html,body{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:var(--bg);color:var(--tx)}
+*,*::before,*::after{box-sizing:inherit}
+body{min-height:100vh;position:relative;overflow-x:hidden;padding-bottom:104px;background-image:radial-gradient(rgba(255,255,255,0.045) 1px,transparent 1px);background-size:22px 22px}
+.num{font-family:'Space Grotesk';font-variant-numeric:tabular-nums;letter-spacing:-0.03em}
+button{font-family:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.wrap{max-width:540px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+
+/* ============ HEADER ============ */
+.top{position:sticky;top:0;z-index:60;margin:0 -16px;padding:calc(12px + env(safe-area-inset-top)) 16px 10px;background:rgba(7,9,13,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:12px}
+.back{width:38px;height:38px;border-radius:12px;background:var(--s1);border:1px solid var(--ln);display:grid;place-items:center;color:var(--tx2);font-size:1.1rem;text-decoration:none;flex-shrink:0}
+.back:hover{color:var(--tx);border-color:var(--ln2)}
+.ttl{flex:1;min-width:0}
+.ttl b{display:block;font-family:'Space Grotesk';font-size:17px;font-weight:700;letter-spacing:-0.02em}
+.ttl small{display:block;font-size:11px;color:var(--tx2);margin-top:1px}
+.wallet{display:flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;background:rgba(62,232,168,0.08);border:1px solid rgba(62,232,168,0.22);font-size:12px;font-weight:700;color:var(--mint);white-space:nowrap}
+.wallet i{font-size:1rem}
+
+/* ============ COUNTDOWN ============ */
+.cd{margin-top:14px;border:1px solid var(--ln2);border-radius:18px;background:linear-gradient(135deg,rgba(62,232,168,0.09),var(--s1) 60%);padding:13px 14px;animation:rise .5s ease both}
+.cd-r{display:flex;align-items:center;gap:12px}
+.cd-ic{width:40px;height:40px;border-radius:12px;background:rgba(62,232,168,0.12);color:var(--mint);display:grid;place-items:center;font-size:1.25rem;flex-shrink:0}
+.cd-l{flex:1;min-width:0}
+.lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+.cd-l b{display:block;margin-top:3px;font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cd-t{display:flex;align-items:center;gap:4px}
+.cd-t div{min-width:40px;padding:6px 0 5px;border-radius:10px;background:var(--s3);border:1px solid var(--ln);text-align:center}
+.cd-t div b{display:block;font-size:17px;font-weight:700;line-height:1}
+.cd-t div small{display:block;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-top:3px}
+.cd-t > i{font-style:normal;color:var(--tx3);font-weight:700;margin-top:-10px}
+.cd-n{margin:11px 0 0;padding-top:10px;border-top:1px dashed var(--ln2);font-size:10.5px;color:var(--tx2);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cd-n a{color:var(--mint);font-weight:700;text-decoration:none;white-space:nowrap}
+.cd-n .sun{color:var(--gold);font-weight:700}
+
+/* ============ SEGMENTS ============ */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;margin:16px 0 14px;padding:4px;border:1px solid var(--ln);border-radius:14px;background:var(--s1)}
+.seg button{position:relative;z-index:2;height:38px;border:none;background:none;color:var(--tx2);font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:color .25s}
+.seg button.on{color:#04261A}
+.seg .cnt{min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:rgba(255,255,255,0.08);font-size:10px;display:grid;place-items:center}
+.seg button.on .cnt{background:rgba(4,38,26,0.2)}
+.seg-i{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:10px;background:var(--mint);transition:transform .3s cubic-bezier(.2,.9,.3,1.1);z-index:1}
+.seg-i.r{transform:translateX(100%)}
+.pane{display:none}
+.pane.on{display:block;animation:rise .35s ease both}
+
+/* ============ PRODUCT IMAGE (square, left) ============ */
+.pimg{position:relative;width:72px;height:72px;border-radius:14px;overflow:hidden;flex-shrink:0;display:grid;place-items:center;background:linear-gradient(145deg,var(--g1),var(--s1));border:1px solid var(--g2);color:var(--tc);font-size:1.9rem}
+.pimg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pimg.sm{width:56px;height:56px;border-radius:12px;font-size:1.5rem}
+
+/* ============ PLAN TICKET ============ */
+.plan{position:relative;margin-bottom:10px;border:1px solid var(--ln);border-radius:18px;background:var(--s1);overflow:hidden;transition:border-color .2s}
+.plan:hover{border-color:var(--g2)}
+.plan-top{display:flex;gap:13px;padding:13px 13px 12px;align-items:center}
+.plan-info{flex:1;min-width:0}
+.plan-nm{display:flex;align-items:center;gap:8px}
+.plan-nm h3{margin:0;font-family:'Space Grotesk';font-size:14.5px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{font-size:8.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:6px;color:var(--tc);background:var(--g1);border:1px solid var(--g2);white-space:nowrap}
+.plan-price{margin-top:4px;font-size:21px;font-weight:700;color:var(--tc)}
+.chips{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.chips span{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:600;color:var(--tx2);background:var(--s2);border:1px solid var(--ln);padding:3px 8px;border-radius:7px}
+.chips span i{color:var(--tc);font-size:.85rem}
+.plan-ft{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px 12px;border-top:1px dashed var(--ln2)}
+.plan-ft::before,.plan-ft::after{content:'';position:absolute;top:-7px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:1px solid var(--ln)}
+.plan-ft::before{left:-8px}
+.plan-ft::after{right:-8px}
+.plan-ft small{display:block;font-size:10px;color:var(--tx3);font-weight:600}
+.plan-ft b{font-size:14px;font-weight:700}
+.buy{height:38px;padding:0 16px;border:none;border-radius:11px;background:var(--tc);color:#07090D;font-size:12.5px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.buy:hover{filter:brightness(1.1);transform:translateY(-1px)}
+
+/* ============ MY INVESTMENTS ============ */
+.chip-row{display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none}
+.chip-row::-webkit-scrollbar{display:none}
+.fc{flex-shrink:0;height:32px;padding:0 13px;border-radius:999px;border:1px solid var(--ln);background:var(--s1);color:var(--tx2);font-size:11.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.fc.on{background:rgba(62,232,168,0.1);border-color:rgba(62,232,168,0.35);color:var(--mint)}
+.inv{border:1px solid var(--ln);border-radius:18px;background:var(--s1);padding:13px;margin-bottom:10px;animation:rise .35s ease both}
+.inv-t{display:flex;gap:12px;align-items:center}
+.inv-i{flex:1;min-width:0}
+.inv-i h3{margin:0;font-family:'Space Grotesk';font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.inv-i p{margin:3px 0 0;font-size:10.5px;color:var(--tx2);font-weight:500}
+.st{font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:7px;flex-shrink:0}
+.st.a{background:rgba(62,232,168,0.12);color:var(--mint);border:1px solid rgba(62,232,168,0.28)}
+.st.c{background:rgba(91,141,239,0.12);color:var(--sky);border:1px solid rgba(91,141,239,0.28)}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.kv div{background:var(--s2);border:1px solid var(--ln);border-radius:11px;padding:8px 10px}
+.kv small{display:block;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:3px}
+.kv b{font-size:12.5px;font-weight:700}
+.kv b.m{color:var(--mint)}
+.bar{height:6px;border-radius:4px;background:rgba(255,255,255,0.07);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--mint);box-shadow:0 0 10px rgba(62,232,168,0.4);transition:width .8s ease}
+.inv.done .bar i{background:var(--sky);box-shadow:0 0 10px rgba(91,141,239,0.4)}
+.bar-m{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--tx2);font-weight:600}
+.empty{border:1px dashed var(--ln2);border-radius:18px;padding:30px 16px;text-align:center;color:var(--tx2);font-size:12px}
+.empty i{display:block;font-size:1.8rem;color:var(--tx3);margin-bottom:8px}
+.empty b{display:block;color:var(--tx);font-size:13px;margin-bottom:3px}
+
+/* ============ DOCK ============ */
+.dock-w{position:fixed;left:0;right:0;bottom:0;z-index:70;padding:0 14px calc(10px + env(safe-area-inset-bottom));pointer-events:none}
+.dock{pointer-events:auto;max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;height:60px;background:rgba(13,17,23,0.95);border:1px solid var(--ln2);border-radius:20px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 18px 40px rgba(0,0,0,0.55)}
+.dk{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--tx3);text-decoration:none;font-size:9.5px;font-weight:700;padding:6px 0}
+.dk i{font-size:1.25rem}
+.dk.on,.dk:hover{color:var(--mint)}
+
+/* ============ SHEETS ============ */
+.ov-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:flex-end;justify-content:center;background:rgba(3,5,8,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.ov-modal.open{display:flex;animation:fade .25s ease both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheet{position:relative;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;background:var(--s1);border:1px solid var(--ln2);border-bottom:none;border-radius:26px 26px 0 0;padding:10px 20px calc(22px + env(safe-area-inset-bottom));animation:up .35s cubic-bezier(.2,.9,.3,1) both}
+.sheet::before{content:'';display:block;width:38px;height:4px;border-radius:2px;background:var(--ln2);margin:0 auto 16px}
+.sh-h{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.sh-h h3{margin:0;font-family:'Space Grotesk';font-size:17px;font-weight:700}
+.sh-h p{margin:3px 0 0;font-size:11.5px;color:var(--tx2)}
+.sh-ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:1.6rem;flex-shrink:0}
+.sh-ic.ok{background:rgba(62,232,168,0.12);color:var(--mint);border:1px solid rgba(62,232,168,0.3)}
+.sh-ic.warn{background:rgba(244,201,122,0.12);color:var(--gold);border:1px solid rgba(244,201,122,0.3)}
+.sh-ic.err{background:rgba(255,107,122,0.12);color:var(--rose);border:1px solid rgba(255,107,122,0.3)}
+.sum{border:1px solid var(--ln);border-radius:14px;background:var(--s2);padding:4px 14px;margin-bottom:12px}
+.sum .r{display:flex;align-items:center;justify-content:space-between;padding:9px 0;font-size:12.5px}
+.sum .r + .r{border-top:1px dashed var(--ln2)}
+.sum .k{color:var(--tx2);font-weight:600}
+.sum .v{font-family:'Space Grotesk';font-weight:700}
+.sum .v.g{color:var(--mint)}
+.sum .v.y{color:var(--gold)}
+.sum .v.n{color:var(--rose)}
+.note{display:flex;gap:9px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:rgba(244,201,122,0.06);border:1px solid rgba(244,201,122,0.18);font-size:11px;line-height:1.5;color:var(--tx2);margin-bottom:12px}
+.note i{color:var(--gold);font-size:1rem;margin-top:1px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{height:48px;border:none;border-radius:13px;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.2s}
+.btn.gh{background:var(--s2);border:1px solid var(--ln2);color:var(--tx)}
+.btn.pr{background:var(--mint);color:#04261A}
+.btn.pr:disabled{opacity:.6;cursor:not-allowed}
+.btn.full{grid-column:span 2}
+.spn{width:16px;height:16px;border:2.5px solid rgba(4,38,26,0.25);border-top-color:#04261A;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+.steps{margin:4px 0 8px}
+.step{display:flex;align-items:center;gap:11px;padding:9px 0;font-size:12.5px;font-weight:600;color:var(--tx3);transition:color .3s}
+.step .d{width:24px;height:24px;border-radius:50%;background:var(--s2);border:1px solid var(--ln2);display:grid;place-items:center;font-size:11px;flex-shrink:0}
+.step.act{color:var(--tx)}
+.step.act .d{border-color:rgba(62,232,168,0.5);color:var(--mint)}
+.step.act .d i{animation:spin .8s linear infinite}
+.step.dn{color:var(--tx)}
+.step.dn .d{background:var(--mint);border-color:transparent;color:#04261A}
+.refd{border:1px solid rgba(244,201,122,0.28);border-radius:14px;background:rgba(244,201,122,0.06);padding:12px 14px;margin-bottom:12px}
+.refd h4{margin:0 0 8px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:6px}
+.refd .rr{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;color:var(--tx2)}
+.refd .rr b{font-family:'Space Grotesk';color:var(--gold)}
+.refd .tt{display:flex;justify-content:space-between;margin-top:6px;padding-top:8px;border-top:1px dashed rgba(244,201,122,0.25);font-size:12.5px;font-weight:800}
+.need{height:6px;border-radius:4px;background:rgba(255,255,255,0.07);overflow:hidden;margin:2px 0 12px}
+.need i{display:block;height:100%;background:var(--rose);border-radius:4px}
+
+/* ============ TOAST (compact, top-right) ============ */
+#ov-toast-container{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none;max-width:min(300px,calc(100vw - 24px))}
+.ov-toast{position:relative;display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:11px;background:rgba(19,25,34,0.95);border:1px solid var(--ln2);box-shadow:0 10px 28px rgba(0,0,0,0.5);backdrop-filter:blur(12px);pointer-events:auto;cursor:pointer;overflow:hidden;transform:translateX(26px);opacity:0;transition:transform .3s cubic-bezier(.2,.9,.3,1.1),opacity .25s}
+.ov-toast.show{transform:none;opacity:1}
+.ov-toast > i{font-size:16px;color:var(--c);flex-shrink:0}
+.ov-toast .m{font-size:11.5px;font-weight:600;line-height:1.4}
+.ov-toast .tb{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--c);opacity:.75;transform-origin:left;animation:tb 4.2s linear forwards}
+@keyframes tb{to{transform:scaleX(0)}}
+
+.ov-loader{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:var(--bg);transition:opacity .4s}
+.ov-loader.hide{opacity:0;pointer-events:none}
+.ov-loader .rg{width:42px;height:42px;border:3px solid rgba(62,232,168,0.15);border-top-color:var(--mint);border-radius:50%;animation:spin .8s linear infinite}
+
+@media(max-width:380px){
+  .cd-t div{min-width:36px}
+  .cd-t div b{font-size:15px}
+  .pimg{width:64px;height:64px}
+  .plan-price{font-size:19px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="top">
+    <a href="dashboard.html" class="back" aria-label="Back"><i class="ph ph-arrow-left"></i></a>
+    <div class="ttl"><b>Invest</b><small>Choose a plan and start earning</small></div>
+    <div class="wallet"><i class="ph ph-wallet"></i><span class="num" id="ovDepBal">₦0</span></div>
+  </header>
+
+  <!-- COUNTDOWN -->
+  <section class="cd">
+    <div class="cd-r">
+      <div class="cd-ic"><i class="ph ph-timer"></i></div>
+      <div class="cd-l"><span class="lbl">Next ROI credit</span><b id="ovCdTarget">—</b></div>
+      <div class="cd-t num">
+        <div><b id="cdH">00</b><small>hrs</small></div><i>:</i>
+        <div><b id="cdM">00</b><small>min</small></div><i>:</i>
+        <div><b id="cdS">00</b><small>sec</small></div>
+      </div>
+    </div>
+    <p class="cd-n"><span id="ovCdNote">Credited 12:00 AM, Mon – Sat</span><a href="dashboard.html">Dashboard <i class="ph ph-arrow-right"></i></a></p>
+  </section>
+
+  <!-- SEGMENTS -->
+  <div class="seg">
+    <span class="seg-i" id="ovSegI"></span>
+    <button class="on" data-tab="plans" onclick="switchTab('plans')"><i class="ph ph-storefront"></i> Plans</button>
+    <button data-tab="mine" onclick="switchTab('mine')"><i class="ph ph-briefcase"></i> My plans <span class="cnt" id="ovMineCount">0</span></button>
+  </div>
+
+  <!-- PLANS -->
+  <div class="pane on" id="ovPaneplans"><div id="ovPlanList"></div></div>
+
+  <!-- MINE -->
+  <div class="pane" id="ovPaneMine">
+    <div class="chip-row">
+      <button class="fc on" data-filter="all" onclick="setFilter('all')">All <span id="fcAll">0</span></button>
+      <button class="fc" data-filter="active" onclick="setFilter('active')">Active <span id="fcActive">0</span></button>
+      <button class="fc" data-filter="completed" onclick="setFilter('completed')">Completed <span id="fcDone">0</span></button>
+    </div>
+    <div id="ovMineList"></div>
+  </div>
+
+</div>
+
+<!-- DOCK -->
+<div class="dock-w">
+  <nav class="dock">
+    <a class="dk" href="dashboard.html"><i class="ph ph-squares-four"></i><span>Home</span></a>
+    <a class="dk on" href="invest.html"><i class="ph ph-chart-line-up"></i><span>Invest</span></a>
+    <a class="dk" href="transactions.html"><i class="ph ph-receipt"></i><span>History</span></a>
+    <a class="dk" href="referral.html"><i class="ph ph-users-three"></i><span>Referral</span></a>
+    <a class="dk" href="profile.html"><i class="ph ph-user"></i><span>Profile</span></a>
+  </nav>
+</div>
+
+<!-- CONFIRM -->
+<div class="ov-modal" id="ovConfirmModal">
+  <div class="sheet">
+    <div class="sh-h" id="ovConfirmHead"></div>
+    <div class="sum" id="ovConfirmSummary"></div>
+    <div class="note"><i class="ph ph-info"></i><span>Your deposit wallet is charged now. Daily returns are credited to your withdrawal wallet at 12:00 AM (Mon – Sat). Returns are not guaranteed.</span></div>
+    <div class="acts">
+      <button class="btn gh" onclick="closeModal('ovConfirmModal')">Cancel</button>
+      <button class="btn pr" id="ovConfirmBtn" onclick="confirmPurchase()"><i class="ph ph-check-circle"></i> Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESSING -->
+<div class="ov-modal" id="ovProcessingModal">
+  <div class="sheet">
+    <div class="sh-h"><div class="sh-ic ok"><span class="spn" style="border-color:rgba(62,232,168,0.25);border-top-color:#3EE8A8"></span></div><div><h3>Processing</h3><p>Please keep this page open</p></div></div>
+    <div class="steps">
+      <div class="step" id="ovStep1"><span class="d">1</span> Checking your balance</div>
+      <div class="step" id="ovStep2"><span class="d">2</span> Activating your plan</div>
+      <div class="step" id="ovStep3"><span class="d">3</span> Sharing referral bonuses</div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="ov-modal" id="ovSuccessModal">
+  <div class="sheet">
+    <div class="sh-h"><div class="sh-ic ok"><i class="ph ph-check-circle"></i></div><div><h3>Plan activated</h3><p id="ovSuccessDesc">Your first ROI arrives at the next 12:00 AM.</p></div></div>
+    <div class="sum" id="ovSuccessSummary"></div>
+    <div class="refd" id="ovRefDistWrap" style="display:none">
+      <h4><i class="ph ph-users-three"></i> Referral bonuses shared</h4>
+      <div id="ovRefDistList"></div>
+      <div class="tt"><span>Total</span><span class="num" style="color:var(--gold)" id="ovRefDistTotal">₦0</span></div>
+    </div>
+    <div class="acts">
+      <button class="btn gh" onclick="closeSuccess(false)">Done</button>
+      <button class="btn pr" onclick="closeSuccess(true)"><i class="ph ph-briefcase"></i> My plans</button>
+    </div>
+  </div>
+</div>
+
+<!-- INSUFFICIENT -->
+<div class="ov-modal" id="ovInsufficientModal">
+  <div class="sheet">
+    <div class="sh-h"><div class="sh-ic err"><i class="ph ph-wallet"></i></div><div><h3>Insufficient balance</h3><p id="ovInsufficientDesc"></p></div></div>
+    <div class="need"><i id="ovNeedBar" style="width:0"></i></div>
+    <div class="sum" id="ovInsufficientSummary"></div>
+    <div class="acts">
+      <button class="btn gh" onclick="closeModal('ovInsufficientModal')">Cancel</button>
+      <button class="btn pr" onclick="location.href='deposit.html'"><i class="ph ph-plus-circle"></i> Fund wallet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ERROR -->
+<div class="ov-modal" id="ovErrorModal">
+  <div class="sheet">
+    <div class="sh-h"><div class="sh-ic err"><i class="ph ph-warning-circle"></i></div><div><h3>Purchase failed</h3><p id="ovErrorDesc">Something went wrong.</p></div></div>
+    <div class="note"><i class="ph ph-shield-check"></i><span>You were not charged for a failed purchase. Check your history before trying again.</span></div>
+    <div class="acts">
+      <button class="btn gh" onclick="location.href='transactions.html'">History</button>
+      <button class="btn pr" onclick="closeModal('ovErrorModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="ov-toast-container"></div>
+<div class="ov-loader" id="ovLoader"><div class="rg"></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp,
+  increment, runTransaction
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCqXdfRRQZbbrB4DIpTAj45FkxJsXm3JrM",
+  authDomain: "vexa-c0868.firebaseapp.com",
+  projectId: "vexa-c0868",
+  storageBucket: "vexa-c0868.firebasestorage.app",
+  messagingSenderId: "209201666488",
+  appId: "1:209201666488:web:ae6d16fec94097e719174d"
+};
+
+// ============================================================
+// PLANS — edit prices / income / images here
+// image: path to your product picture (square works best). If the file
+// is missing, a coloured icon tile is shown instead.
+// dailyIncome is in naira per day.
+// ============================================================
+const PLANS = [
+  { id:'ovx_starter',  name:'Ovexa Starter',  cost:5000,   dailyIncome:500,   durationDays:30, color:'#3EE8A8', icon:'ph-seedling',       image:'images/starter.png',  badge:'' },
+  { id:'ovx_basic',    name:'Ovexa Basic',    cost:10000,  dailyIncome:1000,  durationDays:30, color:'#5B8DEF', icon:'ph-leaf',           image:'images/basic.png',    badge:'' },
+  { id:'ovx_bronze',   name:'Ovexa Bronze',   cost:15000,  dailyIncome:1500,  durationDays:30, color:'#E0985F', icon:'ph-medal',          image:'images/bronze.png',   badge:'' },
+  { id:'ovx_silver',   name:'Ovexa Silver',   cost:20000,  dailyIncome:2000,  durationDays:30, color:'#BCC6D8', icon:'ph-medal-military', image:'images/silver.png',   badge:'' },
+  { id:'ovx_gold',     name:'Ovexa Gold',     cost:30000,  dailyIncome:3000,  durationDays:30, color:'#F4C97A', icon:'ph-crown-simple',   image:'images/gold.png',     badge:'Popular' },
+  { id:'ovx_platinum', name:'Ovexa Platinum', cost:50000,  dailyIncome:5000,  durationDays:30, color:'#7FE0EE', icon:'ph-shield-star',    image:'images/platinum.png', badge:'' },
+  { id:'ovx_diamond',  name:'Ovexa Diamond',  cost:100000, dailyIncome:10000, durationDays:30, color:'#B98BFF', icon:'ph-diamond',        image:'images/diamond.png',  badge:'Best value' },
+  { id:'ovx_elite',    name:'Ovexa Elite',    cost:200000, dailyIncome:20000, durationDays:30, color:'#FF8FB1', icon:'ph-rocket-launch',  image:'images/elite.png',    badge:'VIP' }
+];
+// Referral bonus (% of the downline's plan cost, first purchase only)
+const REFERRAL = { level1:10, level2:3, level3:1 };
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+
+const S = window._state = { user:null, username:null, userDoc:null, pending:null, filter:'all', list:[], buying:false, lastRef:[] };
+
+// ================== HELPERS ==================
+const DAY = 86400000, WAT = 3600000;
+const dayNum = t => Math.floor((t + WAT) / DAY);
+const WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const toMs = v => !v ? 0 : v.toDate ? v.toDate().getTime() : new Date(v).getTime();
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => '₦' + (Number(n)||0).toLocaleString('en-NG',{minimumFractionDigits:0,maximumFractionDigits:2});
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const planOf = id => PLANS.find(p => p.id === id);
+function hexA(hex, a){
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;
+}
+const tint = p => `--tc:${p.color};--g1:${hexA(p.color,0.16)};--g2:${hexA(p.color,0.32)}`;
+const tile = (p, small) => `<div class="pimg${small ? ' sm' : ''}" style="${tint(p)}"><i class="ph ${p.icon}"></i>${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="lazy" onerror="this.remove()">` : ''}</div>`;
+// Daily income of a stored investment (supports older records stored as ₦ instead of %)
+const dailyOf = inv => inv.dailyIncome != null ? Number(inv.dailyIncome) : (Number(inv.dailyRoi) > 100 ? Number(inv.dailyRoi) : (Number(inv.amount)||0) * (Number(inv.dailyRoi)||0) / 100);
+
+// ================== TOAST ==================
+function ovNotify(type, message){
+  const c = $('ov-toast-container');
+  const th = ({ success:['ph-check-circle','#3EE8A8'], error:['ph-x-circle','#FF6B7A'], warning:['ph-warning-circle','#F4C97A'], info:['ph-info','#5B8DEF'] })[type] || ['ph-info','#5B8DEF'];
+  while(c.children.length >= 3) c.firstChild.remove();
+  const t = document.createElement('div');
+  t.className = 'ov-toast'; t.style.setProperty('--c', th[1]);
+  t.innerHTML = `<i class="ph ${th[0]}"></i><span class="m"></span><span class="tb"></span>`;
+  t.querySelector('.m').textContent = message;
+  const kill = () => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); };
+  t.addEventListener('click', kill);
+  c.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(kill, 4200);
+}
+
+// ================== COUNTDOWN (12:00 AM WAT, Mon–Sat) ==================
+function nextCredit(){
+  let d = dayNum(Date.now()) + 1;
+  if((d + 4) % 7 === 0) d++;                 // Sunday never credits
+  return { at: d * DAY - WAT, wd: WD[(d + 4) % 7] };
+}
+function tickCountdown(){
+  const nx = nextCredit(), ms = Math.max(0, nx.at - Date.now());
+  const h = Math.floor(ms / 3600000), m = Math.floor(ms % 3600000 / 60000), s = Math.floor(ms % 60000 / 1000);
+  $('cdH').textContent = String(h).padStart(2,'0');
+  $('cdM').textContent = String(m).padStart(2,'0');
+  $('cdS').textContent = String(s).padStart(2,'0');
+  const tomorrow = dayNum(Date.now()) + 1;
+  $('ovCdTarget').textContent = `${nx.wd} · 12:00 AM`;
+  $('ovCdNote').innerHTML = (dayNum(Date.now()) + 4) % 7 === 0
+    ? '<span class="sun">Sunday — no ROI today</span>'
+    : ((tomorrow + 4) % 7 === 0 ? 'No ROI on Sunday · resumes Monday' : 'Credited 12:00 AM, Mon – Sat');
+  document.querySelectorAll('[data-next]').forEach(el => { el.textContent = `${nx.wd} 12:00 AM`; });
+}
+setInterval(tickCountdown, 1000);
+tickCountdown();
+
+// ================== AUTH GUARD ==================
+onAuthStateChanged(auth, async (user) => {
+  if(!user){ window.location.href = 'login.html'; return; }
+  S.user = user;
+  await bootstrap();
+});
+
+async function bootstrap(){
+  try{
+    let username = sessionStorage.getItem('username');
+    if(!username){
+      const map = await getDoc(doc(db,'usersByUid',S.user.uid));
+      if(map.exists()) username = map.data().username;
+    }
+    if(!username) username = (sessionStorage.getItem('userEmail') || '').split('@')[0].toUpperCase();
+    S.username = username;
+
+    const snap = await getDoc(doc(db,'users',username));
+    if(snap.exists()) S.userDoc = snap.data();
+    renderBalance();
+    renderPlans();
+    await loadMine();
+  }catch(err){
+    console.error('Bootstrap error:', err);
+    ovNotify('error','Could not load your account.');
+  }finally{
+    $('ovLoader').classList.add('hide');
+  }
+}
+function renderBalance(){ $('ovDepBal').textContent = fmt(S.userDoc?.depositWallet || 0); }
+
+// ================== TABS ==================
+function switchTab(tab){
+  document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
+  $('ovSegI').classList.toggle('r', tab === 'mine');
+  $('ovPaneplans').classList.toggle('on', tab === 'plans');
+  $('ovPaneMine').classList.toggle('on', tab === 'mine');
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+window.switchTab = switchTab;
+
+// ================== PLANS ==================
+function renderPlans(){
+  $('ovPlanList').innerHTML = PLANS.map(p => `
+    <article class="plan" style="${tint(p)}">
+      <div class="plan-top">
+        ${tile(p)}
+        <div class="plan-info">
+          <div class="plan-nm"><h3>${esc(p.name)}</h3>${p.badge ? `<span class="tag">${esc(p.badge)}</span>` : ''}</div>
+          <div class="plan-price num">${fmt(p.cost)}</div>
+          <div class="chips"><span><i class="ph ph-trend-up"></i>${fmt(p.dailyIncome)}/day</span><span><i class="ph ph-calendar-blank"></i>${p.durationDays} days</span></div>
+        </div>
+      </div>
+      <div class="plan-ft">
+        <div><small>Total return</small><b class="num">${fmt(p.dailyIncome * p.durationDays)}</b></div>
+        <button class="buy" onclick="openPurchase('${p.id}')">Invest <i class="ph ph-arrow-right"></i></button>
+      </div>
+    </article>`).join('');
+}
+
+// ================== PURCHASE FLOW ==================
+function rows(list){ return list.map(([k,v,c]) => `<div class="r"><span class="k">${k}</span><span class="v ${c||''}">${v}</span></div>`).join(''); }
+
+function openPurchase(id){
+  const p = planOf(id); if(!p) return;
+  S.pending = p;
+  const bal = Number(S.userDoc?.depositWallet || 0);
+
+  if(bal < p.cost){
+    $('ovInsufficientDesc').textContent = `You need ${fmt(p.cost)} to buy ${p.name}.`;
+    $('ovNeedBar').style.width = Math.min(100, bal / p.cost * 100) + '%';
+    $('ovInsufficientSummary').innerHTML = rows([
+      ['Plan', esc(p.name)], ['Required', fmt(p.cost), 'y'], ['Your balance', fmt(bal), 'n'], ['Shortfall', fmt(p.cost - bal), 'n']
+    ]);
+    openModal('ovInsufficientModal');
+    return;
+  }
+
+  $('ovConfirmHead').innerHTML = `${tile(p, true)}<div><h3>Confirm purchase</h3><p>${esc(p.name)} · ${fmt(p.cost)}</p></div>`;
+  $('ovConfirmSummary').innerHTML = rows([
+    ['Daily income', fmt(p.dailyIncome), 'g'],
+    ['Duration', `${p.durationDays} days`],
+    ['Total return', fmt(p.dailyIncome * p.durationDays), 'g'],
+    ['First credit', '<span data-next>—</span>'],
+    ['Charged from', 'Deposit wallet'],
+    ['Balance after', fmt(bal - p.cost)]
+  ]);
+  tickCountdown();
+  openModal('ovConfirmModal');
+}
+window.openPurchase = openPurchase;
+
+function step(n, state){
+  const el = $('ovStep' + n);
+  el.classList.remove('act','dn');
+  const d = el.querySelector('.d');
+  if(state === 'act'){ el.classList.add('act'); d.innerHTML = '<i class="ph ph-circle-notch"></i>'; }
+  else if(state === 'dn'){ el.classList.add('dn'); d.innerHTML = '<i class="ph ph-check"></i>'; }
+  else d.textContent = n;
+}
+
+async function confirmPurchase(){
+  const p = S.pending;
+  if(!p || S.buying) return;
+  S.buying = true;
+  const btn = $('ovConfirmBtn');
+  btn.disabled = true;
+  closeModal('ovConfirmModal');
+  openModal('ovProcessingModal');
+  [1,2,3].forEach(n => step(n));
+  step(1,'act');
+
+  try{
+    await sleep(450); step(1,'dn'); step(2,'act');
+    await executePurchase(p);
+    step(2,'dn'); step(3,'act');
+    await sleep(450); step(3,'dn');
+    await sleep(350);
+    closeModal('ovProcessingModal');
+    showSuccess(p, S.lastRef);
+  }catch(err){
+    console.error('Purchase error:', err);
+    closeModal('ovProcessingModal');
+    $('ovErrorDesc').textContent = err && err.message && !/permission|insufficient permissions/i.test(err.message) ? err.message : 'We could not complete your purchase. Please try again.';
+    openModal('ovErrorModal');
+  }finally{
+    S.buying = false;
+    btn.disabled = false;
+  }
+}
+window.confirmPurchase = confirmPurchase;
+
+// ---------- Atomic purchase ----------
+async function executePurchase(plan){
+  const username = S.username;
+  if(!username) throw new Error('You are not signed in.');
+  const userRef = doc(db,'users',username), invRef = doc(db,'investments',username), txRef = doc(db,'transactionHistory',username);
+
+  const fresh0 = await getDoc(userRef);
+  if(!fresh0.exists()) throw new Error('Account not found.');
+  if(Number(fresh0.data().depositWallet || 0) < plan.cost) throw new Error('Insufficient deposit wallet balance.');
+
+  const isFirst = fresh0.data().firstPurchaseDone !== true;
+  const refs = isFirst ? await buildReferralChain(username, plan.cost) : [];
+
+  const now = new Date(), iso = now.toISOString();
+  // dailyRoi is stored as a PERCENT of the amount (what the dashboard's ROI engine expects)
+  const entry = {
+    id: 'inv_' + now.getTime() + '_' + Math.random().toString(36).slice(2,8),
+    planId: plan.id, planName: plan.name,
+    amount: plan.cost,
+    dailyRoi: Math.round(plan.dailyIncome / plan.cost * 10000) / 100,
+    dailyIncome: plan.dailyIncome,
+    durationDays: plan.durationDays,
+    startDate: iso, lastCreditedAt: iso, daysCredited: 0,
+    status: 'active', purchasedAt: iso
+  };
+
+  await runTransaction(db, async (tx) => {
+    const uS = await tx.get(userRef);
+    if(!uS.exists()) throw new Error('Account missing.');
+    if(Number(uS.data().depositWallet || 0) < plan.cost) throw new Error('Insufficient deposit wallet balance.');
+    const iS = await tx.get(invRef), xS = await tx.get(txRef);
+    const active = iS.exists() && Array.isArray(iS.data().activeInvestments) ? iS.data().activeInvestments : [];
+    const oldTx = xS.exists() && Array.isArray(xS.data().transactions) ? xS.data().transactions : [];
+    const logTx = { id:'tx_' + now.getTime(), type:'Investment', amount:plan.cost, status:'Success', timestamp:iso, note:plan.name, username };
+
+    tx.update(userRef, { depositWallet: increment(-plan.cost), totalInvested: increment(plan.cost), firstPurchaseDone: true });
+    if(iS.exists()) tx.update(invRef, { activeInvestments:[entry, ...active], totalInvested: increment(plan.cost) });
+    else tx.set(invRef, { username, activeInvestments:[entry], totalInvested:plan.cost, totalReturns:0, createdAt: serverTimestamp() });
+    if(xS.exists()) tx.update(txRef, { transactions:[logTx, ...oldTx].slice(0,200) });
+    else tx.set(txRef, { username, transactions:[logTx], createdAt: serverTimestamp() });
+  });
+
+  // Referral bonuses (other users' documents, so outside the transaction; never blocks the purchase)
+  for(const r of refs){
+    try{
+      await updateDoc(doc(db,'users',r.username), { withdrawalWallet: increment(r.amount), totalEarnings: increment(r.amount), referralBonus: increment(r.amount) });
+
+      const uTxRef = doc(db,'transactionHistory',r.username), uTx = await getDoc(uTxRef);
+      const e = { id:'tx_' + Date.now() + '_' + r.level, type:'Referral Bonus', amount:r.amount, status:'Success', timestamp:new Date().toISOString(), note:`Level ${r.level} from ${username}`, username:r.username };
+      if(uTx.exists()) await updateDoc(uTxRef, { transactions:[e, ...(uTx.data().transactions || [])].slice(0,200) });
+      else await setDoc(uTxRef, { username:r.username, transactions:[e], createdAt: serverTimestamp() });
+
+      const nRef = doc(db,'notifications',r.username), nS = await getDoc(nRef);
+      const item = { id:'n_' + Date.now() + '_' + r.level, title:'Referral bonus earned', body:`You earned ${fmt(r.amount)} (Level ${r.level}) from ${username}'s first investment.`, timestamp:new Date().toISOString(), read:false };
+      if(nS.exists()) await updateDoc(nRef, { items:[item, ...(nS.data().items || [])].slice(0,100) });
+      else await setDoc(nRef, { username:r.username, items:[item] });
+
+      const sRef = doc(db,'referralStats',r.username), sS = await getDoc(sRef);
+      if(sS.exists()) await updateDoc(sRef, { totalReferralBonus: increment(r.amount), lastReferralAt: serverTimestamp() });
+      else await setDoc(sRef, { username:r.username, totalReferralBonus:r.amount, createdAt: serverTimestamp(), lastReferralAt: serverTimestamp() });
+    }catch(err){ console.warn('Referral credit failed for', r.username, err); }
+  }
+  S.lastRef = refs;
+
+  const re = await getDoc(userRef);
+  if(re.exists()){ S.userDoc = re.data(); renderBalance(); }
+  await loadMine();
+}
+
+async function buildReferralChain(buyer, cost){
+  const out = [], tiers = [REFERRAL.level1, REFERRAL.level2, REFERRAL.level3];
+  let current = buyer;
+  for(let i = 0; i < tiers.length; i++){
+    try{
+      const s = await getDoc(doc(db,'users',current));
+      if(!s.exists()) break;
+      const up = s.data().referredBy;
+      if(!up) break;
+      const u = await getDoc(doc(db,'users',up));
+      if(!u.exists()) break;
+      const amount = Math.floor(cost * tiers[i] / 100);
+      if(amount > 0) out.push({ level:i + 1, username:up, percent:tiers[i], amount });
+      current = up;
+    }catch(err){ console.warn('Chain lookup error:', err); break; }
+  }
+  return out;
+}
+
+// ---------- Success ----------
+function showSuccess(p, refs){
+  $('ovSuccessSummary').innerHTML = rows([
+    ['Plan', esc(p.name)], ['Invested', fmt(p.cost), 'y'], ['Daily income', fmt(p.dailyIncome), 'g'],
+    ['Duration', `${p.durationDays} days`], ['First credit', '<span data-next>—</span>'],
+    ['Deposit balance', fmt(S.userDoc?.depositWallet || 0)]
+  ]);
+  tickCountdown();
+  const wrap = $('ovRefDistWrap');
+  if(refs && refs.length){
+    wrap.style.display = 'block';
+    $('ovRefDistList').innerHTML = refs.map(d => `<div class="rr"><span>Level ${d.level} (${d.percent}%) → ${esc(d.username)}</span><b>${fmt(d.amount)}</b></div>`).join('');
+    $('ovRefDistTotal').textContent = fmt(refs.reduce((s,d) => s + d.amount, 0));
+  } else wrap.style.display = 'none';
+  openModal('ovSuccessModal');
+}
+function closeSuccess(toMine){
+  closeModal('ovSuccessModal');
+  S.lastRef = [];
+  if(toMine){ switchTab('mine'); setFilter('active'); }
+}
+window.closeSuccess = closeSuccess;
+
+// ================== MY INVESTMENTS ==================
+async function loadMine(){
+  try{
+    const snap = await getDoc(doc(db,'investments',S.username));
+    const d = snap.exists() ? snap.data() : {};
+    const act = (Array.isArray(d.activeInvestments) ? d.activeInvestments : []).map(i => ({ ...i }));
+    const comp = (Array.isArray(d.completedInvestments) ? d.completedInvestments : []).map(i => ({ ...i, status:'completed' }));
+    S.list = [...act, ...comp].sort((a,b) => toMs(b.purchasedAt || b.startDate) - toMs(a.purchasedAt || a.startDate));
+  }catch(err){ console.error('loadMine:', err); S.list = []; }
+  renderMine();
+}
+
+function setFilter(f){
+  S.filter = f;
+  document.querySelectorAll('.fc').forEach(c => c.classList.toggle('on', c.dataset.filter === f));
+  renderMine();
+}
+window.setFilter = setFilter;
+
+function renderMine(){
+  const all = S.list, isDone = i => i.status === 'completed';
+  const nAct = all.filter(i => !isDone(i)).length, nDone = all.length - nAct;
+  $('ovMineCount').textContent = nAct;
+  $('fcAll').textContent = all.length; $('fcActive').textContent = nAct; $('fcDone').textContent = nDone;
+
+  const list = all.filter(i => S.filter === 'all' ? true : S.filter === 'active' ? !isDone(i) : isDone(i));
+  const wrap = $('ovMineList');
+  if(!list.length){
+    wrap.innerHTML = `<div class="empty"><i class="ph ph-folder-open"></i><b>No ${S.filter === 'all' ? '' : S.filter + ' '}plans</b>${S.filter === 'all' ? 'Pick a plan to get started' : 'Try another filter'}</div>`;
+    return;
+  }
+  wrap.innerHTML = list.map(inv => {
+    const p = planOf(inv.planId) || { name: inv.planName || 'Investment', color:'#3EE8A8', icon:'ph-chart-line-up', image:'' };
+    const done = Number(inv.daysCredited) || 0, total = Number(inv.durationDays) || 1;
+    const pct = Math.min(100, done / total * 100), daily = dailyOf(inv), dn = isDone(inv);
+    return `
+      <div class="inv ${dn ? 'done' : ''}" style="${tint(p)}">
+        <div class="inv-t">
+          ${tile(p, true)}
+          <div class="inv-i"><h3>${esc(inv.planName || p.name)}</h3><p>${fmt(daily)}/day · ${total} days</p></div>
+          <span class="st ${dn ? 'c' : 'a'}">${dn ? 'Completed' : 'Active'}</span>
+        </div>
+        <div class="kv">
+          <div><small>Invested</small><b class="num">${fmt(inv.amount)}</b></div>
+          <div><small>Earned</small><b class="num m">${fmt(done * daily)}</b></div>
+          <div><small>${dn ? 'Total' : 'Next ROI'}</small><b class="num"${dn ? '' : ' data-next'}>${dn ? fmt(total * daily) : '—'}</b></div>
+        </div>
+        <div class="bar"><i style="width:${pct}%"></i></div>
+        <div class="bar-m"><span>Day ${done} of ${total}</span><span>${pct.toFixed(0)}%</span></div>
+      </div>`;
+  }).join('');
+  tickCountdown();
+}
+
+// ================== MODALS ==================
+function openModal(id){ const m = $(id); if(m) m.classList.add('open'); }
+function closeModal(id){ const m = $(id); if(m) m.classList.remove('open'); }
+window.openModal = openModal;
+window.closeModal = closeModal;
+document.querySelectorAll('.ov-modal').forEach(m => m.addEventListener('click', e => {
+  if(e.target === m && m.id !== 'ovProcessingModal') closeModal(m.id);
+}));
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Escape') return;
+  ['ovConfirmModal','ovInsufficientModal','ovErrorModal','ovSuccessModal'].forEach(closeModal);
+});
+window.ovNotify = ovNotify;
+</script>
+</body>
+</html>
