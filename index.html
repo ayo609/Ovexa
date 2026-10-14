@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ovexa — Get Started</title>
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<meta name="theme-color" content="#070B14">
+
+<style>
+:root{
+  --ov-bg:#070B14;
+  --ov-panel:#0F1524;
+  --ov-line:rgba(255,255,255,0.07);
+  --ov-line-2:rgba(255,255,255,0.12);
+  --ov-text:#EEF3FF;
+  --ov-muted:#7C87A3;
+  --ov-muted-2:#5A6478;
+  --ov-accent:#3EE8A8;
+  --ov-gold:#F4C97A;
+  --ov-danger:#FF6B7A;
+  --ov-blue:#5B8DEF;
+}
+html,body{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:var(--ov-bg);color:var(--ov-text)}
+*,*::before,*::after{box-sizing:inherit}
+body{display:flex;flex-direction:column;min-height:100vh;position:relative;overflow-x:hidden}
+@keyframes ovSpin{to{transform:rotate(360deg)}}
+
+/* ============ AMBIENT BACKGROUND ============ */
+.ov-bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:
+  radial-gradient(1200px 600px at 50% -10%,rgba(62,232,168,0.10),transparent 60%),
+  radial-gradient(900px 500px at 100% 100%,rgba(91,141,239,0.08),transparent 60%),
+  linear-gradient(180deg,#070B14 0%,#0A0F1C 100%)}
+.ov-grid{position:absolute;inset:0;background-image:
+  linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(ellipse at 50% 20%,#000 30%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse at 50% 20%,#000 30%,transparent 80%)}
+.ov-orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.5;will-change:transform}
+.ov-orb-a{width:460px;height:460px;background:radial-gradient(circle,rgba(62,232,168,0.9) 0%,transparent 70%);top:-160px;right:-160px;animation:ovFloatA 14s ease-in-out infinite}
+.ov-orb-b{width:420px;height:420px;background:radial-gradient(circle,rgba(91,141,239,0.8) 0%,transparent 70%);bottom:-180px;left:-140px;animation:ovFloatB 18s ease-in-out infinite}
+.ov-orb-c{width:320px;height:320px;background:radial-gradient(circle,rgba(244,201,122,0.35) 0%,transparent 70%);top:40%;left:60%;animation:ovFloatA 22s ease-in-out infinite reverse}
+@keyframes ovFloatA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-24px,32px) scale(1.08)}}
+@keyframes ovFloatB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(28px,-24px) scale(1.1)}}
+.ov-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.5) 100%);pointer-events:none}
+
+/* ============ SHELL ============ */
+.ov-shell{width:100%;max-width:520px;margin:0 auto;flex:1;display:flex;flex-direction:column;position:relative;z-index:1}
+
+/* ============ TOP BANNER ============ */
+.ov-banner{position:relative;width:100%;height:210px;overflow:hidden;background:#0A0F1C;animation:ovBannerIn .9s cubic-bezier(.2,.9,.3,1.1) both;border-radius:0 0 28px 28px}
+@keyframes ovBannerIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.ov-banner img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;filter:brightness(0.78) saturate(1.1)}
+.ov-banner::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,11,20,0.45) 0%,rgba(7,11,20,0.6) 45%,rgba(7,11,20,0.98) 100%);pointer-events:none}
+.ov-banner-inner{position:absolute;left:0;right:0;bottom:0;padding:22px 24px;z-index:3;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.ov-banner-title{font-family:'Space Grotesk';font-size:22px;font-weight:700;letter-spacing:-0.6px;color:#fff;line-height:1.2;margin:0}
+.ov-banner-sub{font-size:11.5px;color:rgba(255,255,255,0.72);margin:4px 0 0;font-weight:500}
+.ov-banner-link{font-size:11.5px;font-weight:700;letter-spacing:0.4px;color:#fff;text-decoration:none;padding:9px 16px;border-radius:999px;background:rgba(7,11,20,0.7);border:1px solid rgba(255,255,255,0.14);backdrop-filter:blur(10px);transition:all .25s;display:inline-flex;align-items:center;gap:6px;flex-shrink:0}
+.ov-banner-link:hover{background:rgba(62,232,168,0.2);border-color:rgba(62,232,168,0.55);color:var(--ov-accent);transform:translateY(-1px)}
+
+/* ============ CONTENT ============ */
+.ov-content{padding:0 22px 36px}
+
+/* ============ HEADING ============ */
+.ov-heading{margin:26px 0 22px;animation:ovFadeUp .8s cubic-bezier(.2,.9,.3,1.1) .1s both}
+.ov-heading .eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--ov-accent);padding:6px 12px;border-radius:999px;background:rgba(62,232,168,0.08);border:1px solid rgba(62,232,168,0.22);margin-bottom:14px}
+.ov-heading .eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--ov-accent);box-shadow:0 0 10px var(--ov-accent);animation:ovPulse 1.8s ease-in-out infinite}
+@keyframes ovPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.4)}}
+.ov-heading h1{font-family:'Space Grotesk';font-size:30px;line-height:1.1;font-weight:700;letter-spacing:-1.1px;margin:0 0 10px;color:var(--ov-text)}
+.ov-heading h1 .grad{background:linear-gradient(110deg,#3EE8A8 0%,#7DF0C7 45%,#F4C97A 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 100%;animation:ovShine 4s ease-in-out infinite}
+@keyframes ovShine{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.ov-heading p{font-size:13px;color:var(--ov-muted);line-height:1.6;margin:0;max-width:420px}
+@keyframes ovFadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ FORM PANEL ============ */
+.ov-form-panel{position:relative;animation:ovFadeUp .9s cubic-bezier(.2,.9,.3,1.1) .18s both}
+.ov-form-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(62,232,168,0.35),transparent)}
+
+/* Referral banner */
+.ov-ref-banner{display:none;align-items:center;gap:11px;padding:12px 14px;margin:16px 0 4px;border-radius:13px;background:linear-gradient(120deg,rgba(244,201,122,0.10),rgba(244,201,122,0.03));border:1px solid rgba(244,201,122,0.25)}
+.ov-ref-banner.show{display:flex;animation:ovFadeUp .5s ease both}
+.ov-ref-banner i{color:var(--ov-gold);font-size:18px}
+.ov-ref-banner span{font-size:11.5px;color:#E8CF9B;font-weight:600}
+.ov-ref-banner strong{color:var(--ov-gold);font-weight:800;letter-spacing:0.5px}
+
+/* ============ FIELDS ============ */
+.ov-form-panel form{padding-top:16px}
+.ov-field{position:relative;margin-bottom:12px}
+.ov-field .ov-label{position:absolute;top:50%;left:46px;transform:translateY(-50%);font-size:13px;font-weight:500;color:var(--ov-muted);pointer-events:none;transition:all .22s cubic-bezier(.2,.9,.3,1.2);padding:0 6px}
+.ov-field input{width:100%;height:54px;padding:0 44px 0 46px;background:rgba(15,21,36,0.55);border:1.5px solid var(--ov-line);border-radius:12px;font-family:'Inter';font-size:13.5px;font-weight:500;color:var(--ov-text);outline:none;transition:all .25s}
+.ov-field input::placeholder{color:transparent}
+.ov-field input:hover{border-color:var(--ov-line-2)}
+.ov-field input:focus{border-color:var(--ov-accent);background:rgba(7,11,20,0.95);box-shadow:0 0 0 4px rgba(62,232,168,0.10)}
+.ov-field input:focus + .ov-label,
+.ov-field input:not(:placeholder-shown) + .ov-label{top:0;left:14px;font-size:9.5px;font-weight:800;letter-spacing:0.9px;text-transform:uppercase;color:var(--ov-accent);background:var(--ov-bg);padding:0 7px;border-radius:4px}
+.ov-field .ov-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--ov-muted);font-size:1.12rem;pointer-events:none;transition:color .25s}
+.ov-field input:focus ~ .ov-icon{color:var(--ov-accent)}
+
+/* Phone with +234 prefix */
+.ov-field.phone input{padding-left:96px}
+.ov-field.phone .ov-label{left:96px}
+.ov-field.phone .ov-prefix{position:absolute;left:46px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;font-family:'Space Grotesk';font-size:13px;font-weight:700;color:var(--ov-accent);pointer-events:none;letter-spacing:0.3px}
+.ov-field.phone .ov-prefix::after{content:'';width:1px;height:18px;background:rgba(255,255,255,0.14)}
+
+/* Gold fields */
+.ov-field.trade input,.ov-field.referral input{background:linear-gradient(90deg,rgba(244,201,122,0.04),rgba(15,21,36,0.55));border-color:rgba(244,201,122,0.16)}
+.ov-field.trade input:focus,.ov-field.referral input:focus{border-color:var(--ov-gold);box-shadow:0 0 0 4px rgba(244,201,122,0.10)}
+.ov-field.trade input:focus ~ .ov-icon,.ov-field.referral input:focus ~ .ov-icon{color:var(--ov-gold)}
+.ov-field.trade input:focus + .ov-label,.ov-field.trade input:not(:placeholder-shown) + .ov-label,
+.ov-field.referral input:focus + .ov-label,.ov-field.referral input:not(:placeholder-shown) + .ov-label{color:var(--ov-gold)}
+
+/* Eye toggle */
+.ov-eye{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--ov-muted);cursor:pointer;padding:8px;font-size:1.08rem;border-radius:9px;transition:all .2s;display:grid;place-items:center}
+.ov-eye:hover{color:var(--ov-accent);background:rgba(62,232,168,0.08)}
+.ov-field.trade .ov-eye:hover{color:var(--ov-gold);background:rgba(244,201,122,0.08)}
+
+/* ============ RIGHT-EDGE STATUS (tick / X) ============ */
+.ov-status{position:absolute;right:15px;top:50%;transform:translateY(-50%);font-size:1.2rem;line-height:0;display:none;pointer-events:none}
+.ov-field.has-eye .ov-status{right:48px}
+.ov-field.has-eye input{padding-right:78px}
+.ov-field.ok .ov-status,.ov-field.bad .ov-status,.ov-field.busy .ov-status{display:block}
+.ov-field.ok .ov-status{color:var(--ov-accent)}
+.ov-field.bad .ov-status{color:var(--ov-danger)}
+.ov-field.busy .ov-status{color:var(--ov-gold)}
+.ov-field.busy .ov-status i{display:inline-block;animation:ovSpin .9s linear infinite}
+.ov-field.ok input{border-color:rgba(62,232,168,0.4)}
+.ov-field.bad input{border-color:rgba(255,107,122,0.55)}
+.ov-field.ok input:focus{border-color:var(--ov-accent)}
+.ov-field.bad input:focus{border-color:var(--ov-danger);box-shadow:0 0 0 4px rgba(255,107,122,0.10)}
+
+/* ============ CODE / CAPTCHA ============ */
+.ov-code-label{font-size:10px;font-weight:800;letter-spacing:0.9px;text-transform:uppercase;color:var(--ov-muted-2);margin:6px 0 8px 2px}
+.ov-code-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:stretch;margin-bottom:6px}
+.ov-code-input-wrap{position:relative}
+.ov-code-input-wrap input{width:100%;height:54px;padding:0 16px;background:rgba(15,21,36,0.55);border:1.5px solid var(--ov-line);border-radius:12px;font-family:'Space Grotesk';font-size:16px;font-weight:700;color:var(--ov-text);outline:none;transition:all .25s;letter-spacing:3px;text-align:center}
+.ov-code-input-wrap input::placeholder{letter-spacing:0.5px;color:var(--ov-muted-2);font-weight:500;font-family:'Inter';font-size:12.5px}
+.ov-code-input-wrap input:focus{border-color:var(--ov-accent);background:rgba(7,11,20,0.95);box-shadow:0 0 0 4px rgba(62,232,168,0.10)}
+.ov-captcha{display:grid;place-items:center;min-width:132px;height:54px;border-radius:12px;background:linear-gradient(135deg,rgba(244,201,122,0.14),rgba(62,232,168,0.08));border:1.5px solid rgba(244,201,122,0.32);position:relative;overflow:hidden;cursor:pointer;user-select:none;padding:0 14px}
+.ov-captcha::before{content:'';position:absolute;inset:0;background-image:
+  radial-gradient(circle at 20% 30%,rgba(255,255,255,0.08) 1px,transparent 1.5px),
+  radial-gradient(circle at 70% 60%,rgba(255,255,255,0.06) 1px,transparent 1.5px),
+  radial-gradient(circle at 45% 80%,rgba(255,255,255,0.06) 1px,transparent 1.5px);
+  background-size:18px 18px,22px 22px,26px 26px;pointer-events:none}
+.ov-captcha-text{font-family:'Space Grotesk';font-size:24px;font-weight:800;letter-spacing:6px;color:var(--ov-gold);text-shadow:0 0 18px rgba(244,201,122,0.45);position:relative;z-index:1}
+.ov-captcha-text span{display:inline-block;transform:rotate(var(--r,0deg))}
+.ov-captcha-refresh{position:absolute;top:3px;right:5px;font-size:11px;color:var(--ov-muted);background:rgba(7,11,20,0.45);border-radius:6px;padding:2px 6px;cursor:pointer;z-index:2;transition:color .2s,transform .3s}
+.ov-captcha-refresh:hover{color:var(--ov-accent);transform:rotate(180deg)}
+.ov-code-hint{font-size:10.5px;color:var(--ov-muted);font-weight:500;margin:8px 0 16px 4px;display:flex;align-items:center;gap:5px}
+.ov-code-hint i{color:var(--ov-accent);font-size:12px}
+.ov-code-hint a{color:var(--ov-gold);font-weight:700;text-decoration:none;cursor:pointer}
+.ov-code-hint a:hover{text-decoration:underline}
+
+/* ============ BUTTONS ============ */
+.ov-btn{position:relative;width:100%;height:54px;margin-top:4px;border:none;border-radius:13px;background:linear-gradient(135deg,#3EE8A8 0%,#19B98B 55%,#0E8E68 100%);background-size:200% 100%;color:#04261A;font-family:'Inter';font-size:14px;font-weight:800;letter-spacing:0.4px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:all .3s;box-shadow:0 12px 26px rgba(62,232,168,0.28),inset 0 1px 0 rgba(255,255,255,0.28);overflow:hidden}
+.ov-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.35) 50%,transparent 70%);transform:translateX(-100%);transition:transform .8s}
+.ov-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 18px 38px rgba(62,232,168,0.4),inset 0 1px 0 rgba(255,255,255,0.35);background-position:100% 50%}
+.ov-btn:hover:not(:disabled)::before{transform:translateX(100%)}
+.ov-btn:active:not(:disabled){transform:translateY(0) scale(0.995)}
+.ov-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.ov-login-btn{position:relative;width:100%;height:52px;margin-top:10px;border-radius:13px;background:rgba(255,255,255,0.03);border:1.5px solid var(--ov-line-2);color:var(--ov-text);font-family:'Inter';font-size:13px;font-weight:800;letter-spacing:0.4px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .25s;text-decoration:none}
+.ov-login-btn:hover{background:rgba(91,141,239,0.10);border-color:rgba(91,141,239,0.4);color:var(--ov-blue);transform:translateY(-1px)}
+.ov-login-btn i{font-size:1.1rem}
+.ov-spinner{width:16px;height:16px;border:2.5px solid rgba(4,38,26,0.25);border-top-color:#04261A;border-radius:50%;animation:ovSpin .7s linear infinite;display:inline-block}
+
+/* ============ FOOTER ============ */
+.ov-foot{padding-top:22px;text-align:center;animation:ovFadeUp 1s cubic-bezier(.2,.9,.3,1.1) .3s both}
+.ov-foot p{font-size:10.5px;color:var(--ov-muted-2);font-weight:600;letter-spacing:0.5px;margin:0}
+
+/* ============ TOAST (compact, top-right) ============ */
+#ov-toast-container{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none;max-width:min(300px,calc(100vw - 24px))}
+.ov-toast{position:relative;display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:11px;background:rgba(15,21,36,0.94);border:1px solid var(--ov-line-2);box-shadow:0 10px 28px rgba(0,0,0,0.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);pointer-events:auto;cursor:pointer;overflow:hidden;transform:translateX(26px);opacity:0;transition:transform .3s cubic-bezier(.2,.9,.3,1.1),opacity .25s}
+.ov-toast.show{transform:none;opacity:1}
+.ov-toast > i{font-size:16px;color:var(--c);flex-shrink:0}
+.ov-toast-msg{font-size:11.5px;font-weight:600;color:var(--ov-text);line-height:1.4}
+.ov-toast-bar{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--c);opacity:.75;transform-origin:left;animation:ovBar 4.2s linear forwards}
+@keyframes ovBar{to{transform:scaleX(0)}}
+
+@media(max-width:380px){
+  .ov-banner{height:180px}
+  .ov-banner-title{font-size:19px}
+  .ov-heading h1{font-size:26px}
+  .ov-content{padding:0 16px 32px}
+  .ov-field input{height:52px;font-size:13px}
+  .ov-field.phone input{padding-left:90px}
+  .ov-field.phone .ov-label{left:90px}
+  .ov-btn,.ov-login-btn{height:52px}
+  .ov-captcha{min-width:112px}
+  .ov-captcha-text{font-size:21px;letter-spacing:5px}
+}
+</style>
+</head>
+<body>
+
+<div class="ov-bg-layer">
+  <div class="ov-grid"></div>
+  <div class="ov-orb ov-orb-a"></div>
+  <div class="ov-orb ov-orb-b"></div>
+  <div class="ov-orb ov-orb-c"></div>
+  <div class="ov-vignette"></div>
+</div>
+
+<main class="ov-shell">
+
+  <!-- TOP BANNER -->
+  <div class="ov-banner">
+    <img src="ovexa.png" alt="Ovexa" onerror="this.style.display='none'">
+    <div class="ov-banner-inner">
+      <div>
+        <p class="ov-banner-title">Welcome to Ovexa</p>
+        <p class="ov-banner-sub">Smart investing, made simple</p>
+      </div>
+      <a href="login.html" class="ov-banner-link"><i class="ph ph-sign-in"></i> Sign In</a>
+    </div>
+  </div>
+
+  <div class="ov-content">
+
+    <!-- HEADING -->
+    <div class="ov-heading">
+      <div class="eyebrow"><span class="dot"></span> Get Started</div>
+      <h1>Create your <span class="grad">Ovexa account</span></h1>
+      <p>Set up your profile in less than a minute. Fund, invest, earn — all in one place.</p>
+    </div>
+
+    <!-- FORM PANEL -->
+    <div class="ov-form-panel">
+
+      <div class="ov-ref-banner" id="ovRefBanner">
+        <i class="ph ph-users-three"></i>
+        <span>Referred by <strong id="ovRefBannerName">---</strong></span>
+      </div>
+
+      <form id="ovSignupForm" autocomplete="off" novalidate>
+
+        <!-- PHONE -->
+        <div class="ov-field phone">
+          <input type="tel" id="phone" placeholder=" " maxlength="11" required autocomplete="tel" inputmode="numeric">
+          <span class="ov-prefix">🇳🇬 +234</span>
+          <label class="ov-label" for="phone">Phone Number</label>
+          <i class="ph ph-device-mobile ov-icon"></i>
+          <span class="ov-status"></span>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="ov-field">
+          <input type="email" id="email" placeholder=" " required autocomplete="email">
+          <label class="ov-label" for="email">Email Address</label>
+          <i class="ph ph-envelope-simple ov-icon"></i>
+          <span class="ov-status"></span>
+        </div>
+
+        <!-- USERNAME -->
+        <div class="ov-field">
+          <input type="text" id="username" placeholder=" " maxlength="20" required autocomplete="username">
+          <label class="ov-label" for="username">Username</label>
+          <i class="ph ph-user ov-icon"></i>
+          <span class="ov-status"></span>
+        </div>
+
+        <!-- LOGIN PASSWORD -->
+        <div class="ov-field has-eye">
+          <input type="password" id="password" placeholder=" " required autocomplete="new-password">
+          <label class="ov-label" for="password">Login Password</label>
+          <i class="ph ph-lock-key ov-icon"></i>
+          <span class="ov-status"></span>
+          <button type="button" class="ov-eye" data-target="password" aria-label="Show or hide password"><i class="ph ph-eye"></i></button>
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <div class="ov-field has-eye">
+          <input type="password" id="confirmPassword" placeholder=" " required autocomplete="new-password">
+          <label class="ov-label" for="confirmPassword">Confirm Password</label>
+          <i class="ph ph-lock-key ov-icon"></i>
+          <span class="ov-status"></span>
+          <button type="button" class="ov-eye" data-target="confirmPassword" aria-label="Show or hide password"><i class="ph ph-eye"></i></button>
+        </div>
+
+        <!-- TRADE PIN -->
+        <div class="ov-field trade has-eye">
+          <input type="tel" id="tradePassword" placeholder=" " maxlength="6" required inputmode="numeric" autocomplete="off">
+          <label class="ov-label" for="tradePassword">Trade PIN (6 digits)</label>
+          <i class="ph ph-key ov-icon"></i>
+          <span class="ov-status"></span>
+          <button type="button" class="ov-eye" data-target="tradePassword" aria-label="Show or hide PIN"><i class="ph ph-eye"></i></button>
+        </div>
+
+        <!-- REFERRAL CODE -->
+        <div class="ov-field referral">
+          <input type="text" id="referralCode" placeholder=" " maxlength="20" autocomplete="off">
+          <label class="ov-label" for="referralCode">Invite Code (optional)</label>
+          <i class="ph ph-gift ov-icon"></i>
+          <span class="ov-status"></span>
+        </div>
+
+        <!-- CODE / CAPTCHA -->
+        <div class="ov-code-label">Verification Code</div>
+        <div class="ov-code-row">
+          <div class="ov-code-input-wrap">
+            <input type="tel" id="captchaInput" placeholder="Type the code" maxlength="4" inputmode="numeric" autocomplete="off">
+          </div>
+          <div class="ov-captcha" id="ovCaptcha" title="Tap to get a new code">
+            <span class="ov-captcha-refresh" id="ovCaptchaRefresh"><i class="ph ph-arrows-clockwise"></i></span>
+            <div class="ov-captcha-text" id="ovCaptchaText">----</div>
+          </div>
+        </div>
+        <div class="ov-code-hint">
+          <i class="ph ph-info"></i> Match the code shown, or <a id="ovNewCodeLink">request a new one</a>
+        </div>
+
+        <!-- SUBMIT -->
+        <button type="submit" class="ov-btn" id="ovSignupBtn">
+          <span id="ovBtnText">Create Account</span>
+        </button>
+
+        <!-- LOGIN -->
+        <a href="login.html" class="ov-login-btn">
+          <i class="ph ph-sign-in"></i> Already have an account? Sign In
+        </a>
+
+      </form>
+    </div>
+
+    <div class="ov-foot">
+      <p>© Ovexa — Grow with confidence</p>
+    </div>
+
+  </div>
+
+</main>
+
+<div id="ov-toast-container"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, updateDoc, arrayUnion, increment,
+  serverTimestamp, runTransaction, writeBatch
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCqXdfRRQZbbrB4DIpTAj45FkxJsXm3JrM",
+  authDomain: "vexa-c0868.firebaseapp.com",
+  projectId: "vexa-c0868",
+  storageBucket: "vexa-c0868.firebasestorage.app",
+  messagingSenderId: "209201666488",
+  appId: "1:209201666488:web:ae6d16fec94097e719174d"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const $ = id => document.getElementById(id);
+const WELCOME_BONUS = 300;
+
+// ================== TOAST (compact, top-right) ==================
+function ovNotify(type, message){
+  const c = $('ov-toast-container');
+  const themes = {
+    success:['ph-check-circle','#3EE8A8'],
+    error:['ph-x-circle','#FF6B7A'],
+    warning:['ph-warning-circle','#F4C97A'],
+    info:['ph-info','#5B8DEF']
+  };
+  const th = themes[type] || themes.info;
+  while(c.children.length >= 3) c.firstChild.remove();
+  const t = document.createElement('div');
+  t.className = 'ov-toast';
+  t.style.setProperty('--c', th[1]);
+  t.innerHTML = `<i class="ph ${th[0]}"></i><span class="ov-toast-msg"></span><span class="ov-toast-bar"></span>`;
+  t.querySelector('.ov-toast-msg').textContent = message;
+  const kill = () => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); };
+  t.addEventListener('click', kill);
+  c.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(kill, 4200);
+}
+
+// ================== TICK / X STATUS ==================
+const ICONS = { ok:'ph-check-circle', bad:'ph-x-circle', busy:'ph-circle-notch' };
+function setState(id, state){
+  const f = $(id).closest('.ov-field');
+  const s = f.querySelector('.ov-status');
+  f.classList.remove('ok','bad','busy');
+  if(state){ f.classList.add(state); s.innerHTML = `<i class="ph ${ICONS[state]}"></i>`; }
+  else s.innerHTML = '';
+}
+const fmtOk = {
+  phone: v => /^(070|080|081|090|091)\d{8}$/.test(v),
+  email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+  username: v => /^[a-zA-Z]{4,20}$/.test(v),
+  password: v => v.length >= 6,
+  tradePassword: v => /^\d{6}$/.test(v)
+};
+const check = (id, ok) => { const v = $(id).value; setState(id, v ? (ok(v) ? 'ok' : 'bad') : ''); };
+
+// Password eye toggles
+document.querySelectorAll('.ov-eye').forEach(btn => btn.addEventListener('click', () => {
+  const inp = $(btn.dataset.target), ic = btn.querySelector('i');
+  const show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  ic.className = show ? 'ph ph-eye-slash' : 'ph ph-eye';
+}));
+
+$('phone').addEventListener('input', function(){ this.value = this.value.replace(/\D/g,'').slice(0,11); check('phone', fmtOk.phone); });
+$('email').addEventListener('input', () => check('email', fmtOk.email));
+$('password').addEventListener('input', () => {
+  check('password', fmtOk.password);
+  if($('confirmPassword').value) check('confirmPassword', v => v === $('password').value);
+});
+$('confirmPassword').addEventListener('input', () => check('confirmPassword', v => v === $('password').value));
+$('tradePassword').addEventListener('input', function(){ this.value = this.value.replace(/\D/g,'').slice(0,6); check('tradePassword', fmtOk.tradePassword); });
+
+// Username: format + live availability
+let userTimer = null, userToken = 0;
+$('username').addEventListener('input', function(){
+  clearTimeout(userTimer);
+  const v = this.value.trim(), token = ++userToken;
+  if(!v) return setState('username','');
+  if(!fmtOk.username(v)) return setState('username','bad');
+  setState('username','busy');
+  userTimer = setTimeout(async () => {
+    try{
+      const snap = await getDoc(doc(db,'users',v.toUpperCase()));
+      if(token === userToken) setState('username', snap.exists() ? 'bad' : 'ok');
+    }catch(e){ if(token === userToken) setState('username','ok'); }   // lookup blocked: format is valid
+  }, 450);
+});
+
+// Referral: live lookup (optional field)
+let refTimer = null, refToken = 0;
+function checkReferral(){
+  clearTimeout(refTimer);
+  const v = $('referralCode').value.trim(), token = ++refToken;
+  $('ovRefBanner').classList.remove('show');
+  if(!v) return setState('referralCode','');
+  setState('referralCode','busy');
+  refTimer = setTimeout(async () => {
+    try{
+      const snap = await getDoc(doc(db,'users',v));
+      if(token !== refToken) return;
+      const exists = snap.exists();
+      setState('referralCode', exists ? 'ok' : 'bad');
+      if(exists){ $('ovRefBannerName').textContent = v; $('ovRefBanner').classList.add('show'); }
+    }catch(e){ if(token === refToken) setState('referralCode',''); }
+  }, 450);
+}
+$('referralCode').addEventListener('input', function(){
+  this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,20);
+  checkReferral();
+});
+
+// ?ref=CODE in the URL
+(() => {
+  const r = new URLSearchParams(window.location.search).get('ref');
+  if(!r) return;
+  $('referralCode').value = r.trim().toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,20);
+  checkReferral();
+})();
+
+// ================== CAPTCHA ==================
+let currentCode = '';
+function generateCode(){
+  const digits = new Uint32Array(4); crypto.getRandomValues(digits);
+  currentCode = Array.from(digits, n => n % 10).join('');
+  $('ovCaptchaText').innerHTML = currentCode.split('').map(d =>
+    `<span style="--r:${(Math.random()*14 - 7).toFixed(1)}deg">${d}</span>`).join('');
+  $('captchaInput').value = '';
+}
+$('ovCaptchaRefresh').addEventListener('click', e => { e.stopPropagation(); generateCode(); });
+$('ovCaptcha').addEventListener('click', generateCode);
+$('ovNewCodeLink').addEventListener('click', generateCode);
+generateCode();
+
+// ================== SIGNUP ==================
+let submitting = false;
+function setLoading(l){
+  submitting = l;
+  $('ovSignupBtn').disabled = l;
+  $('ovBtnText').innerHTML = l ? '<span class="ov-spinner"></span> Setting up…' : 'Create Account';
+}
+
+async function handleSignup(){
+  if(submitting) return;
+
+  const phone = $('phone').value.trim();
+  const email = $('email').value.trim().toLowerCase();
+  const username = $('username').value.trim().toUpperCase();
+  const password = $('password').value;
+  const confirmPassword = $('confirmPassword').value;
+  const tradePassword = $('tradePassword').value.trim();
+  const refCode = $('referralCode').value.trim().toUpperCase();
+  const captchaInput = $('captchaInput').value.trim();
+
+  if(!phone || !email || !username || !password || !confirmPassword || !tradePassword || !captchaInput)
+    return ovNotify('error','Please fill in all required fields.');
+  if(!fmtOk.phone(phone)) return ovNotify('error','Enter a valid Nigerian phone number.');
+  if(!fmtOk.email(email)) return ovNotify('error','Enter a valid email address.');
+  if(!fmtOk.username(username)) return ovNotify('error','Username: letters only, 4–20 characters.');
+  if(password.length < 6) return ovNotify('error','Password must be at least 6 characters.');
+  if(password !== confirmPassword) return ovNotify('error','Passwords do not match.');
+  if(!fmtOk.tradePassword(tradePassword)) return ovNotify('error','Trade PIN must be exactly 6 digits.');
+  if(tradePassword === password) return ovNotify('error','Trade PIN must differ from login password.');
+  if(refCode && refCode === username) return ovNotify('error','You cannot refer yourself.');
+  if(captchaInput !== currentCode){ generateCode(); return ovNotify('error','Incorrect verification code.'); }
+
+  setLoading(true);
+  let cred = null;
+
+  try{
+    if(refCode){
+      const rs = await getDoc(doc(db,'users',refCode));
+      if(!rs.exists()){ setState('referralCode','bad'); setLoading(false); return ovNotify('error','Invite code not found.'); }
+    }
+    const us = await getDoc(doc(db,'users',username));
+    if(us.exists()){ setState('username','bad'); setLoading(false); return ovNotify('error','Username already taken.'); }
+
+    cred = await createUserWithEmailAndPassword(auth, email, password);
+    const uid = cred.user.uid;
+    const referrer = refCode || '';
+
+    // Core records: one atomic commit, so we never end up with half an account
+    try{
+      const batch = writeBatch(db);
+      batch.set(doc(db,'users',username), {
+        uid, email, phone, username,
+        ownReferralCode: username,
+        referredBy: referrer,
+        tradePassword,
+        depositWallet: WELCOME_BONUS,
+        withdrawalWallet: 0,
+        totalDeposited: 0,
+        totalWithdrawn: 0,
+        totalEarnings: 0,
+        referralBonus: 0,
+        referralCount: 0,
+        isAdmin: false,
+        isActive: true,
+        accountStatus: 'active',
+        createdAt: serverTimestamp(),
+        lastLogin: serverTimestamp(),
+        registrationDate: new Date().toISOString()
+      });
+      batch.set(doc(db,'usersByUid',uid), { username, email, referredBy: referrer });
+      batch.set(doc(db,'transactionHistory',username), { username, transactions:[], createdAt: serverTimestamp() });
+      batch.set(doc(db,'investments',username), { username, activeInvestments:[], totalInvested:0, totalReturns:0, createdAt: serverTimestamp() });
+      await batch.commit();
+    }catch(e){
+      try{ await cred.user.delete(); }catch(_){}   // roll back so the user can retry with the same email
+      throw e;
+    }
+
+    // Referral bookkeeping: never blocks a successful signup
+    if(referrer){
+      try{
+        const rsRef = doc(db,'referralStats',referrer);
+        await runTransaction(db, async (tx) => {
+          const rss = await tx.get(rsRef);
+          if(rss.exists()){
+            tx.update(rsRef, { referrals: arrayUnion(username), referralCount: increment(1), lastReferralAt: serverTimestamp() });
+          } else {
+            tx.set(rsRef, { username: referrer, referrals:[username], referralCount:1, totalReferralBonus:0, createdAt: serverTimestamp(), lastReferralAt: serverTimestamp() });
+          }
+        });
+        await updateDoc(doc(db,'users',referrer), { referralCount: increment(1) });
+      }catch(e){ console.warn('Referral update failed:', e); }
+    }
+
+    sessionStorage.setItem('userLoggedIn','true');
+    sessionStorage.setItem('userEmail', email);
+    sessionStorage.setItem('userUid', uid);
+    sessionStorage.setItem('username', username);
+    sessionStorage.setItem('userData', JSON.stringify({
+      username, email,
+      depositWallet: WELCOME_BONUS, withdrawalWallet: 0,
+      totalDeposited: 0, totalWithdrawn: 0,
+      referralCount: 0, referralBonus: 0,
+      activePlan: '', isAdmin: false
+    }));
+
+    ovNotify('success', referrer
+      ? `Welcome to Ovexa! ₦${WELCOME_BONUS} added. Invited by ${referrer}.`
+      : `Welcome to Ovexa! ₦${WELCOME_BONUS} added to your wallet.`);
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1800);
+
+  }catch(err){
+    setLoading(false);
+    console.error('Signup error:', err);
+    const messages = {
+      'auth/email-already-in-use':'This email is already registered. Try signing in.',
+      'auth/invalid-email':'That email address looks invalid.',
+      'auth/weak-password':'Password is too weak. Use at least 6 characters.',
+      'auth/network-request-failed':'Network error. Check your connection.',
+      'auth/too-many-requests':'Too many attempts. Please wait a moment.',
+      'permission-denied':'Could not save your account. Please try again.'
+    };
+    ovNotify('error', messages[err.code] || 'Something went wrong. Please try again.');
+  }
+}
+
+$('ovSignupForm').addEventListener('submit', e => { e.preventDefault(); handleSignup(); });
+window.handleSignup = handleSignup;
+window.ovNotify = ovNotify;
+</script>
+</body>
+</html>
