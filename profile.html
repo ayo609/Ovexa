@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ovexa — Profile</title>
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<meta name="theme-color" content="#07090D">
+
+<style>
+:root{
+  --bg:#07090D;
+  --s1:#0D1117;
+  --s2:#131922;
+  --s3:#1A2230;
+  --ln:rgba(255,255,255,0.07);
+  --ln2:rgba(255,255,255,0.13);
+  --tx:#ECF1F8;
+  --tx2:#8791A5;
+  --tx3:#555F73;
+  --mint:#3EE8A8;
+  --gold:#F4C97A;
+  --rose:#FF6B7A;
+  --sky:#5B8DEF;
+  --violet:#B98BFF;
+}
+html,body{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:var(--bg);color:var(--tx)}
+*,*::before,*::after{box-sizing:inherit}
+body{min-height:100vh;position:relative;overflow-x:hidden;padding-bottom:104px;background-image:radial-gradient(rgba(255,255,255,0.045) 1px,transparent 1px);background-size:22px 22px}
+.num{font-family:'Space Grotesk';font-variant-numeric:tabular-nums;letter-spacing:-0.03em}
+button,input{font-family:inherit}
+a{color:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.wrap{max-width:540px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+.lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+
+/* ============ HEADER ============ */
+.top{position:sticky;top:0;z-index:60;margin:0 -16px;padding:calc(12px + env(safe-area-inset-top)) 16px 10px;background:rgba(7,9,13,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:12px}
+.back{width:38px;height:38px;border-radius:12px;background:var(--s1);border:1px solid var(--ln);display:grid;place-items:center;color:var(--tx2);font-size:1.1rem;text-decoration:none;flex-shrink:0}
+.back:hover{color:var(--tx);border-color:var(--ln2)}
+.ttl{flex:1;min-width:0}
+.ttl b{display:block;font-family:'Space Grotesk';font-size:17px;font-weight:700;letter-spacing:-0.02em}
+.ttl small{display:block;font-size:11px;color:var(--tx2);margin-top:1px}
+.wallet{display:flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;background:rgba(62,232,168,0.08);border:1px solid rgba(62,232,168,0.22);font-size:12px;font-weight:700;color:var(--mint);white-space:nowrap}
+.wallet i{font-size:1rem}
+
+/* ============ ID CARD ============ */
+.idc{margin-top:14px;position:relative;border:1px solid var(--ln2);border-radius:22px;background:linear-gradient(135deg,rgba(62,232,168,0.10),var(--s1) 55%);padding:18px;overflow:hidden;animation:rise .5s ease both}
+.idc::after{content:'';position:absolute;right:-50px;bottom:-60px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(91,141,239,0.18),transparent 70%);pointer-events:none}
+.idc-r{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+.ring{position:relative;width:84px;height:84px;flex-shrink:0;cursor:pointer}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:5;stroke-linecap:round}
+.ring .bg{stroke:rgba(255,255,255,0.08)}
+.ring .fg{stroke:var(--mint);transition:stroke-dashoffset 1.2s cubic-bezier(.2,.9,.3,1.1)}
+.ring .av{position:absolute;inset:9px;border-radius:50%;background:linear-gradient(135deg,var(--mint),#19B98B);display:grid;place-items:center;font-family:'Space Grotesk';font-weight:700;font-size:28px;color:#04261A}
+.ring .pc{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);padding:2px 8px;border-radius:999px;background:var(--s3);border:1px solid var(--ln2);font-size:10px;font-weight:800;color:var(--mint);white-space:nowrap}
+.idc-i{flex:1;min-width:0}
+.idc-i h1{margin:0;font-family:'Space Grotesk';font-size:21px;font-weight:700;letter-spacing:-0.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.idc-i p{margin:4px 0 9px;font-size:12px;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;font-size:10.5px;font-weight:700;background:var(--s2);border:1px solid var(--ln);color:var(--tx2)}
+.pill.g{background:rgba(62,232,168,0.1);border-color:rgba(62,232,168,0.3);color:var(--mint)}
+.pill i{font-size:.85rem}
+
+/* ============ STATS ============ */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;animation:rise .6s ease .05s both}
+.stats div{border:1px solid var(--ln);border-radius:14px;background:var(--s1);padding:11px 6px;text-align:center}
+.stats b{display:block;font-size:15px;font-weight:700}
+.stats small{display:block;margin-top:3px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3)}
+
+/* ============ REFERRAL ============ */
+.ref{margin-top:12px;border:1px solid rgba(244,201,122,0.28);border-radius:18px;background:linear-gradient(135deg,rgba(244,201,122,0.09),var(--s1) 60%);padding:14px;animation:rise .6s ease .08s both}
+.ref-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ref-h .lbl{color:var(--gold);display:flex;align-items:center;gap:6px}
+.ref-h a{font-size:11.5px;font-weight:700;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:3px}
+.ref-c{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 8px 8px 14px;border:1px dashed rgba(244,201,122,0.4);border-radius:13px;background:rgba(7,9,13,0.55)}
+.ref-c b{font-family:'Space Grotesk';font-size:20px;letter-spacing:.14em}
+.cpb{height:34px;padding:0 12px;border:none;border-radius:10px;background:var(--gold);color:#3a2300;font-size:12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.ref-l{display:flex;align-items:center;gap:8px;margin-top:9px;font-size:11px;color:var(--tx2)}
+.ref-l span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Space Grotesk'}
+.ref-l button{width:30px;height:30px;border-radius:9px;border:1px solid var(--ln2);background:var(--s2);color:var(--tx2);cursor:pointer;display:grid;place-items:center}
+.sh3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:11px}
+.shb{height:38px;border-radius:11px;border:1px solid;font-size:11.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;background:none}
+.shb.wa{color:#25D366;border-color:rgba(37,211,102,0.3);background:rgba(37,211,102,0.08)}
+.shb.tg{color:var(--sky);border-color:rgba(91,141,239,0.3);background:rgba(91,141,239,0.08)}
+.shb.gn{color:var(--tx);border-color:var(--ln2);background:var(--s2)}
+
+/* ============ GROUPED LISTS ============ */
+.grp{margin-top:18px;animation:rise .6s ease .1s both}
+.grp > .lbl{display:block;padding:0 4px 8px}
+.list{border:1px solid var(--ln);border-radius:18px;background:var(--s1);overflow:hidden}
+.it{display:flex;align-items:center;gap:12px;width:100%;padding:12px 13px;background:none;border:none;border-top:1px solid var(--ln);color:var(--tx);text-align:left;cursor:pointer;text-decoration:none;transition:background .15s}
+.it:first-child{border-top:none}
+.it:hover,.it:active{background:rgba(255,255,255,0.03)}
+.it .ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:1.05rem;flex-shrink:0;background:var(--cg);color:var(--c)}
+.it .tx{flex:1;min-width:0}
+.it .tx b{display:block;font-size:13px;font-weight:700}
+.it .tx small{display:block;margin-top:2px;font-size:10.5px;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.it > .ph-caret-right{color:var(--tx3);font-size:.95rem}
+.it .val{font-family:'Space Grotesk';font-size:11.5px;font-weight:600;color:var(--tx2)}
+.it .dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.c-m{--c:#3EE8A8;--cg:rgba(62,232,168,0.12)}
+.c-s{--c:#5B8DEF;--cg:rgba(91,141,239,0.12)}
+.c-g{--c:#F4C97A;--cg:rgba(244,201,122,0.12)}
+.c-v{--c:#B98BFF;--cg:rgba(185,139,255,0.12)}
+.c-r{--c:#FF6B7A;--cg:rgba(255,107,122,0.12)}
+.c-w{--c:#25D366;--cg:rgba(37,211,102,0.12)}
+
+.logout{width:100%;height:50px;margin-top:18px;border-radius:15px;border:1px solid rgba(255,107,122,0.32);background:rgba(255,107,122,0.08);color:var(--rose);font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.logout:hover{background:rgba(255,107,122,0.15)}
+.credit{text-align:center;font-size:10.5px;color:var(--tx3);font-weight:600;padding:14px 0 0}
+
+/* ============ DOCK ============ */
+.dock-w{position:fixed;left:0;right:0;bottom:0;z-index:70;padding:0 14px calc(10px + env(safe-area-inset-bottom));pointer-events:none}
+.dock{pointer-events:auto;max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;height:60px;background:rgba(13,17,23,0.95);border:1px solid var(--ln2);border-radius:20px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 18px 40px rgba(0,0,0,0.55)}
+.dk{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--tx3);text-decoration:none;font-size:9.5px;font-weight:700;padding:6px 0}
+.dk i{font-size:1.25rem}
+.dk.on,.dk:hover{color:var(--mint)}
+
+/* ============ SHEETS ============ */
+.ov-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:flex-end;justify-content:center;background:rgba(3,5,8,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.ov-modal.top2{z-index:10000}
+.ov-modal.open{display:flex;animation:fade .25s ease both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheet{position:relative;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;background:var(--s1);border:1px solid var(--ln2);border-bottom:none;border-radius:26px 26px 0 0;padding:10px 20px calc(22px + env(safe-area-inset-bottom));animation:up .35s cubic-bezier(.2,.9,.3,1) both}
+.sheet::before{content:'';display:block;width:38px;height:4px;border-radius:2px;background:var(--ln2);margin:0 auto 16px}
+.sh-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sh-h .ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:1.25rem;flex-shrink:0;background:var(--cg);color:var(--c);border:1px solid var(--c)}
+.sh-h h3{margin:0;font-family:'Space Grotesk';font-size:17px;font-weight:700}
+.sh-h p{margin:3px 0 0;font-size:11.5px;color:var(--tx2)}
+.sh-h .x{margin-left:auto;width:34px;height:34px;border-radius:10px;background:var(--s2);border:1px solid var(--ln);color:var(--tx2);display:grid;place-items:center;cursor:pointer;font-size:1rem;flex-shrink:0}
+.rows{border:1px solid var(--ln);border-radius:14px;background:var(--s2);padding:4px 14px;margin-bottom:12px}
+.rr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;font-size:12.5px}
+.rr + .rr{border-top:1px dashed var(--ln2)}
+.rr .k{color:var(--tx2);font-weight:600;flex-shrink:0}
+.rr .v{font-family:'Space Grotesk';font-weight:700;text-align:right;word-break:break-word}
+.rr .v.mute{color:var(--tx3);font-style:italic;font-family:'Inter';font-weight:600}
+.fld{position:relative;margin-bottom:11px}
+.fld label{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--tx3);margin-bottom:6px}
+.fld input{width:100%;height:48px;padding:0 44px 0 14px;background:var(--s2);border:1.5px solid var(--ln);border-radius:12px;font-size:13px;font-weight:500;color:var(--tx);outline:none;transition:.25s}
+.fld input::placeholder{color:var(--tx3)}
+.fld input:focus{border-color:var(--mint);box-shadow:0 0 0 4px rgba(62,232,168,0.1)}
+.fld .eye{position:absolute;right:8px;bottom:7px;width:34px;height:34px;border:none;background:none;color:var(--tx2);cursor:pointer;font-size:1.05rem;border-radius:9px;display:grid;place-items:center}
+.fld .eye:hover{color:var(--mint)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.btn{height:48px;border:none;border-radius:13px;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:.2s}
+.btn.pr{background:var(--mint);color:#04261A}
+.btn.gh{background:var(--s2);border:1px solid var(--ln2);color:var(--tx)}
+.btn.dg{background:var(--rose);color:#fff}
+.btn.full{grid-column:span 2}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.spn{width:16px;height:16px;border:2.5px solid rgba(4,38,26,0.25);border-top-color:#04261A;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+.btn.dg .spn{border-color:rgba(255,255,255,0.3);border-top-color:#fff}
+
+/* switches */
+.tg{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0}
+.tg + .tg{border-top:1px dashed var(--ln2)}
+.tg b{display:block;font-size:12.5px;font-weight:700}
+.tg small{display:block;margin-top:2px;font-size:10.5px;color:var(--tx2)}
+.sw{position:relative;width:44px;height:26px;flex-shrink:0;cursor:pointer}
+.sw input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:2}
+.sw i{position:absolute;inset:0;border-radius:999px;background:rgba(255,255,255,0.09);border:1px solid var(--ln2);transition:.25s}
+.sw i::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#ECF1F8;transition:transform .25s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 2px 4px rgba(0,0,0,0.3)}
+.sw input:checked + i{background:var(--mint);border-color:transparent}
+.sw input:checked + i::after{transform:translateX(18px)}
+
+/* strength list */
+.chk{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--ln);border-radius:13px;background:var(--s2);margin-bottom:8px;cursor:pointer}
+.chk .tick{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.95rem;flex-shrink:0;background:var(--s3);color:var(--tx3);border:1px solid var(--ln2)}
+.chk.ok .tick{background:var(--mint);color:#04261A;border-color:transparent}
+.chk b{display:block;font-size:12.5px}
+.chk small{display:block;margin-top:2px;font-size:10.5px;color:var(--tx2)}
+.chk > .ph-caret-right{margin-left:auto;color:var(--tx3)}
+
+/* documents */
+.doc{font-size:12.5px;line-height:1.7;color:var(--tx2)}
+.doc h4{margin:14px 0 6px;font-family:'Space Grotesk';font-size:13.5px;color:var(--tx)}
+.doc h4:first-child{margin-top:2px}
+.doc p{margin:0 0 10px}
+.doc ul{margin:0 0 12px;padding-left:18px}
+.doc li{margin-bottom:5px}
+.doc b{color:var(--tx)}
+
+/* compact confirm */
+.cf{text-align:center;padding-top:4px}
+.cf .ic{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;margin:0 auto 12px;background:var(--cg);color:var(--c);border:1px solid var(--c)}
+.cf h3{margin:0 0 6px;font-family:'Space Grotesk';font-size:17px;font-weight:700}
+.cf p{margin:0 0 16px;font-size:12px;line-height:1.55;color:var(--tx2)}
+
+/* ============ TOAST (compact, top-right) ============ */
+#ov-toast-container{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none;max-width:min(300px,calc(100vw - 24px))}
+.ov-toast{position:relative;display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:11px;background:rgba(19,25,34,0.95);border:1px solid var(--ln2);box-shadow:0 10px 28px rgba(0,0,0,0.5);backdrop-filter:blur(12px);pointer-events:auto;cursor:pointer;overflow:hidden;transform:translateX(26px);opacity:0;transition:transform .3s cubic-bezier(.2,.9,.3,1.1),opacity .25s}
+.ov-toast.show{transform:none;opacity:1}
+.ov-toast > i{font-size:16px;color:var(--c);flex-shrink:0}
+.ov-toast .m{font-size:11.5px;font-weight:600;line-height:1.4}
+.ov-toast .tb{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--c);opacity:.75;transform-origin:left;animation:tb 4.2s linear forwards}
+@keyframes tb{to{transform:scaleX(0)}}
+
+.ov-loader{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:var(--bg);transition:opacity .4s}
+.ov-loader.hide{opacity:0;pointer-events:none}
+.ov-loader .rg{width:42px;height:42px;border:3px solid rgba(62,232,168,0.15);border-top-color:var(--mint);border-radius:50%;animation:spin .8s linear infinite}
+
+@media(max-width:380px){
+  .idc-i h1{font-size:18px}
+  .ring{width:74px;height:74px}
+  .ring .av{font-size:24px}
+  .stats b{font-size:13.5px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="top">
+    <a href="dashboard.html" class="back" aria-label="Back"><i class="ph ph-arrow-left"></i></a>
+    <div class="ttl"><b>Profile</b><small>Your account and settings</small></div>
+    <div class="wallet"><i class="ph ph-wallet"></i><span class="num" id="ovDepBal">₦0</span></div>
+  </header>
+
+  <!-- ID CARD -->
+  <section class="idc">
+    <div class="idc-r">
+      <div class="ring" id="ovRing" title="Profile strength">
+        <svg viewBox="0 0 84 84"><circle class="bg" cx="42" cy="42" r="38"/><circle class="fg" id="ovRingFg" cx="42" cy="42" r="38"/></svg>
+        <div class="av" id="ovAvatar">O</div>
+        <span class="pc num" id="ovRingPct">0%</span>
+      </div>
+      <div class="idc-i">
+        <h1 id="ovName">Investor</h1>
+        <p id="ovEmail">—</p>
+        <div class="pills">
+          <span class="pill g"><i class="ph ph-shield-check"></i> Active</span>
+          <span class="pill" id="ovSince"><i class="ph ph-calendar-blank"></i> Member</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div><b class="num" id="ovStatRef">0</b><small>Referrals</small></div>
+    <div><b class="num" id="ovStatPlans">0</b><small>Plans</small></div>
+    <div><b class="num" id="ovStatEarn">₦0</b><small>Earned</small></div>
+    <div><b class="num" id="ovStatDays">0</b><small>Days</small></div>
+  </section>
+
+  <!-- REFERRAL -->
+  <section class="ref">
+    <div class="ref-h"><span class="lbl"><i class="ph ph-ticket"></i> Referral code</span><a href="referral.html">My team <i class="ph ph-arrow-right"></i></a></div>
+    <div class="ref-c"><b id="ovRefCode">——</b><button class="cpb" id="ovCopyCode"><i class="ph ph-copy"></i> Copy</button></div>
+    <div class="ref-l"><i class="ph ph-link"></i><span id="ovRefLink">—</span><button id="ovCopyLink" aria-label="Copy link"><i class="ph ph-copy"></i></button></div>
+    <div class="sh3">
+      <button class="shb wa" data-share="whatsapp"><i class="ph ph-whatsapp-logo"></i> WhatsApp</button>
+      <button class="shb tg" data-share="telegram"><i class="ph ph-telegram-logo"></i> Telegram</button>
+      <button class="shb gn" data-share="native"><i class="ph ph-share-network"></i> Share</button>
+    </div>
+  </section>
+
+  <!-- ACCOUNT -->
+  <section class="grp">
+    <span class="lbl">Account</span>
+    <div class="list">
+      <button class="it c-m" data-open="ovInfoSheet"><div class="ic"><i class="ph ph-identification-card"></i></div><div class="tx"><b>Personal info</b><small id="ovInfoSub">Username, email, phone</small></div><i class="ph ph-caret-right"></i></button>
+      <button class="it c-s" data-open="ovBankSheet"><div class="ic"><i class="ph ph-bank"></i></div><div class="tx"><b>Bank details</b><small id="ovBankSub">Where withdrawals are sent</small></div><i class="ph ph-caret-right"></i></button>
+    </div>
+  </section>
+
+  <!-- SECURITY -->
+  <section class="grp">
+    <span class="lbl">Security</span>
+    <div class="list">
+      <button class="it c-g" data-open="ovPassSheet"><div class="ic"><i class="ph ph-lock-key"></i></div><div class="tx"><b>Login password</b><small id="ovLastLogin">Change your password</small></div><i class="ph ph-caret-right"></i></button>
+      <button class="it c-v" data-open="ovPinSheet"><div class="ic"><i class="ph ph-key"></i></div><div class="tx"><b>Trade PIN</b><small>6-digit PIN for withdrawals</small></div><i class="ph ph-caret-right"></i></button>
+    </div>
+  </section>
+
+  <!-- PREFERENCES -->
+  <section class="grp">
+    <span class="lbl">Preferences</span>
+    <div class="list">
+      <button class="it c-m" data-open="ovNotifSheet"><div class="ic"><i class="ph ph-bell"></i></div><div class="tx"><b>Notifications</b><small>Email, push, withdrawals, earnings</small></div><i class="ph ph-caret-right"></i></button>
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="grp">
+    <span class="lbl">Community & support</span>
+    <div class="list">
+      <a class="it c-w" id="ovWaLink" href="#" target="_blank" rel="noopener"><div class="ic"><i class="ph ph-whatsapp-logo"></i></div><div class="tx"><b>WhatsApp group</b><small>Join the community</small></div><i class="ph ph-arrow-up-right"></i></a>
+      <a class="it c-s" id="ovTgLink" href="#" target="_blank" rel="noopener"><div class="ic"><i class="ph ph-telegram-logo"></i></div><div class="tx"><b>Telegram group</b><small>Join the channel</small></div><i class="ph ph-arrow-up-right"></i></a>
+      <button class="it c-g" data-doc="terms"><div class="ic"><i class="ph ph-scroll"></i></div><div class="tx"><b>Terms of service</b></div><i class="ph ph-caret-right"></i></button>
+      <button class="it c-v" data-doc="privacy"><div class="ic"><i class="ph ph-shield"></i></div><div class="tx"><b>Privacy policy</b></div><i class="ph ph-caret-right"></i></button>
+      <button class="it c-m" data-doc="about"><div class="ic"><i class="ph ph-info"></i></div><div class="tx"><b>About Ovexa</b></div><i class="ph ph-caret-right"></i></button>
+      <button class="it c-s" data-doc="version"><div class="ic"><i class="ph ph-app-window"></i></div><div class="tx"><b>App version</b></div><span class="val">1.0.0</span></button>
+    </div>
+  </section>
+
+  <button class="logout" id="ovLogout"><i class="ph ph-sign-out"></i> Log out</button>
+  <p class="credit">Ovexa · v1.0.0</p>
+
+</div>
+
+<!-- DOCK -->
+<div class="dock-w">
+  <nav class="dock">
+    <a class="dk" href="dashboard.html"><i class="ph ph-squares-four"></i><span>Home</span></a>
+    <a class="dk" href="invest.html"><i class="ph ph-chart-line-up"></i><span>Invest</span></a>
+    <a class="dk" href="transactions.html"><i class="ph ph-receipt"></i><span>History</span></a>
+    <a class="dk" href="referral.html"><i class="ph ph-users-three"></i><span>Referral</span></a>
+    <a class="dk on" href="profile.html"><i class="ph ph-user"></i><span>Profile</span></a>
+  </nav>
+</div>
+
+<!-- PERSONAL INFO -->
+<div class="ov-modal" id="ovInfoSheet">
+  <div class="sheet c-m">
+    <div class="sh-h"><div class="ic"><i class="ph ph-identification-card"></i></div><div><h3>Personal info</h3><p>Your account details</p></div><button class="x" data-close><i class="ph ph-x"></i></button></div>
+    <div class="rows">
+      <div class="rr"><span class="k">Username</span><span class="v" id="ovInfoUser">—</span></div>
+      <div class="rr"><span class="k">Email</span><span class="v" id="ovInfoEmail">—</span></div>
+      <div class="rr"><span class="k">Phone</span><span class="v" id="ovInfoPhone">—</span></div>
+      <div class="rr"><span class="k">Registered</span><span class="v" id="ovInfoReg">—</span></div>
+    </div>
+    <button class="btn gh" style="width:100%" data-close>Close</button>
+  </div>
+</div>
+
+<!-- BANK -->
+<div class="ov-modal" id="ovBankSheet">
+  <div class="sheet c-s">
+    <div class="sh-h"><div class="ic"><i class="ph ph-bank"></i></div><div><h3>Bank details</h3><p>Your withdrawal account</p></div><button class="x" data-close><i class="ph ph-x"></i></button></div>
+    <div class="rows">
+      <div class="rr"><span class="k">Bank</span><span class="v" id="ovBankName">—</span></div>
+      <div class="rr"><span class="k">Account number</span><span class="v" id="ovBankAcc">—</span></div>
+      <div class="rr"><span class="k">Account name</span><span class="v" id="ovBankAccName">—</span></div>
+    </div>
+    <div class="acts">
+      <button class="btn gh" data-close>Close</button>
+      <button class="btn pr" id="ovBankManage"><i class="ph ph-arrow-square-out"></i> Manage</button>
+    </div>
+  </div>
+</div>
+
+<!-- PASSWORD -->
+<div class="ov-modal" id="ovPassSheet">
+  <div class="sheet c-g">
+    <div class="sh-h"><div class="ic"><i class="ph ph-lock-key"></i></div><div><h3>Login password</h3><p id="ovPassSub">Choose a strong password</p></div><button class="x" data-close><i class="ph ph-x"></i></button></div>
+    <div class="fld"><label>Current password</label><input type="password" id="ovCurPass" placeholder="Current password" autocomplete="current-password"><button class="eye" type="button" data-eye="ovCurPass"><i class="ph ph-eye"></i></button></div>
+    <div class="fld"><label>New password</label><input type="password" id="ovNewPass" placeholder="At least 6 characters" autocomplete="new-password"><button class="eye" type="button" data-eye="ovNewPass"><i class="ph ph-eye"></i></button></div>
+    <div class="fld"><label>Confirm new password</label><input type="password" id="ovConfirmPass" placeholder="Re-enter new password" autocomplete="new-password"><button class="eye" type="button" data-eye="ovConfirmPass"><i class="ph ph-eye"></i></button></div>
+    <div class="acts">
+      <button class="btn gh" data-close>Cancel</button>
+      <button class="btn pr" id="ovPassGo"><i class="ph ph-check"></i> Update</button>
+    </div>
+  </div>
+</div>
+
+<!-- TRADE PIN -->
+<div class="ov-modal" id="ovPinSheet">
+  <div class="sheet c-v">
+    <div class="sh-h"><div class="ic"><i class="ph ph-key"></i></div><div><h3>Trade PIN</h3><p>Used to confirm withdrawals</p></div><button class="x" data-close><i class="ph ph-x"></i></button></div>
+    <div class="fld"><label>Current PIN</label><input type="password" id="ovCurPin" placeholder="6 digits" inputmode="numeric" maxlength="6" autocomplete="off"><button class="eye" type="button" data-eye="ovCurPin"><i class="ph ph-eye"></i></button></div>
+    <div class="fld"><label>New PIN</label><input type="password" id="ovNewPin" placeholder="6 digits" inputmode="numeric" maxlength="6" autocomplete="off"><button class="eye" type="button" data-eye="ovNewPin"><i class="ph ph-eye"></i></button></div>
+    <div class="fld"><label>Confirm new PIN</label><input type="password" id="ovConfirmPin" placeholder="6 digits" inputmode="numeric" maxlength="6" autocomplete="off"><button class="eye" type="button" data-eye="ovConfirmPin"><i class="ph ph-eye"></i></button></div>
+    <div class="acts">
+      <button class="btn gh" data-close>Cancel</button>
+      <button class="btn pr" id="ovPinGo"><i class="ph ph-check"></i> Update</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div class="ov-modal" id="ovNotifSheet">
+  <div class="sheet c-m">
+    <div class="sh-h"><div class="ic"><i class="ph ph-bell"></i></div><div><h3>Notifications</h3><p>Choose what you hear about</p></div><button class="x" data-close><i class="ph ph-x"></i></button></div>
+    <div class="rows" style="padding-top:2px;padding-bottom:2px">
+      <div class="tg"><div><b>Email notifications</b><small>Account updates by email</small></div><label class="sw"><input type="checkbox" id="tgEmail"><i></i></label></div>
+      <div class="tg"><div><b>Push notifications</b><small>In-app alerts</small></div><label class="sw"><input type="checkbox" id="tgPush"><i></i></label></div>
+      <div class="tg"><div><b>Withdrawal alerts</b><small>When a withdrawal is processed</small></div><label class="sw"><input type="checkbox" id="tgWd"><i></i></label></div>
+      <div class="tg"><div><b>Earnings alerts</b><small>When ROI is credited</small></div><label class="sw"><input type="checkbox" id="tgRoi"><i></i></label></div>
+    </div>
+    <div class="acts">
+      <button class="btn gh" data-close>Cancel</button>
+      <button class="btn pr" id="ovNotifGo"><i class="ph ph-check"></i> Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE STRENGTH -->
+<div class="ov-modal" id="ovStrengthSheet">
+  <div class="sheet c-m">
+    <div class="sh-h"><div class="ic"><i class="ph ph-seal-check"></i></div><div><h3>Profile strength</h3><p id="ovStrengthSub">Complete these steps</p></div><button class="x" data-close><i class="ph ph-x"></i></button></div>
+    <div id="ovStrengthList"></div>
+    <button class="btn gh" style="width:100%;margin-top:4px" data-close>Close</button>
+  </div>
+</div>
+
+<!-- DOCUMENT -->
+<div class="ov-modal" id="ovDocSheet">
+  <div class="sheet c-m">
+    <div class="sh-h"><div class="ic" id="ovDocIc"><i class="ph ph-scroll"></i></div><div><h3 id="ovDocTitle">—</h3><p id="ovDocSub">&nbsp;</p></div><button class="x" data-close><i class="ph ph-x"></i></button></div>
+    <div class="doc" id="ovDocBody"></div>
+    <button class="btn gh" style="width:100%;margin-top:8px" data-close>Close</button>
+  </div>
+</div>
+
+<!-- COMPACT CONFIRM -->
+<div class="ov-modal top2" id="ovConfirmModal">
+  <div class="sheet">
+    <div class="cf" id="ovCf">
+      <div class="ic" id="ovCfIc"><i class="ph ph-warning-circle"></i></div>
+      <h3 id="ovCfTitle">Are you sure?</h3>
+      <p id="ovCfDesc"></p>
+      <div class="acts">
+        <button class="btn gh" id="ovCfCancel">Cancel</button>
+        <button class="btn pr" id="ovCfGo">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="ov-toast-container"></div>
+<div class="ov-loader" id="ovLoader"><div class="rg"></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCqXdfRRQZbbrB4DIpTAj45FkxJsXm3JrM",
+  authDomain: "vexa-c0868.firebaseapp.com",
+  projectId: "vexa-c0868",
+  storageBucket: "vexa-c0868.firebasestorage.app",
+  messagingSenderId: "209201666488",
+  appId: "1:209201666488:web:ae6d16fec94097e719174d"
+};
+
+// ============ CONFIG ============
+window.OVEXA_CONFIG = {
+  whatsappGroup: "https://chat.whatsapp.com/YOUR_INVITE_LINK",
+  telegramGroup: "https://t.me/YOUR_GROUP_LINK"
+};
+// ================================
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+
+const S = window._state = { user:null, username:null, userDoc:null, plans:0, pending:null, code:'', link:'' };
+
+// ================== HELPERS ==================
+const toMs = v => !v ? 0 : v.toDate ? v.toDate().getTime() : new Date(v).getTime();
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => '₦' + (Number(n)||0).toLocaleString('en-NG',{minimumFractionDigits:0,maximumFractionDigits:2});
+const TZ = 'Africa/Lagos';
+const dateOf = ms => ms ? new Date(ms).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:TZ}) : '—';
+function ago(ms){
+  if(!ms) return '';
+  const s = Math.floor((Date.now() - ms) / 1000);
+  if(s < 60) return 'just now';
+  if(s < 3600) return Math.floor(s/60) + 'm ago';
+  if(s < 86400) return Math.floor(s/3600) + 'h ago';
+  if(s < 604800) return Math.floor(s/86400) + 'd ago';
+  return dateOf(ms);
+}
+
+function ovNotify(type, message){
+  const c = $('ov-toast-container');
+  const th = ({ success:['ph-check-circle','#3EE8A8'], error:['ph-x-circle','#FF6B7A'], warning:['ph-warning-circle','#F4C97A'], info:['ph-info','#5B8DEF'] })[type] || ['ph-info','#5B8DEF'];
+  while(c.children.length >= 3) c.firstChild.remove();
+  const t = document.createElement('div');
+  t.className = 'ov-toast'; t.style.setProperty('--c', th[1]);
+  t.innerHTML = `<i class="ph ${th[0]}"></i><span class="m"></span><span class="tb"></span>`;
+  t.querySelector('.m').textContent = message;
+  const kill = () => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); };
+  t.addEventListener('click', kill);
+  c.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(kill, 4200);
+}
+
+function openModal(id){ $(id)?.classList.add('open'); }
+function closeModal(id){ $(id)?.classList.remove('open'); }
+window.openModal = openModal;
+window.closeModal = closeModal;
+
+// ================== AUTH GUARD ==================
+onAuthStateChanged(auth, async (user) => {
+  if(!user){ window.location.href = 'login.html'; return; }
+  S.user = user;
+  await bootstrap();
+});
+
+async function bootstrap(){
+  try{
+    let username = sessionStorage.getItem('username');
+    if(!username){
+      const map = await getDoc(doc(db,'usersByUid', S.user.uid));
+      if(map.exists()) username = map.data().username;
+    }
+    if(!username) username = (sessionStorage.getItem('userEmail') || '').split('@')[0].toUpperCase();
+    S.username = username;
+
+    const [us, inv] = await Promise.all([
+      getDoc(doc(db,'users',username)),
+      getDoc(doc(db,'investments',username)).catch(() => null)
+    ]);
+    if(us.exists()) S.userDoc = us.data();
+    const act = inv && inv.exists() && Array.isArray(inv.data().activeInvestments) ? inv.data().activeInvestments : [];
+    S.plans = act.filter(i => i.status !== 'completed').length;
+
+    render();
+    loadPrefs();
+  }catch(err){
+    console.error('Bootstrap error:', err);
+    ovNotify('error','Could not load your profile.');
+  }finally{
+    $('ovLoader').classList.add('hide');
+  }
+}
+
+// ================== PROFILE STRENGTH (real checks) ==================
+function checks(){
+  const u = S.userDoc || {}, b = u.bankDetails || {};
+  return [
+    { ok:!!u.email,                         t:'Email added',          s:'Used to sign in and recover your account', open:null },
+    { ok:!!u.phone,                         t:'Phone number added',   s:'Required for account security',            open:'ovInfoSheet' },
+    { ok:!!(b.accountNumber && b.bankName), t:'Bank details added',   s:'Needed to receive withdrawals',            open:'ovBankSheet' },
+    { ok:!!u.passwordChanged,               t:'Password updated',     s:'Replace your first password with your own', open:'ovPassSheet' },
+    { ok:S.plans > 0 || u.firstPurchaseDone === true, t:'First plan bought', s:'Start earning daily returns', go:'invest.html' }
+  ];
+}
+
+function render(){
+  const u = S.userDoc || {}, name = S.username || 'Investor';
+  $('ovDepBal').textContent = fmt(u.depositWallet || 0);
+  $('ovAvatar').textContent = name.charAt(0).toUpperCase();
+  $('ovName').textContent = name;
+  $('ovEmail').textContent = u.email || '—';
+
+  const reg = toMs(u.createdAt) || toMs(u.registrationDate);
+  const days = reg ? Math.max(1, Math.floor((Date.now() - reg) / 86400000)) : 0;
+  $('ovSince').innerHTML = `<i class="ph ph-calendar-blank"></i> ${reg ? 'Since ' + dateOf(reg) : 'Member'}`;
+  $('ovStatRef').textContent = u.referralCount || 0;
+  $('ovStatPlans').textContent = S.plans;
+  $('ovStatEarn').textContent = fmt(u.totalEarnings || 0);
+  $('ovStatDays').textContent = days;
+
+  // info sheet
+  $('ovInfoUser').textContent = name;
+  $('ovInfoEmail').textContent = u.email || '—';
+  $('ovInfoPhone').textContent = u.phone || '—';
+  $('ovInfoReg').textContent = dateOf(reg);
+
+  // bank
+  const b = u.bankDetails || {};
+  const setRow = (id, val) => { const el = $(id); el.textContent = val || 'Not set'; el.className = 'v' + (val ? '' : ' mute'); };
+  setRow('ovBankName', b.bankName); setRow('ovBankAcc', b.accountNumber); setRow('ovBankAccName', b.accountName);
+  $('ovBankSub').textContent = b.accountNumber ? `${b.bankName || 'Bank'} · ${String(b.accountNumber).slice(-4).padStart(String(b.accountNumber).length, '•')}` : 'Not set — add your account';
+
+  // last login
+  const ll = toMs(u.lastLogin);
+  $('ovLastLogin').textContent = ll ? `Last login ${ago(ll)}` : 'Change your password';
+
+  // referral
+  S.code = (u.ownReferralCode || name).toUpperCase();
+  const url = new URL('index.html', location.href); url.search = ''; url.hash = ''; url.searchParams.set('ref', S.code);
+  S.link = url.toString();
+  $('ovRefCode').textContent = S.code;
+  $('ovRefLink').textContent = S.link;
+
+  $('ovWaLink').href = window.OVEXA_CONFIG.whatsappGroup;
+  $('ovTgLink').href = window.OVEXA_CONFIG.telegramGroup;
+
+  renderStrength();
+}
+
+function renderStrength(){
+  const list = checks(), done = list.filter(c => c.ok).length, pct = Math.round(done / list.length * 100);
+  const C = 2 * Math.PI * 38, fg = $('ovRingFg');
+  fg.style.strokeDasharray = C;
+  fg.style.strokeDashoffset = C;
+  requestAnimationFrame(() => setTimeout(() => { fg.style.strokeDashoffset = C - C * pct / 100; }, 100));
+  $('ovRingPct').textContent = pct + '%';
+  $('ovStrengthSub').textContent = `${done} of ${list.length} steps complete`;
+  $('ovStrengthList').innerHTML = list.map((c,i) => `
+    <div class="chk ${c.ok ? 'ok' : ''}" data-i="${i}">
+      <span class="tick"><i class="ph ${c.ok ? 'ph-check' : 'ph-circle'}"></i></span>
+      <div><b>${esc(c.t)}</b><small>${esc(c.s)}</small></div>
+      ${c.ok || (!c.open && !c.go) ? '' : '<i class="ph ph-caret-right"></i>'}
+    </div>`).join('');
+}
+
+// ================== COMPACT CONFIRM ==================
+// cfg: { title, desc, icon, color:'m|g|r|s|v', btn, danger, run: async () => {} }
+function confirmBox(cfg){
+  S.pending = cfg;
+  const cf = $('ovCf');
+  cf.className = 'cf c-' + (cfg.color || (cfg.danger ? 'r' : 'g'));
+  $('ovCfIc').innerHTML = `<i class="ph ${cfg.icon || 'ph-warning-circle'}"></i>`;
+  $('ovCfTitle').textContent = cfg.title;
+  $('ovCfDesc').textContent = cfg.desc;
+  const go = $('ovCfGo');
+  go.className = 'btn ' + (cfg.danger ? 'dg' : 'pr');
+  go.disabled = false; go.innerHTML = esc(cfg.btn || 'Continue');
+  openModal('ovConfirmModal');
+}
+$('ovCfCancel').addEventListener('click', () => { S.pending = null; closeModal('ovConfirmModal'); });
+$('ovCfGo').addEventListener('click', async () => {
+  const cfg = S.pending; if(!cfg) return;
+  const go = $('ovCfGo'), label = cfg.btn || 'Continue';
+  go.disabled = true; go.innerHTML = '<span class="spn"></span> Working…';
+  try{
+    await cfg.run();
+    closeModal('ovConfirmModal');
+  }catch(err){
+    console.error('Action error:', err);
+    closeModal('ovConfirmModal');
+    ovNotify('error', err && err.userMessage ? err.userMessage : 'Something went wrong. Try again.');
+  }finally{
+    S.pending = null; go.disabled = false; go.innerHTML = esc(label);
+  }
+});
+
+// ================== PASSWORD ==================
+$('ovPassGo').addEventListener('click', () => {
+  const cur = $('ovCurPass').value, np = $('ovNewPass').value, cf = $('ovConfirmPass').value;
+  if(!cur || !np || !cf) return ovNotify('error','Fill in all password fields.');
+  if(np.length < 6) return ovNotify('error','New password needs 6+ characters.');
+  if(np !== cf) return ovNotify('error','New passwords do not match.');
+  if(np === cur) return ovNotify('warning','New password must be different.');
+  confirmBox({
+    title:'Update password', desc:'Your new password applies from your next sign-in.', icon:'ph-lock-key', color:'g', btn:'Update',
+    run: async () => {
+      const user = auth.currentUser;
+      if(!user) throw { userMessage:'Please sign in again.' };
+      try{
+        await reauthenticateWithCredential(user, EmailAuthProvider.credential(user.email, cur));
+        await updatePassword(user, np);
+      }catch(err){
+        throw { userMessage: ({
+          'auth/wrong-password':'Current password is incorrect.',
+          'auth/invalid-credential':'Current password is incorrect.',
+          'auth/weak-password':'New password is too weak.',
+          'auth/requires-recent-login':'Sign out and in again, then retry.',
+          'auth/too-many-requests':'Too many attempts. Wait a moment.',
+          'auth/network-request-failed':'Network error. Try again.'
+        })[err.code] || 'Password update failed.' };
+      }
+      try{ await updateDoc(doc(db,'users',S.username), { passwordChanged:true, passwordChangedAt:serverTimestamp() }); S.userDoc.passwordChanged = true; }
+      catch(e){ console.warn('Flag update failed:', e); }
+      ['ovCurPass','ovNewPass','ovConfirmPass'].forEach(id => { $(id).value = ''; });
+      closeModal('ovPassSheet');
+      renderStrength();
+      ovNotify('success','Password updated');
+    }
+  });
+});
+
+// ================== TRADE PIN ==================
+['ovCurPin','ovNewPin','ovConfirmPin'].forEach(id => $(id).addEventListener('input', function(){ this.value = this.value.replace(/\D/g,'').slice(0,6); }));
+$('ovPinGo').addEventListener('click', () => {
+  const cur = $('ovCurPin').value, np = $('ovNewPin').value, cf = $('ovConfirmPin').value;
+  if(!cur || !np || !cf) return ovNotify('error','Fill in all PIN fields.');
+  if(!/^\d{6}$/.test(np)) return ovNotify('error','New PIN must be exactly 6 digits.');
+  if(np !== cf) return ovNotify('error','New PINs do not match.');
+  if(np === cur) return ovNotify('warning','New PIN must be different.');
+  confirmBox({
+    title:'Update trade PIN', desc:'You will use the new PIN to confirm withdrawals.', icon:'ph-key', color:'v', btn:'Update',
+    run: async () => {
+      const ref = doc(db,'users',S.username);
+      const snap = await getDoc(ref);
+      if(!snap.exists()) throw { userMessage:'Account not found.' };
+      if(String(snap.data().tradePassword || '') !== cur) throw { userMessage:'Current PIN is incorrect.' };
+      await updateDoc(ref, { tradePassword:np, pinChangedAt:serverTimestamp() });
+      ['ovCurPin','ovNewPin','ovConfirmPin'].forEach(id => { $(id).value = ''; });
+      closeModal('ovPinSheet');
+      ovNotify('success','Trade PIN updated');
+    }
+  });
+});
+
+// ================== NOTIFICATION PREFS ==================
+function loadPrefs(){
+  const p = S.userDoc?.notificationPrefs || {};
+  $('tgEmail').checked = p.email !== false;
+  $('tgPush').checked = p.push !== false;
+  $('tgWd').checked = p.withdrawal !== false;
+  $('tgRoi').checked = p.roi !== false;
+}
+$('ovNotifGo').addEventListener('click', () => confirmBox({
+  title:'Save preferences', desc:'Update how Ovexa notifies you?', icon:'ph-bell', color:'m', btn:'Save',
+  run: async () => {
+    const prefs = { email:$('tgEmail').checked, push:$('tgPush').checked, withdrawal:$('tgWd').checked, roi:$('tgRoi').checked };
+    await updateDoc(doc(db,'users',S.username), { notificationPrefs:prefs });
+    if(S.userDoc) S.userDoc.notificationPrefs = prefs;
+    closeModal('ovNotifSheet');
+    ovNotify('success','Preferences saved');
+  }
+}));
+
+// ================== BANK / LOGOUT ==================
+$('ovBankManage').addEventListener('click', () => confirmBox({
+  title:'Manage bank details', desc:'Open the bank details page to add or change your withdrawal account?', icon:'ph-bank', color:'s', btn:'Open',
+  run: async () => { setTimeout(() => { window.location.href = 'bank-details.html'; }, 250); }
+}));
+$('ovLogout').addEventListener('click', () => confirmBox({
+  title:'Log out', desc:'You will need to sign in again to reach your dashboard.', icon:'ph-sign-out', color:'r', btn:'Log out', danger:true,
+  run: async () => {
+    try{ await signOut(auth); }catch(e){}
+    sessionStorage.clear();
+    localStorage.removeItem('ovRemember');
+    ovNotify('success','Logged out');
+    setTimeout(() => { window.location.href = 'login.html'; }, 600);
+  }
+}));
+
+// ================== COPY / SHARE ==================
+async function copyText(text, msg){
+  try{
+    if(navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
+    else {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    }
+    ovNotify('success', msg || 'Copied');
+  }catch(e){ ovNotify('warning','Copy failed'); }
+}
+$('ovCopyCode').addEventListener('click', () => S.code && copyText(S.code, 'Code copied'));
+$('ovCopyLink').addEventListener('click', () => S.link && copyText(S.link, 'Link copied'));
+document.querySelectorAll('[data-share]').forEach(b => b.addEventListener('click', async () => {
+  if(!S.link) return;
+  const text = `Join me on Ovexa. Use my invite link to get started: ${S.link}`;
+  const ch = b.dataset.share;
+  if(ch === 'whatsapp') window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+  else if(ch === 'telegram') window.open('https://t.me/share/url?url=' + encodeURIComponent(S.link) + '&text=' + encodeURIComponent('Join me on Ovexa!'), '_blank');
+  else if(navigator.share){ try{ await navigator.share({ title:'Join Ovexa', text, url:S.link }); }catch(e){} }
+  else copyText(S.link, 'Link copied');
+}));
+
+// ================== DOCUMENTS ==================
+const DOCS = {
+  terms:{ icon:'ph-scroll', t:'Terms of service', s:'Please read carefully', html:`
+    <h4>1. Acceptance of terms</h4><p>By creating an account on Ovexa, you agree to these terms. Please read them carefully before using our services.</p>
+    <h4>2. Eligibility</h4><p>You must be at least 18 years old to open an Ovexa account and participate in any of our investment plans.</p>
+    <h4>3. Account responsibilities</h4><p>You are responsible for keeping your login credentials confidential and for all activity under your account.</p>
+    <h4>4. Wallet system</h4><p>Ovexa operates a two-wallet system:</p><ul><li><b>Deposit wallet</b> — holds funds used to purchase investment plans</li><li><b>Withdrawal wallet</b> — holds earnings available for withdrawal</li></ul>
+    <h4>5. Investment plans</h4><p>All Ovexa plans run for 30 days and credit earnings to your withdrawal wallet at 12:00 AM daily, Monday through Saturday.</p>
+    <h4>6. Withdrawals</h4><p>Withdrawals are processed Monday to Saturday, 8:30 AM – 5:30 PM. A charge of 13% applies per withdrawal. The minimum withdrawal is ₦1,000.</p>
+    <h4>7. Referral program</h4><p>Ovexa rewards users for referrals across three levels (10% / 3% / 1%) on a downline's first investment purchase. Bonuses are credited to your withdrawal wallet.</p>
+    <h4>8. Amendments</h4><p>Ovexa may update these terms at any time. Continued use of our services implies acceptance of updated terms.</p>
+    <h4>9. Contact</h4><p>For questions about these terms, reach out through our community channels.</p>` },
+  privacy:{ icon:'ph-shield', t:'Privacy policy', s:'How we handle your data', html:`
+    <h4>1. Information we collect</h4><p>We collect your username, email address, phone number and, for withdrawals, bank details. This information is required to operate your account securely.</p>
+    <h4>2. How we use your data</h4><ul><li>To create and manage your account</li><li>To process deposits, investments and withdrawals</li><li>To send important account notifications</li><li>To detect and prevent fraudulent activity</li></ul>
+    <h4>3. Data security</h4><p>Your data is stored using Firebase (Google Cloud) with industry-standard encryption in transit and at rest. Login passwords are handled by Firebase Authentication and never stored in plain text.</p>
+    <h4>4. Sharing</h4><p>We do not sell, rent or trade your personal information. Data is only shared with trusted infrastructure providers (Firebase) strictly to operate the platform.</p>
+    <h4>5. Cookies and local storage</h4><p>We use browser session storage to keep you signed in. We do not use third-party advertising cookies.</p>
+    <h4>6. Your rights</h4><p>You may request to view, update or delete your account data by contacting us through our community channels.</p>
+    <h4>7. Updates</h4><p>Changes to this policy will be posted here. Continued use of Ovexa implies acceptance of the updated policy.</p>` },
+  about:{ icon:'ph-info', t:'About Ovexa', s:'Who we are', html:`
+    <h4>Ovexa</h4><p>An investing platform built for clarity, speed and trust. Ovexa gives you structured investment plans, dual-wallet management, daily ROI credits and a referral program.</p>
+    <h4>What we offer</h4><ul><li>8 investment plans (₦5,000 – ₦200,000)</li><li>Daily ROI credited to your withdrawal wallet</li><li>Three-level referral rewards</li><li>A daily spin wheel</li><li>A fast, mobile-first experience</li></ul>
+    <h4>Built with</h4><p>Firebase Auth · Cloud Firestore · modern web technologies.</p>` },
+  version:{ icon:'ph-app-window', t:'App version', s:'You are up to date', html:`<h4>Ovexa 1.0.0</h4><p>You are running the latest version of Ovexa.</p>` }
+};
+document.querySelectorAll('[data-doc]').forEach(b => b.addEventListener('click', () => {
+  const d = DOCS[b.dataset.doc]; if(!d) return;
+  $('ovDocIc').innerHTML = `<i class="ph ${d.icon}"></i>`;
+  $('ovDocTitle').textContent = d.t;
+  $('ovDocSub').textContent = d.s;
+  $('ovDocBody').innerHTML = d.html;
+  openModal('ovDocSheet');
+}));
+
+// ================== EVENTS ==================
+document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => openModal(b.dataset.open)));
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => b.closest('.ov-modal').classList.remove('open')));
+document.querySelectorAll('.ov-modal').forEach(m => m.addEventListener('click', e => { if(e.target === m) m.classList.remove('open'); }));
+document.addEventListener('keydown', e => { if(e.key === 'Escape') document.querySelectorAll('.ov-modal.open').forEach(m => m.classList.remove('open')); });
+document.querySelectorAll('[data-eye]').forEach(b => b.addEventListener('click', () => {
+  const inp = $(b.dataset.eye), show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  b.innerHTML = `<i class="ph ph-eye${show ? '-slash' : ''}"></i>`;
+}));
+$('ovRing').addEventListener('click', () => openModal('ovStrengthSheet'));
+$('ovStrengthList').addEventListener('click', e => {
+  const row = e.target.closest('.chk'); if(!row) return;
+  const c = checks()[Number(row.dataset.i)];
+  if(!c || c.ok) return;
+  closeModal('ovStrengthSheet');
+  if(c.go) window.location.href = c.go;
+  else if(c.open) openModal(c.open);
+});
+window.ovNotify = ovNotify;
+</script>
+</body>
+</html>
