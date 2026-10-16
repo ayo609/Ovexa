@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ovexa — Referral</title>
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com">
+<link rel="dns-prefetch" href="https://fonts.gstatic.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<meta name="theme-color" content="#07090D">
+
+<style>
+:root{
+  --bg:#07090D;
+  --s1:#0D1117;
+  --s2:#131922;
+  --s3:#1A2230;
+  --ln:rgba(255,255,255,0.07);
+  --ln2:rgba(255,255,255,0.13);
+  --tx:#ECF1F8;
+  --tx2:#8791A5;
+  --tx3:#555F73;
+  --mint:#3EE8A8;
+  --gold:#F4C97A;
+  --rose:#FF6B7A;
+  --sky:#5B8DEF;
+  --violet:#B98BFF;
+  --l1:#3EE8A8;
+  --l2:#F4C97A;
+  --l3:#B98BFF;
+}
+html,body{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:var(--bg);color:var(--tx)}
+*,*::before,*::after{box-sizing:inherit}
+body{min-height:100vh;position:relative;overflow-x:hidden;padding-bottom:104px;background-image:radial-gradient(rgba(255,255,255,0.045) 1px,transparent 1px);background-size:22px 22px}
+.num{font-family:'Space Grotesk';font-variant-numeric:tabular-nums;letter-spacing:-0.03em}
+button,select,input{font-family:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shim{0%{background-position:-200px 0}100%{background-position:200px 0}}
+.wrap{max-width:540px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+.lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3)}
+
+/* ============ HEADER ============ */
+.top{position:sticky;top:0;z-index:60;margin:0 -16px;padding:calc(12px + env(safe-area-inset-top)) 16px 10px;background:rgba(7,9,13,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:12px}
+.back{width:38px;height:38px;border-radius:12px;background:var(--s1);border:1px solid var(--ln);display:grid;place-items:center;color:var(--tx2);font-size:1.1rem;text-decoration:none;flex-shrink:0}
+.back:hover{color:var(--tx);border-color:var(--ln2)}
+.ttl{flex:1;min-width:0}
+.ttl b{display:block;font-family:'Space Grotesk';font-size:17px;font-weight:700;letter-spacing:-0.02em}
+.ttl small{display:block;font-size:11px;color:var(--tx2);margin-top:1px}
+.wallet{display:flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;background:rgba(244,201,122,0.08);border:1px solid rgba(244,201,122,0.25);font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap}
+.wallet i{font-size:1rem}
+
+/* ============ INVITE CARD ============ */
+.inv{margin-top:14px;position:relative;border:1px solid rgba(62,232,168,0.28);border-radius:20px;background:linear-gradient(135deg,rgba(62,232,168,0.12),var(--s1) 62%);padding:16px;overflow:hidden;animation:rise .5s ease both}
+.inv::after{content:'';position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(62,232,168,0.2),transparent 70%);pointer-events:none}
+.inv h2{margin:0 0 4px;font-family:'Space Grotesk';font-size:16px;font-weight:700}
+.inv p{margin:0 0 13px;font-size:11.5px;color:var(--tx2);line-height:1.5}
+.link{display:flex;align-items:center;gap:8px;padding:5px 5px 5px 13px;border:1px dashed rgba(62,232,168,0.4);border-radius:13px;background:rgba(7,9,13,0.6)}
+.link span{flex:1;min-width:0;font-size:11.5px;font-weight:600;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp{height:36px;padding:0 13px;border:none;border-radius:10px;background:var(--mint);color:#04261A;font-size:12px;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:6px;flex-shrink:0}
+.inv-r{display:flex;gap:8px;margin-top:10px}
+.inv-r > *{flex:1}
+.code{display:flex;align-items:center;justify-content:space-between;gap:8px;height:40px;padding:0 12px;border-radius:11px;background:var(--s2);border:1px solid var(--ln);font-size:11.5px;color:var(--tx2);font-weight:600}
+.code b{font-family:'Space Grotesk';color:var(--tx);letter-spacing:.04em}
+.share{height:40px;border-radius:11px;border:1px solid var(--ln2);background:var(--s2);color:var(--tx);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+.share:hover{border-color:var(--mint);color:var(--mint)}
+
+/* ============ STATS ============ */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;animation:rise .6s ease .05s both}
+.st{border:1px solid var(--ln);border-radius:16px;background:var(--s1);padding:13px 14px}
+.st .lbl{display:flex;align-items:center;gap:6px}
+.st .lbl i{font-size:.95rem}
+.st .v{margin-top:8px;font-size:20px;font-weight:700}
+.st.wide{grid-column:span 2;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(120deg,rgba(244,201,122,0.1),var(--s1) 60%);border-color:rgba(244,201,122,0.25)}
+.st.wide .v{margin:5px 0 0;font-size:26px;color:var(--gold)}
+.st.wide .ic{width:44px;height:44px;border-radius:13px;background:rgba(244,201,122,0.14);color:var(--gold);display:grid;place-items:center;font-size:1.4rem}
+
+/* ============ COMMISSION ============ */
+.com{margin-top:12px;border:1px solid var(--ln);border-radius:16px;background:var(--s1);padding:13px 14px;animation:rise .6s ease .08s both}
+.com-g{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.com-g div{border-radius:12px;background:var(--s2);border:1px solid var(--ln);padding:9px 10px;text-align:center}
+.com-g b{display:block;font-size:17px;font-weight:700}
+.com-g small{display:block;margin-top:3px;font-size:10px;font-weight:700;color:var(--tx2)}
+.com-g .a b{color:var(--l1)} .com-g .b b{color:var(--l2)} .com-g .c b{color:var(--l3)}
+.com-n{margin:10px 0 0;font-size:10.5px;color:var(--tx2);display:flex;align-items:center;gap:6px}
+.com-n i{color:var(--gold)}
+
+/* ============ MAIN SEGMENT ============ */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;margin:18px 0 12px;padding:4px;border:1px solid var(--ln);border-radius:14px;background:var(--s1)}
+.seg button{position:relative;z-index:2;height:38px;border:none;background:none;color:var(--tx2);font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:color .25s}
+.seg button.on{color:#04261A}
+.seg-i{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:10px;background:var(--mint);transition:transform .3s cubic-bezier(.2,.9,.3,1.1);z-index:1}
+.seg-i.r{transform:translateX(100%)}
+.pane{display:none}
+.pane.on{display:block;animation:rise .35s ease both}
+
+/* ============ LEVEL TABS ============ */
+.lv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.lvb{border:1px solid var(--ln);border-radius:14px;background:var(--s1);padding:10px 8px;text-align:center;cursor:pointer;transition:.2s;color:var(--tx)}
+.lvb .n{display:block;font-size:19px;font-weight:700}
+.lvb .t{display:block;margin-top:2px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx2)}
+.lvb .b{display:block;margin-top:5px;font-size:10px;font-weight:700;color:var(--tx3)}
+.lvb.on{border-color:var(--c);background:linear-gradient(180deg,var(--cg),var(--s1))}
+.lvb.on .n,.lvb.on .t{color:var(--c)}
+
+/* ============ TOOLS ============ */
+.tools{display:flex;gap:8px;margin-bottom:10px}
+.srch{position:relative;flex:1}
+.srch input{width:100%;height:42px;padding:0 12px 0 38px;background:var(--s1);border:1.5px solid var(--ln);border-radius:12px;font-size:12.5px;font-weight:500;color:var(--tx);outline:none;transition:.25s}
+.srch input::placeholder{color:var(--tx3)}
+.srch input:focus{border-color:var(--mint);box-shadow:0 0 0 4px rgba(62,232,168,0.1)}
+.srch i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--tx2);pointer-events:none}
+.sel{height:42px;padding:0 10px;border-radius:12px;border:1.5px solid var(--ln);background:var(--s1);color:var(--tx);font-size:12px;font-weight:600;outline:none;max-width:132px}
+.chips{display:flex;gap:7px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.fc{flex-shrink:0;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--ln);background:var(--s1);color:var(--tx2);font-size:11.5px;font-weight:700;cursor:pointer}
+.fc.on{background:rgba(62,232,168,0.1);border-color:rgba(62,232,168,0.35);color:var(--mint)}
+
+/* ============ MEMBER CARD ============ */
+.mem{border:1px solid var(--ln);border-radius:18px;background:var(--s1);padding:13px;margin-bottom:10px;cursor:pointer;transition:border-color .2s;animation:rise .35s ease both}
+.mem:hover{border-color:var(--ln2)}
+.mem-h{display:flex;align-items:center;gap:11px}
+.av{width:42px;height:42px;border-radius:12px;background:var(--cg);border:1px solid var(--c);color:var(--c);display:grid;place-items:center;font-family:'Space Grotesk';font-weight:700;font-size:16px;flex-shrink:0}
+.mem-i{flex:1;min-width:0}
+.mem-i b{display:block;font-family:'Space Grotesk';font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mem-i small{display:block;margin-top:3px;font-size:10.5px;color:var(--tx2);font-weight:500}
+.tag{flex-shrink:0;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:7px}
+.tag.y{background:rgba(62,232,168,0.12);color:var(--mint);border:1px solid rgba(62,232,168,0.28)}
+.tag.n{background:rgba(255,255,255,0.05);color:var(--tx2);border:1px solid var(--ln)}
+.mg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0 10px}
+.mg div{background:var(--s2);border:1px solid var(--ln);border-radius:11px;padding:8px 10px}
+.mg small{display:block;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:3px}
+.mg b{font-size:13px;font-weight:700}
+.mg b.g{color:var(--mint)} .mg b.y{color:var(--gold)}
+.pk{display:flex;align-items:center;gap:8px;padding-top:10px;border-top:1px dashed var(--ln2);font-size:11px;color:var(--tx2)}
+.pk i{color:var(--c)}
+.pk b{color:var(--tx);font-family:'Space Grotesk';font-size:12px}
+.pk .more{margin-left:auto;font-size:10px;font-weight:700;color:var(--tx2);background:var(--s3);padding:2px 7px;border-radius:7px}
+
+/* skeleton / empty */
+.sk{height:150px;border-radius:18px;margin-bottom:10px;background:linear-gradient(90deg,var(--s1) 0,var(--s2) 40%,var(--s1) 80%);background-size:400px 100%;animation:shim 1.3s linear infinite;border:1px solid var(--ln)}
+.empty{border:1px dashed var(--ln2);border-radius:18px;padding:32px 16px;text-align:center;color:var(--tx2);font-size:12px}
+.empty i{display:block;font-size:1.9rem;color:var(--tx3);margin-bottom:8px}
+.empty b{display:block;color:var(--tx);font-size:13px;margin-bottom:3px}
+.empty button{margin-top:12px;height:34px;padding:0 14px;border-radius:10px;border:1px solid var(--ln2);background:transparent;color:var(--mint);font-size:12px;font-weight:700;cursor:pointer}
+.mo{width:100%;height:44px;margin:4px 0 6px;border-radius:13px;border:1px solid var(--ln2);background:var(--s1);color:var(--tx);font-size:12.5px;font-weight:700;cursor:pointer}
+.foot{text-align:center;font-size:10.5px;color:var(--tx3);font-weight:600;padding:6px 0}
+
+/* ============ EARNINGS ============ */
+.eg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.eg div{border:1px solid var(--ln);border-radius:13px;background:var(--s1);padding:10px;text-align:center}
+.eg b{display:block;font-size:14px}
+.eg small{display:block;margin-top:3px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.eg .a b,.eg .a small{color:var(--l1)} .eg .b b,.eg .b small{color:var(--l2)} .eg .c b,.eg .c small{color:var(--l3)}
+.led{border:1px solid var(--ln);border-radius:16px;background:var(--s1);overflow:hidden}
+.er{display:flex;align-items:center;gap:12px;padding:12px 13px;border-top:1px solid var(--ln)}
+.er:first-child{border-top:none}
+.er .ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font-size:1rem;flex-shrink:0;background:var(--cg);color:var(--c)}
+.er .b{flex:1;min-width:0}
+.er .b b{display:block;font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.er .b small{display:block;margin-top:3px;font-size:10.5px;color:var(--tx2)}
+.er .a{font-size:13.5px;font-weight:700;color:var(--mint);white-space:nowrap}
+
+/* ============ DOCK ============ */
+.dock-w{position:fixed;left:0;right:0;bottom:0;z-index:70;padding:0 14px calc(10px + env(safe-area-inset-bottom));pointer-events:none}
+.dock{pointer-events:auto;max-width:480px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;height:60px;background:rgba(13,17,23,0.95);border:1px solid var(--ln2);border-radius:20px;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 18px 40px rgba(0,0,0,0.55)}
+.dk{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--tx3);text-decoration:none;font-size:9.5px;font-weight:700;padding:6px 0}
+.dk i{font-size:1.25rem}
+.dk.on,.dk:hover{color:var(--mint)}
+
+/* ============ SHEET ============ */
+.ov-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:flex-end;justify-content:center;background:rgba(3,5,8,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.ov-modal.open{display:flex;animation:fade .25s ease both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheet{position:relative;width:100%;max-width:520px;max-height:92vh;overflow-y:auto;background:var(--s1);border:1px solid var(--ln2);border-bottom:none;border-radius:26px 26px 0 0;padding:10px 20px calc(22px + env(safe-area-inset-bottom));animation:up .35s cubic-bezier(.2,.9,.3,1) both}
+.sheet::before{content:'';display:block;width:38px;height:4px;border-radius:2px;background:var(--ln2);margin:0 auto 16px}
+.sh-h{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+.sh-h .av{width:52px;height:52px;border-radius:15px;font-size:20px}
+.sh-h h3{margin:0;font-family:'Space Grotesk';font-size:17px;font-weight:700}
+.sh-h p{margin:3px 0 0;font-size:11.5px;color:var(--tx2)}
+.rows{border:1px solid var(--ln);border-radius:14px;background:var(--s2);padding:4px 14px;margin-bottom:12px}
+.rr{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;font-size:12.5px}
+.rr + .rr{border-top:1px dashed var(--ln2)}
+.rr .k{color:var(--tx2);font-weight:600;flex-shrink:0}
+.rr .v{font-family:'Space Grotesk';font-weight:700;text-align:right}
+.rr .v.g{color:var(--mint)} .rr .v.y{color:var(--gold)}
+.sh-s{margin:14px 0 8px}
+.pl{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--ln);border-radius:12px;background:var(--s2);margin-bottom:7px;font-size:12px}
+.pl b{font-family:'Space Grotesk';font-size:12.5px}
+.pl small{display:block;margin-top:2px;font-size:10px;color:var(--tx2)}
+.pl .am{font-family:'Space Grotesk';font-weight:700;color:var(--gold)}
+.btn{width:100%;height:48px;border:none;border-radius:13px;background:var(--mint);color:#04261A;font-size:13.5px;font-weight:800;cursor:pointer;margin-top:6px}
+
+/* ============ TOAST ============ */
+#ov-toast-container{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:99999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none;max-width:min(300px,calc(100vw - 24px))}
+.ov-toast{position:relative;display:flex;align-items:center;gap:9px;padding:9px 13px;border-radius:11px;background:rgba(19,25,34,0.95);border:1px solid var(--ln2);box-shadow:0 10px 28px rgba(0,0,0,0.5);backdrop-filter:blur(12px);pointer-events:auto;cursor:pointer;overflow:hidden;transform:translateX(26px);opacity:0;transition:transform .3s cubic-bezier(.2,.9,.3,1.1),opacity .25s}
+.ov-toast.show{transform:none;opacity:1}
+.ov-toast > i{font-size:16px;color:var(--c);flex-shrink:0}
+.ov-toast .m{font-size:11.5px;font-weight:600;line-height:1.4}
+.ov-toast .tb{position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--c);opacity:.75;transform-origin:left;animation:tb 4.2s linear forwards}
+@keyframes tb{to{transform:scaleX(0)}}
+
+.ov-loader{position:fixed;inset:0;z-index:99998;display:grid;place-items:center;background:var(--bg);transition:opacity .4s}
+.ov-loader.hide{opacity:0;pointer-events:none}
+.ov-loader .rg{width:42px;height:42px;border:3px solid rgba(62,232,168,0.15);border-top-color:var(--mint);border-radius:50%;animation:spin .8s linear infinite}
+
+@media(max-width:380px){
+  .sel{max-width:110px}
+  .st .v{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="top">
+    <a href="dashboard.html" class="back" aria-label="Back"><i class="ph ph-arrow-left"></i></a>
+    <div class="ttl"><b>Referral</b><small>Invite friends, earn bonuses</small></div>
+    <div class="wallet"><i class="ph ph-gift"></i><span class="num" id="ovBonusPill">₦0</span></div>
+  </header>
+
+  <!-- INVITE -->
+  <section class="inv">
+    <h2>Your invite link</h2>
+    <p>Share it. When someone you invite buys their first plan, you earn a bonus.</p>
+    <div class="link"><span id="ovLink">—</span><button class="cp" id="ovCopyLink"><i class="ph ph-copy"></i> Copy</button></div>
+    <div class="inv-r">
+      <div class="code"><span>Code</span><b id="ovCode">—</b></div>
+      <button class="share" id="ovShare"><i class="ph ph-share-network"></i> Share</button>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="st wide">
+      <div><span class="lbl">Total bonus earned</span><div class="v num" id="ovBonusTotal">₦0</div></div>
+      <div class="ic"><i class="ph ph-coins"></i></div>
+    </div>
+    <div class="st"><span class="lbl"><i class="ph ph-users-three" style="color:var(--mint)"></i> Team size</span><div class="v num" id="ovTeam">0</div></div>
+    <div class="st"><span class="lbl"><i class="ph ph-briefcase" style="color:var(--gold)"></i> Invested</span><div class="v num" id="ovActive">0</div></div>
+    <div class="st"><span class="lbl"><i class="ph ph-wallet" style="color:var(--sky)"></i> Team deposits</span><div class="v num" id="ovTeamDep">₦0</div></div>
+    <div class="st"><span class="lbl"><i class="ph ph-chart-line-up" style="color:var(--violet)"></i> Team invested</span><div class="v num" id="ovTeamInv">₦0</div></div>
+  </section>
+
+  <!-- COMMISSION -->
+  <section class="com">
+    <span class="lbl">Bonus rates</span>
+    <div class="com-g">
+      <div class="a"><b>10%</b><small>Level 1</small></div>
+      <div class="b"><b>3%</b><small>Level 2</small></div>
+      <div class="c"><b>1%</b><small>Level 3</small></div>
+    </div>
+    <p class="com-n"><i class="ph ph-info"></i> Paid once, when a downline buys their first plan.</p>
+  </section>
+
+  <!-- MAIN SEGMENT -->
+  <div class="seg">
+    <span class="seg-i" id="ovSegI"></span>
+    <button class="on" data-tab="team"><i class="ph ph-users-three"></i> My team</button>
+    <button data-tab="earn"><i class="ph ph-coins"></i> Earnings</button>
+  </div>
+
+  <!-- TEAM -->
+  <div class="pane on" id="ovPaneTeam">
+    <div class="lv" id="ovLevels"></div>
+    <div class="tools">
+      <div class="srch"><i class="ph ph-magnifying-glass"></i><input type="text" id="ovSearch" placeholder="Search username" autocomplete="off"></div>
+      <select class="sel" id="ovSort" aria-label="Sort">
+        <option value="new">Newest</option>
+        <option value="old">Oldest</option>
+        <option value="dep">Most deposits</option>
+        <option value="inv">Most invested</option>
+        <option value="bonus">Most bonus</option>
+      </select>
+    </div>
+    <div class="chips" id="ovChips">
+      <button class="fc on" data-f="all">All</button>
+      <button class="fc" data-f="inv">Invested</button>
+      <button class="fc" data-f="no">Not invested</button>
+    </div>
+    <div id="ovList"></div>
+  </div>
+
+  <!-- EARNINGS -->
+  <div class="pane" id="ovPaneEarn">
+    <div class="eg" id="ovEarnLv"></div>
+    <div id="ovEarnList"></div>
+  </div>
+
+</div>
+
+<!-- DOCK -->
+<div class="dock-w">
+  <nav class="dock">
+    <a class="dk" href="dashboard.html"><i class="ph ph-squares-four"></i><span>Home</span></a>
+    <a class="dk" href="invest.html"><i class="ph ph-chart-line-up"></i><span>Invest</span></a>
+    <a class="dk" href="transactions.html"><i class="ph ph-receipt"></i><span>History</span></a>
+    <a class="dk on" href="referral.html"><i class="ph ph-users-three"></i><span>Referral</span></a>
+    <a class="dk" href="profile.html"><i class="ph ph-user"></i><span>Profile</span></a>
+  </nav>
+</div>
+
+<!-- MEMBER SHEET -->
+<div class="ov-modal" id="ovMemberModal">
+  <div class="sheet" id="ovMemberSheet"></div>
+</div>
+
+<div id="ov-toast-container"></div>
+<div class="ov-loader" id="ovLoader"><div class="rg"></div></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, getDocs, collection, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCqXdfRRQZbbrB4DIpTAj45FkxJsXm3JrM",
+  authDomain: "vexa-c0868.firebaseapp.com",
+  projectId: "vexa-c0868",
+  storageBucket: "vexa-c0868.firebasestorage.app",
+  messagingSenderId: "209201666488",
+  appId: "1:209201666488:web:ae6d16fec94097e719174d"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const $ = id => document.getElementById(id);
+
+// Bonus rates (keep in sync with invest.html)
+const RATES = [10, 3, 1];
+const COLORS = ['#3EE8A8', '#F4C97A', '#B98BFF'];
+const MAX_PER_LEVEL = 300;
+
+const S = window._state = {
+  user:null, username:null, userDoc:null, code:'', link:'',
+  levels:[[],[],[]], loaded:[false,false,false],
+  bonusTx:[], bonusBy:{},                 // referral bonus transactions, and totals per downline
+  lv:0, filter:'all', sort:'new', q:'', page:1, per:15
+};
+
+// ================== HELPERS ==================
+const toMs = v => !v ? 0 : v.toDate ? v.toDate().getTime() : new Date(v).getTime();
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = n => '₦' + (Number(n)||0).toLocaleString('en-NG',{minimumFractionDigits:0,maximumFractionDigits:2});
+const TZ = 'Africa/Lagos';
+const dateOf = ms => ms ? new Date(ms).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:TZ}) : '—';
+const tint = lv => `--c:${COLORS[lv]};--cg:${COLORS[lv]}22`;
+
+function ovNotify(type, message){
+  const c = $('ov-toast-container');
+  const th = ({ success:['ph-check-circle','#3EE8A8'], error:['ph-x-circle','#FF6B7A'], warning:['ph-warning-circle','#F4C97A'], info:['ph-info','#5B8DEF'] })[type] || ['ph-info','#5B8DEF'];
+  while(c.children.length >= 3) c.firstChild.remove();
+  const t = document.createElement('div');
+  t.className = 'ov-toast'; t.style.setProperty('--c', th[1]);
+  t.innerHTML = `<i class="ph ${th[0]}"></i><span class="m"></span><span class="tb"></span>`;
+  t.querySelector('.m').textContent = message;
+  const kill = () => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); };
+  t.addEventListener('click', kill);
+  c.appendChild(t);
+  requestAnimationFrame(() => t.classList.add('show'));
+  setTimeout(kill, 4200);
+}
+
+// run fn over items with limited concurrency
+async function pool(items, fn, n = 8){
+  const out = new Array(items.length); let i = 0;
+  await Promise.all(Array.from({ length: Math.min(n, items.length) }, async () => {
+    while(i < items.length){ const k = i++; try{ out[k] = await fn(items[k]); }catch(e){ out[k] = null; } }
+  }));
+  return out;
+}
+
+// ================== AUTH GUARD ==================
+onAuthStateChanged(auth, async (user) => {
+  if(!user){ window.location.href = 'login.html'; return; }
+  S.user = user;
+  await bootstrap();
+});
+
+async function bootstrap(){
+  try{
+    let username = sessionStorage.getItem('username');
+    if(!username){
+      const map = await getDoc(doc(db,'usersByUid', S.user.uid));
+      if(map.exists()) username = map.data().username;
+    }
+    if(!username) username = (sessionStorage.getItem('userEmail') || '').split('@')[0].toUpperCase();
+    S.username = username;
+
+    const us = await getDoc(doc(db,'users',username));
+    if(us.exists()) S.userDoc = us.data();
+    S.code = (S.userDoc?.ownReferralCode || username).toUpperCase();
+    const u = new URL('index.html', location.href); u.search = ''; u.hash = ''; u.searchParams.set('ref', S.code);
+    S.link = u.toString();
+    $('ovLink').textContent = S.link;
+    $('ovCode').textContent = S.code;
+    $('ovBonusPill').textContent = fmt(S.userDoc?.referralBonus || 0);
+    $('ovBonusTotal').textContent = fmt(S.userDoc?.referralBonus || 0);
+    $('ovLoader').classList.add('hide');
+
+    renderLevels(); renderList();
+    await loadBonusTx();
+    await loadTeam();
+  }catch(err){
+    console.error('Bootstrap error:', err);
+    ovNotify('error','Could not load your referral data.');
+  }finally{
+    $('ovLoader').classList.add('hide');
+  }
+}
+
+// ================== MY BONUS HISTORY ==================
+async function loadBonusTx(){
+  try{
+    const snap = await getDoc(doc(db,'transactionHistory',S.username));
+    const list = snap.exists() && Array.isArray(snap.data().transactions) ? snap.data().transactions : [];
+    S.bonusTx = list.filter(t => /referral/i.test(t.type || '')).map(t => {
+      const note = String(t.note || '');
+      const from = (note.match(/from\s+([A-Za-z0-9_]+)/i) || [])[1];
+      const lvl = Number((note.match(/level\s*(\d)/i) || [])[1]) || 0;
+      return { amount:Number(t.amount)||0, ms:toMs(t.timestamp), from:from ? from.toUpperCase() : '', level:lvl, note };
+    }).sort((a,b) => b.ms - a.ms);
+    S.bonusBy = {};
+    S.bonusTx.forEach(b => { if(b.from) S.bonusBy[b.from] = (S.bonusBy[b.from] || 0) + b.amount; });
+    // keep the total in step with the real history if the stored counter is missing
+    const sum = S.bonusTx.reduce((s,b) => s + b.amount, 0);
+    if(!(Number(S.userDoc?.referralBonus) > 0) && sum > 0){ $('ovBonusTotal').textContent = fmt(sum); $('ovBonusPill').textContent = fmt(sum); }
+  }catch(e){ console.warn('bonus tx:', e); }
+  renderEarnings();
+}
+
+// ================== TEAM DISCOVERY ==================
+let queryBlocked = false;
+async function downlineIds(username){
+  const ids = new Set();
+  try{
+    const s = await getDoc(doc(db,'referralStats',username));
+    if(s.exists() && Array.isArray(s.data().referrals)) s.data().referrals.forEach(u => u && ids.add(String(u).toUpperCase()));
+  }catch(e){}
+  if(!queryBlocked){
+    try{
+      const q = await getDocs(query(collection(db,'users'), where('referredBy','==',username)));
+      q.forEach(d => ids.add(d.id));
+    }catch(e){ queryBlocked = true; }
+  }
+  return [...ids];
+}
+
+async function loadMember(id, level){
+  const [u, inv, tx] = await Promise.all([
+    getDoc(doc(db,'users',id)),
+    getDoc(doc(db,'investments',id)).catch(() => null),
+    getDoc(doc(db,'transactionHistory',id)).catch(() => null)
+  ]);
+  if(!u.exists()) return null;
+  const d = u.data();
+  const iv = inv && inv.exists() ? inv.data() : {};
+  const plans = [
+    ...(Array.isArray(iv.activeInvestments) ? iv.activeInvestments : []),
+    ...(Array.isArray(iv.completedInvestments) ? iv.completedInvestments : [])
+  ].map(p => ({ name:p.planName || 'Plan', amount:Number(p.amount) || 0, ms:toMs(p.purchasedAt || p.startDate), done:p.status === 'completed' }))
+   .sort((a,b) => a.ms - b.ms);
+  const txs = tx && tx.exists() && Array.isArray(tx.data().transactions) ? tx.data().transactions : [];
+
+  // deposits: stored counter, else the sum of deposit transactions
+  const depTx = txs.filter(t => /deposit/i.test(t.type || '') && !/admin/i.test(t.type || '') && !/fail|reject|pend/i.test(t.status || '')).reduce((s,t) => s + (Number(t.amount) || 0), 0);
+  const deposits = Number(d.totalDeposited) > 0 ? Number(d.totalDeposited) : depTx;
+  // admin fund: transactions typed "Admin ..." or a stored adminFund field
+  const adminTx = txs.filter(t => /admin/i.test(t.type || '')).reduce((s,t) => s + (Number(t.amount) || 0), 0);
+  const adminFund = adminTx > 0 ? adminTx : (Number(d.adminFund ?? d.adminFunded ?? d.adminCredit) || 0);
+
+  return {
+    id, level,
+    sponsor: d.referredBy || '',
+    regMs: toMs(d.createdAt) || toMs(d.registrationDate),
+    deposits, adminFund,
+    invested: plans.reduce((s,p) => s + p.amount, 0),
+    plans,
+    bonus: S.bonusBy[id] || 0
+  };
+}
+
+async function loadTeam(){
+  const seen = new Set([S.username]);
+  let parents = [S.username];
+  for(let lv = 0; lv < 3; lv++){
+    let ids = [];
+    if(parents.length){
+      const lists = await pool(parents, downlineIds, 6);
+      lists.forEach(l => (l || []).forEach(id => { if(!seen.has(id)){ seen.add(id); ids.push(id); } }));
+    }
+    ids = ids.slice(0, MAX_PER_LEVEL);
+    const members = (await pool(ids, id => loadMember(id, lv), 8)).filter(Boolean);
+    S.levels[lv] = members; S.loaded[lv] = true;
+    parents = members.map(m => m.id);
+    renderAll();
+  }
+}
+
+// ================== RENDER ==================
+function renderAll(){ renderStats(); renderLevels(); renderList(); renderEarnings(); }
+
+function renderStats(){
+  const all = S.levels.flat();
+  $('ovTeam').textContent = all.length;
+  $('ovActive').textContent = all.filter(m => m.invested > 0).length;
+  $('ovTeamDep').textContent = fmt(all.reduce((s,m) => s + m.deposits, 0));
+  $('ovTeamInv').textContent = fmt(all.reduce((s,m) => s + m.invested, 0));
+}
+
+function levelBonus(lv){
+  return S.bonusTx.filter(b => b.level === lv + 1).reduce((s,b) => s + b.amount, 0);
+}
+
+function renderLevels(){
+  $('ovLevels').innerHTML = [0,1,2].map(lv => `
+    <button class="lvb ${S.lv === lv ? 'on' : ''}" data-lv="${lv}" style="${tint(lv)}">
+      <span class="n num">${S.loaded[lv] ? S.levels[lv].length : '…'}</span>
+      <span class="t">Level ${lv + 1}</span>
+      <span class="b">${RATES[lv]}% bonus</span>
+    </button>`).join('');
+}
+
+function currentList(){
+  const q = S.q.toLowerCase();
+  let list = S.levels[S.lv].filter(m =>
+    (S.filter === 'all' || (S.filter === 'inv' ? m.invested > 0 : m.invested === 0)) &&
+    (!q || m.id.toLowerCase().includes(q)));
+  const by = {
+    new:(a,b) => b.regMs - a.regMs, old:(a,b) => a.regMs - b.regMs,
+    dep:(a,b) => b.deposits - a.deposits, inv:(a,b) => b.invested - a.invested, bonus:(a,b) => b.bonus - a.bonus
+  }[S.sort];
+  return list.sort(by);
+}
+
+function memberHtml(m){
+  const first = m.plans[0];
+  return `
+    <article class="mem" data-id="${esc(m.id)}" style="${tint(m.level)}">
+      <div class="mem-h">
+        <div class="av">${esc(m.id.charAt(0))}</div>
+        <div class="mem-i"><b>${esc(m.id)}</b><small>Joined ${dateOf(m.regMs)} · Level ${m.level + 1}</small></div>
+        <span class="tag ${m.invested > 0 ? 'y' : 'n'}">${m.invested > 0 ? 'Invested' : 'No plan'}</span>
+      </div>
+      <div class="mg">
+        <div><small>Deposits</small><b class="num">${fmt(m.deposits)}</b></div>
+        <div><small>Admin fund</small><b class="num">${fmt(m.adminFund)}</b></div>
+        <div><small>Plan invested</small><b class="num y">${fmt(m.invested)}</b></div>
+        <div><small>Your bonus</small><b class="num g">${fmt(m.bonus)}</b></div>
+      </div>
+      <div class="pk"><i class="ph ph-package"></i>${first ? `First package <b>${esc(first.name)}</b>${m.plans.length > 1 ? `<span class="more">+${m.plans.length - 1}</span>` : ''}` : 'No package bought yet'}</div>
+    </article>`;
+}
+
+function renderList(){
+  const wrap = $('ovList'), lv = S.lv;
+  if(!S.loaded[lv]){ wrap.innerHTML = '<div class="sk"></div><div class="sk"></div>'; return; }
+  const list = currentList();
+  if(!list.length){
+    const filtered = S.q || S.filter !== 'all';
+    wrap.innerHTML = `<div class="empty"><i class="ph ph-users-three"></i><b>${filtered ? 'No matches' : `No Level ${lv + 1} members yet`}</b>${filtered ? 'Try another search or filter' : (lv === 0 ? 'Share your link to get started' : 'They appear when your downlines invite people')}${filtered ? '<br><button id="ovClear">Clear</button>' : ''}</div>`;
+    return;
+  }
+  const shown = list.slice(0, S.page * S.per);
+  wrap.innerHTML = shown.map(memberHtml).join('') +
+    (shown.length < list.length
+      ? `<button class="mo" id="ovMore">Load more (${list.length - shown.length})</button><div class="foot">Showing ${shown.length} of ${list.length}</div>`
+      : `<div class="foot">Showing all ${list.length}</div>`);
+}
+
+function renderEarnings(){
+  $('ovEarnLv').innerHTML = [0,1,2].map(lv => `<div class="${'abc'[lv]}"><b class="num">${fmt(levelBonus(lv))}</b><small>Level ${lv + 1}</small></div>`).join('');
+  const wrap = $('ovEarnList');
+  if(!S.bonusTx.length){ wrap.innerHTML = '<div class="empty"><i class="ph ph-coins"></i><b>No bonus yet</b>You earn when a downline buys their first plan</div>'; return; }
+  wrap.innerHTML = '<div class="led">' + S.bonusTx.map(b => `
+    <div class="er" style="${tint(Math.max(0, (b.level || 1) - 1))}">
+      <div class="ic"><i class="ph ph-user-plus"></i></div>
+      <div class="b"><b>${b.from ? esc(b.from) : 'Referral bonus'}</b><small>Level ${b.level || '—'} · ${dateOf(b.ms)}</small></div>
+      <div class="a num">+${fmt(b.amount)}</div>
+    </div>`).join('') + '</div>';
+}
+
+// ================== MEMBER SHEET ==================
+function openMember(id){
+  const m = S.levels.flat().find(x => x.id === id); if(!m) return;
+  const plans = m.plans.length
+    ? m.plans.map(p => `<div class="pl"><div><b>${esc(p.name)}</b><small>${dateOf(p.ms)} · ${p.done ? 'Completed' : 'Active'}</small></div><span class="am">${fmt(p.amount)}</span></div>`).join('')
+    : '<div class="empty" style="padding:18px"><b>No plans yet</b></div>';
+  $('ovMemberSheet').innerHTML = `
+    <div class="sh-h" style="${tint(m.level)}">
+      <div class="av">${esc(m.id.charAt(0))}</div>
+      <div><h3>${esc(m.id)}</h3><p>Level ${m.level + 1} · ${RATES[m.level]}% bonus</p></div>
+    </div>
+    <div class="rows">
+      <div class="rr"><span class="k">Status</span><span class="v ${m.invested > 0 ? 'g' : ''}">${m.invested > 0 ? 'Invested' : 'No plan yet'}</span></div>
+      <div class="rr"><span class="k">Registered</span><span class="v">${dateOf(m.regMs)}</span></div>
+      <div class="rr"><span class="k">Referred by</span><span class="v">${esc(m.sponsor || '—')}</span></div>
+      <div class="rr"><span class="k">Deposits</span><span class="v">${fmt(m.deposits)}</span></div>
+      <div class="rr"><span class="k">Admin fund</span><span class="v">${fmt(m.adminFund)}</span></div>
+      <div class="rr"><span class="k">Plan invested</span><span class="v y">${fmt(m.invested)}</span></div>
+      <div class="rr"><span class="k">Your bonus</span><span class="v g">${fmt(m.bonus)}</span></div>
+    </div>
+    <div class="lbl sh-s">Packages (${m.plans.length})</div>
+    ${plans}
+    <button class="btn" onclick="closeModal('ovMemberModal')">Close</button>`;
+  openModal('ovMemberModal');
+}
+
+// ================== ACTIONS ==================
+async function copyText(text, msg){
+  try{
+    if(navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
+    else {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    }
+    ovNotify('success', msg || 'Copied');
+  }catch(e){ ovNotify('warning','Copy failed'); }
+}
+$('ovCopyLink').addEventListener('click', () => S.link && copyText(S.link, 'Link copied'));
+$('ovCode').parentElement.addEventListener('click', () => S.code && copyText(S.code, 'Code copied'));
+$('ovShare').addEventListener('click', async () => {
+  if(!S.link) return;
+  const data = { title:'Join me on Ovexa', text:`Join me on Ovexa with my invite code ${S.code}`, url:S.link };
+  if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
+  else copyText(S.link, 'Link copied');
+});
+
+// ================== EVENTS ==================
+document.querySelector('.seg').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  const tab = b.dataset.tab;
+  document.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', x === b));
+  $('ovSegI').classList.toggle('r', tab === 'earn');
+  $('ovPaneTeam').classList.toggle('on', tab === 'team');
+  $('ovPaneEarn').classList.toggle('on', tab === 'earn');
+});
+$('ovLevels').addEventListener('click', e => {
+  const b = e.target.closest('.lvb'); if(!b) return;
+  S.lv = Number(b.dataset.lv); S.page = 1; renderLevels(); renderList();
+});
+$('ovChips').addEventListener('click', e => {
+  const b = e.target.closest('.fc'); if(!b) return;
+  S.filter = b.dataset.f; S.page = 1;
+  document.querySelectorAll('#ovChips .fc').forEach(x => x.classList.toggle('on', x === b));
+  renderList();
+});
+$('ovSort').addEventListener('change', function(){ S.sort = this.value; S.page = 1; renderList(); });
+let t;
+$('ovSearch').addEventListener('input', function(){ clearTimeout(t); t = setTimeout(() => { S.q = this.value.trim(); S.page = 1; renderList(); }, 150); });
+$('ovList').addEventListener('click', e => {
+  if(e.target.closest('#ovMore')){ S.page++; renderList(); return; }
+  if(e.target.closest('#ovClear')){
+    S.q = ''; S.filter = 'all'; S.page = 1; $('ovSearch').value = '';
+    document.querySelectorAll('#ovChips .fc').forEach(x => x.classList.toggle('on', x.dataset.f === 'all'));
+    renderList(); return;
+  }
+  const c = e.target.closest('.mem');
+  if(c) openMember(c.dataset.id);
+});
+
+function openModal(id){ $(id)?.classList.add('open'); }
+function closeModal(id){ $(id)?.classList.remove('open'); }
+window.openModal = openModal;
+window.closeModal = closeModal;
+$('ovMemberModal').addEventListener('click', e => { if(e.target.id === 'ovMemberModal') closeModal('ovMemberModal'); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal('ovMemberModal'); });
+window.ovNotify = ovNotify;
+</script>
+</body>
+</html>
